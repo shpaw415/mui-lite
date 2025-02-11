@@ -1,0 +1,257 @@
+:root {
+  --circular-size: 3rem;
+  --circular-progress: 50px;
+}
+
+.MUI_Circular_Progress_Wrapper {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.MUI_Circular_Progress_Root {
+  display: inline-block;
+  animation: 1.4s linear 0s infinite normal none running Progress-rotation;
+  color: inherit;
+  width: var(--circular-size);
+  height: var(--circular-size);
+
+  &:is(._secondary) {
+    color: rgb(var(--text-secondary));
+  }
+  &:is(._success) {
+    color: rgb(var(--text-success));
+  }
+  &:is(._primary) {
+    color: rgb(var(--text-primary));
+  }
+  &:is(._error) {
+    color: rgb(var(--text-error));
+  }
+  &:is(._warning) {
+    color: rgb(var(--text-warning));
+  }
+  &:is(._determinate) {
+    animation: none;
+    transform: rotate(-90deg);
+    & circle {
+      animation: none;
+      stroke-dasharray: 126.92;
+      stroke-dashoffset: var(--circular-progress);
+    }
+  }
+}
+
+@keyframes Progress-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.MUI_Circular_Progress_Icon {
+  display: block;
+  height: var(--circular-size);
+  width: var(--circular-size);
+}
+.prefix__MUI_Circle_Animation,
+.MUI_Circle_Animation {
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-dasharray: 80px, 200px;
+  stroke-dashoffset: 0;
+  animation: 1.4s ease-in-out 0s infinite normal none running
+    Progress-circular-animation;
+  transition: stroke-dashoffset 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes Progress-circular-animation {
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+  100% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: -126px;
+  }
+}
+
+.MUI_Linear_Progress_Wrapper {
+  width: 100%;
+}
+
+.MUI_Linear_Progress_Root {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 4px;
+  z-index: 0;
+  background-color: inherit;
+  &:is(._primary) {
+    background-color: rgba(var(--bg-primary), 0.12);
+  }
+  &:is(._secondary) {
+    background-color: rgba(var(--bg-secondary), 0.12);
+  }
+  &:is(._error) {
+    background-color: rgba(var(--bg-error), 0.12);
+  }
+  &:is(._warning) {
+    background-color: rgba(var(--bg-warning), 0.12);
+  }
+  &:is(._buffer) {
+    background-color: transparent;
+  }
+  & > .MUI_Linear_Progress_Bar {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    top: 0px;
+    transition: transform 0.2s linear;
+    transform-origin: left center;
+    width: auto;
+    background-color: currentColor;
+    &:is(._indeterminate) {
+      &:first-of-type {
+        animation: 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) 0s infinite
+          normal none running linear-animation-1;
+      }
+      &:last-of-type {
+        animation: 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite normal
+          none running linear-animation-2;
+      }
+    }
+    &:is(._determinate) {
+      width: 100%;
+      transform: translateX(-100%);
+    }
+    &:is(._buffer) {
+      width: 100%;
+      transform: translateX(-100%);
+      &:last-of-type {
+        &:is(._primary) {
+          color: rgba(var(--bg-primary), 0.45);
+        }
+        &:is(._secondary) {
+          color: rgba(var(--bg-secondary), 0.45);
+        }
+        &:is(._error) {
+          color: rgba(var(--bg-error), 0.45);
+        }
+        &:is(._warning) {
+          color: rgba(var(--bg-warning), 0.45);
+        }
+        &:is(._success) {
+          color: rgba(var(--bg-success), 0.45);
+        }
+      }
+    }
+    &:is(._primary) {
+      color: rgb(var(--bg-primary));
+    }
+    &:is(._secondary) {
+      color: rgb(var(--bg-secondary));
+    }
+    &:is(._error) {
+      color: rgb(var(--bg-error));
+    }
+    &:is(._warning) {
+      color: rgb(var(--bg-warning));
+    }
+  }
+}
+
+@keyframes linear-animation-1 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+@keyframes linear-animation-2 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+.MUI_Progress_Buffer_Dash {
+  position: absolute;
+  margin-top: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-background-size: 10px 10px;
+  background-size: 10px 10px;
+  -webkit-background-position: 0 -23px;
+  background-position: 0 -23px;
+  -webkit-animation: Progress-dash-animationanimation-1lq7mgo 3s infinite linear;
+  animation: Progress-dash-animation 3s infinite linear;
+  &:is(._primary) {
+    background-image: radial-gradient(
+      rgba(var(--bg-primary), 0.35) 0%,
+      rgba(var(--bg-primary), 0.35) 16%,
+      transparent 42%
+    );
+  }
+  &:is(._secondary) {
+    background-image: radial-gradient(
+      rgba(var(--bg-secondary), 0.35) 0%,
+      rgba(var(--bg-secondary), 0.35) 16%,
+      transparent 42%
+    );
+  }
+  &:is(._error) {
+    background-image: radial-gradient(
+      rgba(var(--bg-error), 0.35) 0%,
+      rgba(var(--bg-error), 0.35) 16%,
+      transparent 42%
+    );
+  }
+  &:is(._warning) {
+    background-image: radial-gradient(
+      rgba(var(--bg-warning), 0.35) 0%,
+      rgba(var(--bg-warning), 0.35) 16%,
+      transparent 42%
+    );
+  }
+}
+
+@keyframes Progress-dash-animation {
+  0% {
+    opacity: 1;
+    -webkit-background-position: 0 -23px;
+    background-position: 0 -23px;
+  }
+  60% {
+    opacity: 0;
+    -webkit-background-position: 0 -23px;
+    background-position: 0 -23px;
+  }
+  100% {
+    opacity: 1;
+    -webkit-background-position: -200px -23px;
+    background-position: -200px -23px;
+  }
+}

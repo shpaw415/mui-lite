@@ -1,0 +1,89 @@
+@import "/components/typography.css";
+
+.MUI_RadioButton_frame {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  color: inherit;
+  padding: 9px;
+  border-radius: 50%;
+  color: rgb(var(--bg-primary));
+}
+.MUI_RadioButton_frame:hover {
+  background-color: rgba(var(--bg-primary), 0.08);
+}
+.MUI_radio_input {
+  cursor: inherit;
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+.MUI_Radio_Inner {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.MUI_Radio_SVG_Frame {
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex-shrink: 0;
+  fill: currentColor;
+  font-size: 1.5rem;
+  transform: scale(1);
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.MUI_Radio_SVG_Button {
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex-shrink: 0;
+  fill: currentColor;
+  font-size: 1.5rem;
+  left: 0px;
+  position: absolute;
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+  transform: scale(0);
+}
+.MUI_RadioButton_frame:has(.MUI_radio_input:checked) .MUI_Radio_SVG_Button {
+  transform: scale(1);
+}

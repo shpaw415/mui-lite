@@ -1,0 +1,157 @@
+:root {
+  --animation-time: 300ms;
+}
+
+.MUI_Accordion_Summary_Root {
+  all: unset;
+}
+.MUI_Accordion_Summary_Root:has(.MUI_Accordion_Summary_Btn:disabled) {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.38;
+}
+
+.MUI_Accordion_Root:has(.MUI_Accordion_Summary_Btn:disabled) {
+  background-color: rgba(var(--text-main), 0.12);
+}
+.MUI_Accordion_Root {
+  interpolate-size: allow-keywords;
+  border-radius: 0px;
+  transition: margin 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.MUI_Accordion_Root:is(._expended) {
+  margin-top: 16px;
+}
+
+.MUI_Accordion_Root:first-of-type {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.MUI_Accordion_Root:last-of-type {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.MUI_Accordion_Summary_Btn {
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  color: inherit;
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  outline: 0px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  margin: 0px;
+  border-radius: 0px;
+  text-decoration: none;
+  padding: 0px 16px;
+  transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.MUI_Accordion_Summary_Btn:is(._expended) {
+  min-height: 64px;
+}
+
+.MUI_Accordion_Summary_Content {
+  display: flex;
+  text-align: start;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  margin: 12px 0px;
+  transition: margin 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.MUI_Accordion_Summary_Content:is(._expended) {
+  margin: 20px 0px;
+}
+
+.MUI_Accordion_Summary_Icon > svg {
+  display: flex;
+  color: rgba(var(--text-main), 0.54);
+  transform: rotate(0deg);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+.MUI_Accordion_Summary_Icon:is(._expended) > svg {
+  transform: rotate(180deg);
+}
+
+.MUI_Accordion_Details_Root {
+  padding: 8px 16px 16px;
+}
+
+.MUI_Accordion_Actions_Root {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 8px;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+}
+
+.MUI_Accordion_Collapse {
+  animation-fill-mode: forwards;
+  min-height: 0px;
+  height: 100%;
+  transition-duration: 252ms;
+  height: 0px;
+  visibility: hidden;
+  overflow: hidden;
+  transition: height var(--animation-time) cubic-bezier(0.4, 0, 0.2, 1),
+    opacity var(--animation-time) cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+.MUI_Accordion_Collapse:not(._expended) {
+  animation: 1s fadeOut;
+}
+.MUI_Accordion_Collapse:is(._expended) {
+  visibility: visible;
+  animation: var(--animation-time) fadeIn;
+  opacity: 1;
+  height: auto;
+  height: calc-size(auto, size);
+}
+
+@keyframes fadeIn {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes fadeOut {
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}

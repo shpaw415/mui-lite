@@ -1,0 +1,49 @@
+@import "/components/listitems.css";
+@import "/components/textfield.css";
+
+.MUI_Select_Root {
+  position: relative;
+}
+.MUI_Select_DropDown_Root {
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(1, 0);
+  transition: ease-in-out 150ms;
+  text-overflow: ellipsis;
+  min-width: 100%;
+  width: 100%;
+  z-index: 100;
+  overflow: auto;
+  max-height: calc(100% - 96px);
+  max-width: calc(100% - 32px);
+  background-color: rgb(var(--bg-surface));
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.MUI_Select_Root:focus-within .MUI_Select_DropDown_Root {
+  transform: scale(1, 1);
+  opacity: 1;
+  top: 55;
+  border-radius: 4px;
+}
+.MUI_Select_DropDown_Arrow {
+  fill: rgba(var(--text-main), 0.7);
+  transition: all ease-in-out 300ms;
+}
+
+.MUI_Select_Root:focus-within .MUI_Select_DropDown_Arrow {
+  rotate: 180deg;
+}
+
+.MUI_Select_Input {
+  width: 100%;
+  cursor: pointer;
+}
+
+.MUI_ListItem_li_Wrapper:is(.selected) {
+  background-color: rgba(var(--bg-primary), 0.12);
+}
+.MUI_ListItem_li_Wrapper:is(.selected):hover {
+  background-color: rgba(var(--bg-primary), 0.2);
+}

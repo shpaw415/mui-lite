@@ -1,0 +1,198 @@
+@import "/fonts.css";
+@import "/components/select.css";
+@import "/components/button.css";
+@import "/components/slider.css";
+@import "/components/switch.css";
+@import "/components/toggle.css";
+@import "/components/iconbutton.css";
+@import "/components/floatingactionbutton.css";
+@import "/components/avatar.css";
+@import "/components/badge.css";
+@import "/components/chip.css";
+@import "/components/divider.css";
+@import "/components/paper.css";
+@import "/components/accordion.css";
+@import "/components/alert.css";
+@import "/components/backdrop.css";
+@import "/components/progress.css";
+@import "/components/skeleton.css";
+@import "/components/dialog.css";
+@import "/components/list.css";
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  max-width: 100dvw;
+  width: 100dvw;
+  min-width: 0;
+  overflow-x: hidden;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: black !important;
+  }
+}
+
+.MUI_Theme_Wrapper {
+  background-color: rgb(var(--bg-main));
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(2.5);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background-color: rgb(var(--color-override, var(--bg-main)));
+  cursor: inherit;
+}
+.MUI_Ripple:is(._primary) {
+  background-color: rgb(var(--bg-primary));
+}
+.MUI_Ripple:is(._secondary) {
+  background-color: rgb(var(--bg-secondary));
+}
+.MUI_Ripple:is(._error) {
+  background-color: rgb(var(--bg-error));
+}
+.MUI_Ripple:is(._warning) {
+  background-color: rgb(var(--bg-warning));
+}
+.MUI_Ripple:is(._warning) {
+  background-color: rgb(var(--bg-warning));
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #90a4ae;
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #78909c;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #90a4ae #f5f5f5;
+}
+
+.MUI_Fade_In {
+  animation: fade-in var(--animation-duration, 500ms) forwards;
+}
+.MUI_Fade_Out {
+  animation: fade-out var(--animation-duration, 500ms) forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    visibility: visible;
+    opacity: 0;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    visibility: visible;
+    opacity: 1;
+  }
+  99% {
+    visibility: visible;
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.MUI_Slide_In {
+  animation: slide-in var(--animation-duration, 500ms) forwards;
+}
+.MUI_Slide_Out {
+  animation: slide-out var(--animation-duration, 500ms) forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    translate: 100% 0%;
+  }
+  100% {
+    translate: 0% 0%;
+  }
+}
+@keyframes slide-out {
+  0% {
+    visibility: visible;
+    translate: 0% 0%;
+  }
+  100% {
+    visibility: visible;
+    translate: 100% 0%;
+  }
+}
+
+.MUI_Zoom_In {
+  animation: zooms-in var(--animation-duration, 500ms) forwards;
+}
+.MUI_Zoom_Out {
+  animation: zooms-out var(--animation-duration, 500ms) forwards;
+}
+
+@keyframes zooms-in {
+  0% {
+    scale: 0;
+    translate: -50% -50%;
+    visibility: visible;
+  }
+  100% {
+    scale: 1;
+    translate: 0% 0%;
+    visibility: visible;
+  }
+}
+
+@keyframes zooms-out {
+  0% {
+    visibility: visible;
+    scale: 1;
+    translate: 0% 0%;
+  }
+  99% {
+    scale: 0;
+    translate: -50% -50%;
+    visibility: visible;
+  }
+  100% {
+    scale: 0;
+    translate: -50% -50%;
+    visibility: hidden;
+  }
+}

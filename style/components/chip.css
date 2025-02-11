@@ -1,0 +1,129 @@
+.MUI_Chip_Root {
+  max-width: 100%;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 0.8125rem;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 32px;
+  color: rgb(var(--text-main));
+  background-color: rgba(var(--text-main), 0.08);
+  cursor: unset;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border-radius: 16px;
+  white-space: nowrap;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: 0px;
+  text-decoration: none;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  padding: 0px;
+  overflow: hidden;
+}
+.MUI_Chip_Root:is(._small) {
+  height: 24px;
+}
+
+.MUI_Chip_Content {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 11px;
+  padding-right: 11px;
+  position: relative;
+}
+.MUI_Chip_Root:is(._small) > .MUI_Chip_Content {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.MUI_Chip_Root:is(._deletable._clickable):active {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+}
+
+.MUI_Chip_Root:is(._deletable) > .MUI_Chip_Delete_Icon_Wrapper > svg {
+  -webkit-tap-highlight-color: transparent;
+  color: rgba(var(--text-main), 0.26);
+  font-size: 22px;
+  cursor: pointer;
+  margin: 0px 5px 0px -6px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+.MUI_Chip_Delete_Icon_Wrapper {
+  z-index: 2;
+}
+
+.MUI_Chip_Root:is(._deletable) > .MUI_Chip_Delete_Icon_Wrapper > svg:hover {
+  color: rgba(var(--text-main), 0.4);
+}
+
+.MUI_Chip_Root:is(._clickable),
+.MUI_Chip_Root:is(._clickable) > .MUI_Chip_Content {
+  cursor: pointer;
+}
+
+.MUI_Chip_Root:is(._outlined) {
+  background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(var(--chip-color));
+}
+
+.MUI_Chip_Root:is(._primary._outlined) {
+  border-color: rgb(var(--bg-primary));
+  color: rgb(var(--text-primary));
+}
+.MUI_Chip_Root:is(._primary._filled) {
+  background-color: rgb(var(--bg-primary));
+}
+
+.MUI_Chip_Root:is(._secondary._outlined) {
+  border-color: rgb(var(--bg-secondary));
+  color: rgb(var(--text-secondary));
+}
+.MUI_Chip_Root:is(._secondary._filled) {
+  background-color: rgb(var(--bg-secondary));
+}
+
+.MUI_Chip_Root:is(._error._outlined) {
+  border-color: rgb(var(--bg-error));
+  color: rgb(var(--text-error));
+}
+.MUI_Chip_Root:is(._error._filled) {
+  background-color: rgb(var(--bg-error));
+}
+
+.MUI_Chip_Root:is(._success._outlined) {
+  border-color: rgb(var(--bg-success));
+  color: rgb(var(--text-success));
+}
+.MUI_Chip_Root:is(._success._filled) {
+  background-color: rgb(var(--bg-success));
+}
+
+.MUI_Chip_Root:is(._warning._outlined) {
+  border-color: rgb(var(--bg-warning));
+  color: rgb(var(--text-warning));
+}
+.MUI_Chip_Root:is(._warning._filled) {
+  background-color: rgb(var(--bg-warning));
+}

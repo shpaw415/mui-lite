@@ -1,0 +1,160 @@
+:root {
+  --black-var: 0, 0, 0;
+}
+
+button.MUI_FAB_Root {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  min-height: 36px;
+  min-width: 0px;
+  z-index: 1050;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px,
+    rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
+  width: 48px;
+  height: 48px;
+  outline: 0px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  margin: 0px;
+  text-decoration: none;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  padding: 0px;
+}
+button.MUI_FAB_Root:is(._extended) {
+  min-height: auto;
+  width: auto;
+  min-width: 40px;
+  height: 40px;
+  outline: 0px;
+  border-width: 0px;
+  margin: 0px;
+  padding: 0px 16px;
+  border-radius: 20px;
+}
+button.MUI_FAB_Root:is(._extended._small) {
+  min-height: auto;
+  width: auto;
+  min-width: 34px;
+  height: 34px;
+  outline: 0px;
+  border-width: 0px;
+  margin: 0px;
+  padding: 0px 8px;
+  border-radius: 17px;
+}
+button.MUI_FAB_Root:is(._extended._large) {
+  width: auto;
+  min-height: auto;
+  min-width: 48px;
+  height: 48px;
+  outline: 0px;
+  border-width: 0px;
+  margin: 0px;
+  border-radius: 24px;
+  padding: 0px 16px;
+}
+
+button.MUI_FAB_Root {
+  color: rgba(var(--color-override-fill, var(--bg-main)), 0.87);
+  background-color: rgba(var(--bg-color-override, var(--bg-primary)), 0.8);
+  overflow: hidden;
+}
+
+button.MUI_FAB_Root:hover {
+  background-color: rgb(var(--bg-color-override, var(--bg-primary)));
+}
+button.MUI_FAB_Root:is(._secondary) {
+  background-color: rgba(var(--bg-secondary), 0.8);
+}
+button.MUI_FAB_Root:is(._secondary):hover {
+  background-color: rgb(var(--bg-secondary));
+}
+button.MUI_FAB_Root:is(._error) {
+  background-color: rgba(var(--bg-error), 0.8);
+}
+button.MUI_FAB_Root:is(._error):hover {
+  background-color: rgb(var(--bg-error));
+}
+button.MUI_FAB_Root:is(._warning) {
+  background-color: rgba(var(--bg-warning), 0.8);
+}
+button.MUI_FAB_Root:is(._warning):hover {
+  background-color: rgb(var(--bg-warning));
+}
+button.MUI_FAB_Root:is(._success) {
+  background-color: rgba(var(--bg-success), 0.8);
+}
+button.MUI_FAB_Root:is(._success):hover {
+  background-color: rgb(var(--bg-success));
+}
+button.MUI_FAB_Root:disabled {
+  color: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(var(--text-main), 0.12) !important;
+  cursor: default;
+}
+
+button.MUI_FAB_Root:is(._small):not(._extended) {
+  min-height: 36px;
+  min-width: 0px;
+  z-index: 1050;
+  width: 40px;
+  height: 40px;
+  outline: 0px;
+  border-width: 0px;
+  margin: 0px;
+  border-radius: 50%;
+  padding: 0px;
+}
+button.MUI_FAB_Root:is(._large):not(._extended) {
+  min-height: 36px;
+  min-width: 0px;
+  width: 56px;
+  height: 56px;
+  outline: 0px;
+  border-width: 0px;
+  margin: 0px;
+  border-radius: 50%;
+  padding: 0px;
+}
+
+.MUI_FAB_Root > svg {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  fill: currentColor;
+  font-size: 1.5rem;
+}
+
+.MUI_FAB_Root:is(._extended) > svg {
+  margin-right: 8px;
+}

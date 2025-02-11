@@ -1,0 +1,76 @@
+.MUI_Skeleton_Root {
+  animation: 2s ease-in-out 0.5s infinite normal none running
+    Skeleton-pulse-animation;
+  font-size: 1rem;
+  background-color: rgba(var(--color-override, var(--text-main)), 0.11);
+  display: block;
+  &:is(._text) {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: auto;
+    transform-origin: 0px 55%;
+    transform: scale(1, 0.6);
+    border-radius: 4px / 6.7px;
+  }
+  &:is(._text, ._wave)::before {
+    content: "\00a0";
+  }
+  &:is(._circular) {
+    height: 1.2em;
+    border-radius: 50%;
+  }
+  &:is(._rounded) {
+    border-radius: 4px;
+  }
+  &:is(._wave) {
+    &::after {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(var(--text-main), 0.04),
+        transparent
+      );
+      content: "";
+      position: absolute;
+      transform: translateX(-100%);
+      inset: 0px;
+      animation: 2s linear 0.5s infinite normal none running
+        Skeleton-wave-animation;
+    }
+  }
+  &:has(.MUI_Skeleton_children) {
+    height: fit-content;
+    width: fit-content;
+  }
+  &:is(._none) {
+    animation: none;
+  }
+}
+
+.MUI_Skeleton_children {
+  opacity: 0;
+}
+
+@keyframes Skeleton-pulse-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes Skeleton-wave-animation {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
