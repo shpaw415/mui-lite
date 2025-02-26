@@ -25,6 +25,7 @@
   ],
   "exports": {
     "./*": "./mui/*/index.tsx",
-    "./style.css": "./style/mui-style.css"
+    "./style.css": "./style/mui-style.css",
+    "./theme": "./common/theme/index.tsx"
   }
 }
