@@ -1,33 +1,44 @@
 {
   "compilerOptions": {
     // Enable latest features
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "allowJs": true,
-
     // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
-
     // Best practices
     "strict": true,
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
-
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
-      "@/common/*": [ "./common/*" ],
+      "@/common/*": [
+        "./common/*"
+      ],
       "@svg/*": [
         "./node_modules/@material-design-icons/svg/*"
       ]
-    }
-  }
+    },
+  },
+  "include": [
+    "custom.d.ts",
+    "node_modules/@material-design-icons",
+    "mui",
+    "style"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
