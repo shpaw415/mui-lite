@@ -6,6 +6,7 @@ import React, {
   type RefObject,
   createContext,
   useContext,
+  useMemo,
 } from "react";
 import { useClassNames, useStyle, type SxProps } from "./theme";
 import { useColorOverRide, type MuiElementColors } from "./utils";
@@ -121,9 +122,9 @@ function RippleBase({
     !preventClickElement && container.click();
 
     const { left, top, width, height } = container.getBoundingClientRect();
-    const size = Math.min(width, height);
-    const x = e.clientX - 30 - left - size / 2 + (offset?.left || 0);
-    const y = e.clientY - 30 - top - size / 2 + (offset?.top || 0);
+    const size = Math.max(width, height);
+    const x = e.clientX + 75 - left - size / 2 + (offset?.left || 0);
+    const y = e.clientY + 75 - top - size / 2 + (offset?.top || 0);
 
     setRipples((prevRipples) => [...prevRipples, { x, y }]);
   }, []);
