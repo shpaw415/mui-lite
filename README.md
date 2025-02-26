@@ -8,8 +8,10 @@ bun i material_ui_retinked
 
 
 ```javascript XML
-import { DefaultTheme, ThemeProvider, type MuiTheme } from "@material_ui_retinked/common/theme";
-import css from "@material_ui_rethinked/style/global.css"
+import { DefaultTheme, ThemeProvider, type MuiTheme } from "@bunpmjs/mui-lite/common/theme";
+import "@material_ui_rethinked/style/mui-style.css"
+
+
 
 export default function App() {
     return (<ThemeProvider theme={DefaultTheme}>
