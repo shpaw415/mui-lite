@@ -1,5 +1,6 @@
 @import "./fonts.css";
 @import "./components/inputbase.css";
+@import "./components/radio.css";
 @import "./components/textfield.css";
 @import "./components/typography.css";
 @import "./components/select.css";

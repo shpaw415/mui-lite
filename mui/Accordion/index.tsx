@@ -10,6 +10,7 @@ import {
   useState,
   type JSX,
 } from "react";
+
 import ExpendIcon from "@svg/filled/expand_more.svg";
 
 export type AccordionProps = {
