@@ -1,9 +1,9 @@
-import { useClassNames, useStyle, useTheme } from "@/common/theme";
+import { useClassNames, useStyle, useTheme } from "../../common/theme";
 import {
   useValueOverRide,
   type ElevationType,
   type MuiElementType,
-} from "@/common/utils";
+} from "../../common/utils";
 import { createElement, useMemo, type ElementType } from "react";
 
 export type PaperProps = {

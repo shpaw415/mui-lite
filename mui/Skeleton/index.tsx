@@ -1,5 +1,5 @@
-import { useClassNames, useStyle } from "@/common/theme";
-import { useColorOverRide, type MuiElementType } from "@/common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import { useColorOverRide, type MuiElementType } from "../../common/utils";
 import { createElement, type CSSProperties, type JSX } from "react";
 
 export type SkeletonProps = {

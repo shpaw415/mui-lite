@@ -1,10 +1,10 @@
-import { RippleBase } from "@/common/ripple";
-import { useClassNames, useStyle } from "@/common/theme";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle } from "../../common/theme";
 import {
   PropsOverRideProvider,
   useValueOverRide,
   type MuiElementType,
-} from "@/common/utils";
+} from "../../common/utils";
 import { type SlotProps } from "../../common/utils";
 import {
   createElement,

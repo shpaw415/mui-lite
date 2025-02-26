@@ -1,9 +1,9 @@
-import { useClassNames } from "@/common/theme";
+import { useClassNames } from "../../common/theme";
 import Paper, { type PaperProps } from "../Paper";
 import { type SlotProps } from "../../common/utils";
 import { useRef, type CSSProperties, type JSX, type RefObject } from "react";
 import Backdrop, { type BackdropProps } from "../Backdrop";
-import { useSwipe, type SwipeOptions } from "@/common/swipe";
+import { useSwipe, type SwipeOptions } from "../../common/swipe";
 
 export type DrawerProps = {
   open?: boolean;

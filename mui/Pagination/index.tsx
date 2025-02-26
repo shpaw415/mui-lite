@@ -1,7 +1,6 @@
-import { useClassNames, useStyle } from "@/common/theme";
-import type { MuiElementType } from "@/common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import type { MuiElementType } from "../../common/utils";
 import {
-  createElement,
   useCallback,
   useEffect,
   useRef,
@@ -17,7 +16,7 @@ import FirstPageIcon from "@svg/filled/first_page.svg";
 import LastPageIcon from "@svg/filled/last_page.svg";
 import ArrowDropDown from "@svg/filled/arrow_drop_down.svg";
 
-import { RippleBase } from "@/common/ripple";
+import { RippleBase } from "../../common/ripple";
 import type { BoxProps } from "../Box";
 import Box from "../Box";
 import { type SlotProps } from "../../common/utils";

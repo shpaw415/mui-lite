@@ -1,17 +1,17 @@
-import { RippleBase } from "@/common/ripple";
-import { useClassNames, useStyle } from "@/common/theme";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle } from "../../common/theme";
 import {
   useMuiRef,
   type MuiElementColors,
   type MuiElementType,
-} from "@/common/utils";
-import { useRef } from "react";
+} from "../../common/utils";
 
 export type ToggleButtonProps = {
   children: any;
   selected?: boolean;
   size?: "small" | "medium" | "large";
-} & MuiElementType<HTMLButtonElement>;
+  type?: "button" | "reset" | "submit";
+} & Omit<MuiElementType<HTMLButtonElement>, "size">;
 
 export default function ToggleButton({
   children,

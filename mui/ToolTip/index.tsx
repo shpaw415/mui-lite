@@ -14,7 +14,7 @@ import {
   useValueOverRide,
   useViewPortVisible,
 } from "../../common/utils";
-import { useClassNames, type SxProps } from "@/common/theme";
+import { useClassNames, type SxProps } from "../../common/theme";
 import Typography, { type MuiTypographyProps } from "../Typography";
 
 export type ToolTipProps = {

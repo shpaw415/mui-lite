@@ -9,7 +9,7 @@ import {
   type RefObject,
 } from "react";
 import ArrowDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
-import ListItems, { ListItemElement } from "../ListItems";
+import { List, ListItem } from "../List";
 import Box from "../Box";
 import { type JSX } from "react";
 
@@ -116,13 +116,13 @@ function Select({
         ref={ref}
       />
       <Box className={dropDown.combined} sx={dropDownSx}>
-        <ListItems className="overflow-auto" disablePadding>
+        <List className="overflow-auto" disablePadding>
           {(children as Array<JSX.Element>).map((child, index) => {
             console.log(
               (displayedValue || DefaultValueMemo) == child.props?.value
             );
             return (
-              <ListItemElement
+              <ListItem
                 e-value={child.props.value}
                 key={index}
                 onClick={(ev) => {
@@ -136,10 +136,10 @@ function Select({
                 }
               >
                 {child?.props?.children || ""}
-              </ListItemElement>
+              </ListItem>
             );
           })}
-        </ListItems>
+        </List>
       </Box>
     </div>
   );

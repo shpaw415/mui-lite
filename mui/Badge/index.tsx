@@ -1,5 +1,5 @@
-import { useClassNames, useStyle } from "@/common/theme";
-import type { MuiElementColors, MuiElementType } from "@/common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import type { MuiElementColors, MuiElementType } from "../../common/utils";
 import { useCallback } from "react";
 
 export type BadgeProps = {

@@ -1,6 +1,5 @@
 import Paper, { type PaperProps } from "../Paper";
 import Backdrop, { type BackdropProps } from "../Backdrop";
-import { type MuiTypographyProps } from "../Typography/index";
 import clsx from "clsx";
 import {
   PropsOverRideProvider,
@@ -8,10 +7,10 @@ import {
   useMuiRef,
   type MuiElementType,
   type SlotProps,
-} from "@/common/utils";
-import { useClassNames, useStyle } from "@/common/theme";
+} from "../../common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
 import type { ButtonProps } from "../Button";
-import { Children, useCallback, useRef } from "react";
+import { useCallback } from "react";
 
 export type DialogProps = {
   onBackdropClick?: React.MouseEventHandler<HTMLDivElement>;

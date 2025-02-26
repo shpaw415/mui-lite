@@ -1,8 +1,8 @@
-import { useStyle, type SxProps } from "@/common/theme";
+import { useStyle, type SxProps } from "../../common/theme";
 import Typography from "../Typography";
 import FrameSVG from "./Radio-frame.svg";
 import ButtonSVG from "./Radio-btn.svg";
-import RippleEffect from "@/common/ripple";
+import RippleEffect from "../../common/ripple";
 import type { RefObject } from "react";
 
 type RadioButtonProps = {

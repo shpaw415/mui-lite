@@ -1,4 +1,4 @@
-import { useClassNames } from "@/common/theme";
+import { useClassNames } from "../../common/theme";
 import type { PaperProps } from "../Paper";
 import Paper from "../Paper";
 import { useEffect, useMemo, useState, type JSX } from "react";

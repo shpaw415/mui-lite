@@ -1,6 +1,6 @@
-import { RippleBase } from "@/common/ripple";
-import { useClassNames, useStyle, type SxProps } from "@/common/theme";
-import type { MuiElementColors } from "@/common/utils";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle, type SxProps } from "../../common/theme";
+import type { MuiElementColors } from "../../common/utils";
 import { useRef, type RefObject } from "react";
 
 export type MuiSwitchProps = Omit<

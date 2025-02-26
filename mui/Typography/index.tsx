@@ -1,7 +1,7 @@
 "use client";
-import type { MuiElementColors, MuiElementType } from "@/common/utils";
-import { useClassNames, useStyle, type SxProps } from "../../common/theme";
-import { type RefObject, type JSX } from "react";
+import type { MuiElementColors, MuiElementType } from "../../common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import { type JSX } from "react";
 export type MuiTypographyProps<T extends HTMLElement> = {
   Element?: keyof JSX.IntrinsicElements;
   color?: MuiElementColors;

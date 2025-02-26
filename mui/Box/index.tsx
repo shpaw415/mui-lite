@@ -1,6 +1,6 @@
 import { createElement, type ElementType } from "react";
 import { useStyle } from "../../common/theme";
-import type { MuiElementType } from "@/common/utils";
+import type { MuiElementType } from "../../common/utils";
 
 export type BoxProps = {
   Element?: ElementType;

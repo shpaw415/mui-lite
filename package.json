@@ -24,7 +24,7 @@
     "framework"
   ],
   "exports": {
-    "./mui/*": "./mui/*",
+    "./*": "./mui/*/index.tsx",
     "./style.css": "./style/mui-style.css"
   }
 }

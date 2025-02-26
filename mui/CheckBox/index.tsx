@@ -1,6 +1,6 @@
 "use client";
-import { useClassNames, useStyle } from "../../common/theme";
-import { useCallback, useEffect, useRef, useState, type JSX } from "react";
+import { useClassNames } from "../../common/theme";
+import { useCallback, useEffect, useState, type JSX } from "react";
 import Typography from "../Typography";
 import {
   useRandomID,

@@ -1,4 +1,4 @@
-import { PropsOverRideProvider, useColorOverRide } from "@/common/utils";
+import { PropsOverRideProvider, useColorOverRide } from "../../common/utils";
 import { useMemo, type CSSProperties, type JSX } from "react";
 
 import ErrorIcon from "@svg/filled/error_outline.svg";
@@ -8,7 +8,7 @@ import CloseIcon from "@svg/filled/close.svg";
 import InfoIcon from "./info.svg";
 import SuccessIcon from "./success.svg";
 import Paper, { type PaperProps } from "../Paper";
-import { useClassNames, useStyle, useTheme } from "@/common/theme";
+import { useClassNames, useStyle, useTheme } from "../../common/theme";
 import clsx from "clsx";
 import type { ButtonProps } from "../Button";
 import IconButton from "../IconButton";

@@ -1,5 +1,5 @@
-import { useClassNames, useStyle } from "@/common/theme";
-import type { MuiElementType } from "@/common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import type { MuiElementType } from "../../common/utils";
 
 export type BackdropProps = {
   open?: boolean;

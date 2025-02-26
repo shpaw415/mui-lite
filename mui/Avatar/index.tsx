@@ -1,5 +1,5 @@
-import { useClassNames, useStyle } from "@/common/theme";
-import { useValueOverRide, type MuiElementType } from "@/common/utils";
+import { useClassNames, useStyle } from "../../common/theme";
+import { useValueOverRide, type MuiElementType } from "../../common/utils";
 import { useMemo, useState } from "react";
 
 export type MuiAvatarProps = {

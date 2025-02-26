@@ -1,11 +1,11 @@
-import { RippleBase } from "@/common/ripple";
-import { useClassNames, useStyle, useTheme } from "@/common/theme";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle, useTheme } from "../../common/theme";
 import {
   useValueOverRide,
   type MuiElementColors,
   type MuiElementType,
-} from "@/common/utils";
-import { useRef, type JSX, type RefObject } from "react";
+} from "../../common/utils";
+import { type JSX, type RefObject } from "react";
 import CancelIcon from "@svg/filled/cancel.svg";
 import { useMuiRef } from "../../common/utils";
 

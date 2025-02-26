@@ -1,14 +1,15 @@
-import { useClassNames, useStyle, type SxProps } from "@/common/theme";
+import { useClassNames, useStyle, type SxProps } from "../../common/theme";
 import {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type DetailsHTMLAttributes,
   type RefObject,
 } from "react";
-import { useMouseMoveListener, useMouseUpListener } from "@/common/utils";
+import { useMouseMoveListener, useMouseUpListener } from "../../common/utils";
 import ToolTip from "../ToolTip";
 
 type SliderProps = Omit<
@@ -139,7 +140,7 @@ function Slider({
     className,
   });
 
-  let styleForTrack: SxProps = {};
+  let styleForTrack: CSSProperties = {};
   if (!value && defaultValue && (defaultValue as number[]).length > 1) {
     styleForTrack.width = `${_value_[1] - _value_[0]}%`;
     styleForTrack.left = `${_value_[0]}%`;

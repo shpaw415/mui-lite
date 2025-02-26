@@ -3,7 +3,7 @@ import {
   useClickAwayListener,
   usePreventScroll,
   useViewPortVisible,
-} from "@/common/utils";
+} from "../../common/utils";
 import Paper, { type PaperProps } from "../Paper";
 import {
   useCallback,
@@ -12,8 +12,7 @@ import {
   type CSSProperties,
   type RefObject,
 } from "react";
-import { useClassNames } from "@/common/theme";
-import { elGR } from "../locale/index";
+import { useClassNames } from "../../common/theme";
 
 export type MenuProps = {
   open?: boolean;

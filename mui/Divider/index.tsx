@@ -1,5 +1,5 @@
-import { useClassNames } from "@/common/theme";
-import type { MuiElementType } from "@/common/utils";
+import { useClassNames } from "../../common/theme";
+import type { MuiElementType } from "../../common/utils";
 import { createElement, useCallback, type JSX } from "react";
 
 export type DividerProps = {

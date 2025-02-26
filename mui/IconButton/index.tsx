@@ -4,10 +4,9 @@ import {
   usePropsOverRide,
   type MuiElementColors,
   type MuiElementType,
-} from "@/common/utils";
-import { RippleBase } from "@/common/ripple";
-import { useClassNames, useStyle } from "@/common/theme";
-import clsx from "clsx";
+} from "../../common/utils";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle } from "../../common/theme";
 
 export type MuiIconButtonProps = {
   children: any;

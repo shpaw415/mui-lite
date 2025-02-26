@@ -1,7 +1,7 @@
-import type { MuiElementType } from "@/common/utils";
+import type { MuiElementType } from "../../common/utils";
 import type { PaperProps } from "../Paper";
 import Paper from "../Paper";
-import { useClassNames, useStyle, type SxProps } from "@/common/theme";
+import { useClassNames, useStyle, type SxProps } from "../../common/theme";
 import { createContext, useContext, useRef, useState, type JSX } from "react";
 
 import ExpendIcon from "@svg/filled/expand_more.svg";
@@ -65,7 +65,6 @@ export default function Accordion({
 export type AccordionSummaryProps = {
   expendIcon?: JSX.Element;
   Element?: keyof JSX.IntrinsicElements;
-  sx?: SxProps;
 } & MuiElementType<HTMLHeadingElement>;
 
 export function AccordionSummary({
@@ -119,9 +118,7 @@ export function AccordionSummary({
   );
 }
 
-export type AccordionDetailsProps = {
-  sx?: SxProps;
-} & MuiElementType<HTMLDivElement>;
+export type AccordionDetailsProps = MuiElementType<HTMLDivElement>;
 
 export function AccordionDetails({
   className,
@@ -138,9 +135,7 @@ export function AccordionDetails({
   );
 }
 
-export type AccordionActionProps = {
-  sx?: SxProps;
-} & MuiElementType<HTMLDivElement>;
+export type AccordionActionProps = MuiElementType<HTMLDivElement>;
 
 export function AccordionActions({
   className,

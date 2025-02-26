@@ -1,5 +1,5 @@
 "use client";
-import { useTheme } from "@/common/theme";
+import { useTheme } from "../../common/theme";
 import type { AlertProps } from "../Alert";
 import type { PaginationProps, TablePaginationProps } from "../Pagination";
 import { useEffect, useState } from "react";

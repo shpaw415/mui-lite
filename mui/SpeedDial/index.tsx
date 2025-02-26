@@ -1,4 +1,4 @@
-import { useClassNames } from "@/common/theme";
+import { useClassNames } from "../../common/theme";
 import Box, { type BoxProps } from "../Box";
 import { useClickAwayListener, type SlotProps } from "../../common/utils";
 

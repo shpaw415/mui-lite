@@ -1,15 +1,15 @@
-import { RippleBase } from "@/common/ripple";
+import { RippleBase } from "../../common/ripple";
 import {
   useClassNames,
   useStyle,
   useTheme,
   type SxProps,
-} from "@/common/theme";
+} from "../../common/theme";
 import {
   useColorOverRide,
   type MuiElementColors,
   type MuiElementType,
-} from "@/common/utils";
+} from "../../common/utils";
 import { useMuiRef } from "../../common/utils";
 
 export type FABProps = {
