@@ -1,15 +1,11 @@
 "use client";
-import type { MuiElementColors } from "@/common/utils";
+import type { MuiElementColors, MuiElementType } from "@/common/utils";
 import { useClassNames, useStyle, type SxProps } from "../../common/theme";
 import { type RefObject, type JSX } from "react";
 export type MuiTypographyProps<T extends HTMLElement> = {
-  children?: any;
   Element?: keyof JSX.IntrinsicElements;
-  className?: string;
-  sx?: SxProps;
-  ref?: RefObject<HTMLElement>;
   color?: MuiElementColors;
-} & Omit<T, "style">;
+} & MuiElementType<T>;
 
 export default function Typography<T>({
   children,

@@ -1,0 +1,311 @@
+.MUI_Snackbar_Root {
+  z-index: 1400;
+  position: fixed;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: fit-content;
+  min-width: 95vw;
+
+  &._top-center {
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    top: 8px;
+  }
+  &._top-right {
+    left: 8px;
+    right: 8px;
+    -webkit-box-align: center;
+    align-items: center;
+    top: 8px;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+  }
+  &._bottom-right {
+    left: 8px;
+    right: 8px;
+    -webkit-box-align: center;
+    align-items: center;
+    bottom: 8px;
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+  }
+  &._bottom-center {
+    left: 8px;
+    right: 8px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    bottom: 8px;
+  }
+  &._bottom-left {
+    left: 8px;
+    right: 8px;
+    -webkit-box-align: center;
+    align-items: center;
+    bottom: 8px;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 600px) {
+  .MUI_Snackbar_Root {
+    -webkit-box-flex: initial;
+    flex-grow: initial;
+    min-width: 288px;
+    &._top-left {
+      top: 24px;
+      left: 24px;
+      right: auto;
+    }
+    &._top-center {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      top: 24px;
+    }
+    &._top-right {
+      right: 24px;
+      left: auto;
+      top: 24px;
+    }
+    &._bottom-right {
+      right: 24px;
+      left: auto;
+      bottom: 24px;
+    }
+    &._bottom-center {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      bottom: 24px;
+    }
+    &._bottom-left {
+      left: 24px;
+      right: auto;
+      bottom: 24px;
+    }
+  }
+}
+
+.MUI_Snackbar_Inner {
+  background-color: rgb(50, 50, 50);
+  color: rgb(255, 255, 255);
+  width: 100%;
+  flex-grow: 1;
+
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  &.child {
+    background-color: transparent;
+    color: initial;
+  }
+}
+
+.MUI_Snackbar_Content_Root {
+  padding: 6px 16px;
+}
+
+.MUI_Snackbar_Action_Root {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 16px;
+  margin-right: -8px;
+}
+
+:root {
+  --animation-timer: 500ms;
+}
+
+@keyframes Slide-Up-hide-animation {
+  0% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+  99% {
+    translate: 0% -200%;
+    visibility: visible;
+  }
+  100% {
+    translate: 0% -200%;
+    visibility: hidden;
+  }
+}
+@keyframes Slide-Up-show-animation {
+  0% {
+    translate: 0% -200%;
+    visibility: visible;
+  }
+  99% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+  100% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+}
+
+@keyframes Slide-Down-hide-animation {
+  0% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+  99% {
+    translate: 0% 200%;
+    visibility: visible;
+  }
+  100% {
+    translate: 0% 200%;
+    visibility: hidden;
+  }
+}
+@keyframes Slide-Down-show-animation {
+  0% {
+    translate: 0% 200%;
+    visibility: visible;
+  }
+  100% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+}
+
+@keyframes Slide-left-hide-animation {
+  0% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+  99% {
+    visibility: visible;
+    translate: -200% 0%;
+  }
+  100% {
+    translate: -200% 0%;
+    visibility: hidden;
+  }
+}
+@keyframes Slide-left-show-animation {
+  0% {
+    translate: -200% 0%;
+    visibility: visible;
+  }
+  99% {
+    translate: 0% 0%;
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+    translate: 0% 0%;
+  }
+}
+
+@keyframes Slide-right-hide-animation {
+  0% {
+    visibility: visible;
+    translate: 0% 0%;
+  }
+  99% {
+    translate: 200% 0%;
+  }
+  100% {
+    visibility: hidden;
+    translate: 200% 0%;
+  }
+}
+@keyframes Slide-right-show-animation {
+  0% {
+    translate: 200% 0%;
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+    translate: 0% 0%;
+  }
+}
+
+.MUI_Snackbar_Root {
+  &._slide {
+    &._top-center {
+      animation: Slide-Up-hide-animation var(--animation-timer, 500ms) forwards;
+      &._open {
+        animation: Slide-Up-show-animation var(--animation-timer, 500ms)
+          forwards;
+      }
+    }
+    &._top-left {
+      animation: Slide-left-hide-animation var(--animation-timer, 500ms)
+        forwards;
+      &._open {
+        animation: Slide-left-show-animation var(--animation-timer, 500ms)
+          forwards;
+      }
+    }
+    &._top-right {
+      animation: Slide-right-hide-animation var(--animation-timer, 500ms)
+        forwards;
+      &._open {
+        animation: Slide-right-show-animation var(--animation-timer, 500ms)
+          forwards;
+      }
+    }
+    &._bottom-left,
+    &._bottom-right,
+    &._bottom-center {
+      animation: Slide-Down-hide-animation var(--animation-timer, 500ms)
+        forwards;
+      &._open {
+        animation: Slide-Down-show-animation var(--animation-timer, 500ms)
+          forwards;
+      }
+    }
+  }
+}
+.MUI_Snackbar_Root {
+  &._top {
+    animation: Slide-Up-hide-animation var(--animation-timer, 500ms) forwards !important;
+    &._open {
+      animation: Slide-Up-show-animation var(--animation-timer, 500ms) forwards !important;
+    }
+  }
+  &._bottom {
+    animation: Slide-Down-hide-animation var(--animation-timer, 500ms) forwards !important;
+    &._open {
+      animation: Slide-Down-show-animation var(--animation-timer, 500ms)
+        forwards !important;
+    }
+  }
+  &._left {
+    animation: Slide-left-hide-animation var(--animation-timer, 500ms) forwards !important;
+    &._open {
+      animation: Slide-left-show-animation var(--animation-timer, 500ms)
+        forwards !important;
+    }
+  }
+  &._right {
+    animation: Slide-right-hide-animation var(--animation-timer, 500ms) forwards !important;
+    &._open {
+      animation: Slide-right-show-animation var(--animation-timer, 500ms)
+        forwards !important;
+    }
+  }
+}
+
+.MUI_Alert_Root {
+  flex-grow: 1;
+  max-height: 50px !important;
+  & > .MUI_Alert_Action {
+    padding: 0 !important;
+  }
+}

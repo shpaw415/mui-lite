@@ -1,0 +1,46 @@
+.MUI_Menu_Root {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  animation: fade-shrink-out 500ms forwards;
+  &._open {
+    opacity: 1;
+    visibility: visible;
+    animation: fade-shrink-in 500ms forwards;
+  }
+}
+
+@keyframes fade-shrink-in {
+  0% {
+    visibility: visible;
+    opacity: 0;
+    scale: 0 0;
+    translate: -25% -50%;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    scale: 1 1;
+    translate: 0 0;
+  }
+}
+@keyframes fade-shrink-out {
+  0% {
+    visibility: visible;
+    opacity: 1;
+    scale: 1 1;
+    translate: 0 0;
+  }
+  99% {
+    visibility: visible;
+    opacity: 0;
+    scale: 0 0;
+    translate: -25% -50%;
+  }
+  100% {
+    opacity: 0;
+    scale: 0 0;
+    translate: -25% -50%;
+    visibility: hidden;
+  }
+}

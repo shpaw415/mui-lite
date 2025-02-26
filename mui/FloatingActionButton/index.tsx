@@ -10,7 +10,7 @@ import {
   type MuiElementColors,
   type MuiElementType,
 } from "@/common/utils";
-import { useRef } from "react";
+import { useMuiRef } from "../../common/utils";
 
 export type FABProps = {
   color?: MuiElementColors;
@@ -38,7 +38,7 @@ export default function FAB({
     className,
     state: [color, variant, size],
   });
-  const ref = props.ref || useRef<HTMLButtonElement>(null);
+  const ref = useMuiRef(props.ref);
   const style = useStyle(sx);
   const bgOverride = useColorOverRide({
     colorOverRide: bgColorOverRide,
@@ -67,7 +67,11 @@ export default function FAB({
       ref={ref}
     >
       {children}
-      <RippleBase ref={ref} offset={{ top: -10, left: -10 }} />
+      <RippleBase
+        ref={ref}
+        offset={{ top: -10, left: -10 }}
+        preventClickElement
+      />
     </button>
   );
 }

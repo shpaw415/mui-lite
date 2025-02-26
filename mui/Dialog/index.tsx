@@ -5,6 +5,7 @@ import clsx from "clsx";
 import {
   PropsOverRideProvider,
   useDragElement,
+  useMuiRef,
   type MuiElementType,
   type SlotProps,
 } from "@/common/utils";
@@ -69,7 +70,7 @@ export default function Dialog({
     },
     []
   );
-  const ref = useRef(props?.ref?.current || null);
+  const ref = useMuiRef(props.ref);
   useDragElement({
     element: ref,
     disabled: !draggable,

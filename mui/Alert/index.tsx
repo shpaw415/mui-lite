@@ -12,6 +12,8 @@ import { useClassNames, useStyle, useTheme } from "@/common/theme";
 import clsx from "clsx";
 import type { ButtonProps } from "../Button";
 import IconButton from "../IconButton";
+import { type SlotProps } from "../../common/utils";
+import Box, { type BoxProps } from "../Box";
 
 export type AlertProps = {
   variant?: "default" | "filled" | "outlined";
@@ -21,6 +23,9 @@ export type AlertProps = {
   title?: string;
   textColor?: CSSProperties["color"];
   onClose?: React.MouseEventHandler<HTMLButtonElement>;
+  SlotProps?: SlotProps<{
+    icon?: BoxProps;
+  }>;
 } & Omit<PaperProps, "variant" | "action">;
 
 export default function Alert({
@@ -33,6 +38,7 @@ export default function Alert({
   children,
   textColor,
   onClose,
+  SlotProps,
   ...props
 }: AlertProps) {
   const Icon = useMemo(() => {
@@ -90,15 +96,20 @@ export default function Alert({
         ...style.styleFromSx,
         ...colorOverride,
       }}
-      className={clsx(root.combined, "flex")}
+      className={[root.combined, "flex"].join(" ")}
       elevation={0}
       {...props}
     >
-      {Icon && <div className="MUI_Alert_icon">{Icon}</div>}
-      <div className="MUI_Alert_message">
-        {title && <div className="MUI_Alert_Title">{title}</div>}
-        {children}
-      </div>
+      {Icon && (
+        <Box
+          {...SlotProps?.icon}
+          className={["MUI_Alert_icon", SlotProps?.icon?.className].join(" ")}
+        >
+          {Icon}
+        </Box>
+      )}
+      {title && <div className="MUI_Alert_Title">{title}</div>}
+      {children}
       <PropsOverRideProvider<ButtonProps>
         props={{ variant: "text", color: severity as any }}
       >

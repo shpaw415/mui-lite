@@ -144,11 +144,7 @@ export function ListItemButton({
           className="absolute top-0 left-0 w-full h-full overflow-hidden"
           ref={ref}
         >
-          <RippleBase
-            ref={ref}
-            preventClickElement
-            offset={{ left: 100, top: 100 }}
-          />
+          <RippleBase ref={ref} preventClickElement />
         </div>
       </>
     ),
@@ -181,8 +177,8 @@ export type ListItemTextProps<T extends keyof JSX.IntrinsicElements> = {
   secondary?: React.ReactNode;
   inset?: boolean;
   SlotProps?: SlotProps<{
-    primary: BoxProps<T>;
-    secondary: BoxProps<"p">;
+    primary: BoxProps;
+    secondary: BoxProps;
   }>;
 } & MuiElementType<HTMLDivElement>;
 

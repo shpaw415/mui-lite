@@ -9,6 +9,7 @@ import {
   type MuiElementColors,
   type MuiElementType,
 } from "@/common/utils";
+import { useRef } from "react";
 
 export type ButtonProps = {
   children: any;
@@ -40,8 +41,7 @@ function Button({
     className: className,
     overRide: override,
   });
-  const ref = useMuiRef(props.ref);
-
+  const ref = useMuiRef<HTMLButtonElement>(props.ref);
   return (
     <button
       className={clsx(classes.combined, {

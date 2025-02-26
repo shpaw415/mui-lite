@@ -7,6 +7,7 @@ import {
 } from "@/common/utils";
 import { useRef, type JSX, type RefObject } from "react";
 import CancelIcon from "@svg/filled/cancel.svg";
+import { useMuiRef } from "../../common/utils";
 
 export type ChipProps = {
   variant?: "filled" | "outlined";
@@ -56,7 +57,8 @@ export default function Chip({
   });
 
   const style = useStyle(sx);
-  const ref = props.ref || useRef<HTMLDivElement>(null);
+  const ref = useMuiRef(props.ref);
+
   return (
     <div
       className={root.combined}

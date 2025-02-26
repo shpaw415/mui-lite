@@ -21,7 +21,7 @@ type InputBaseProps = Omit<
   children?: ReactElement<HTMLSelectElement>;
   resetValue?: boolean;
   sx?: SxProps;
-  ref?: RefObject<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement | null>;
 };
 
 export default function InputBase({

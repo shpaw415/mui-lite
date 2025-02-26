@@ -1,12 +1,12 @@
 import {
   useColorOverRide,
+  useMuiRef,
   usePropsOverRide,
   type MuiElementColors,
   type MuiElementType,
 } from "@/common/utils";
 import { RippleBase } from "@/common/ripple";
 import { useClassNames, useStyle } from "@/common/theme";
-import { useMemo, useRef } from "react";
 import clsx from "clsx";
 
 export type MuiIconButtonProps = {
@@ -19,7 +19,7 @@ export type MuiIconButtonProps = {
 
 function IconButton({
   children,
-  color,
+  color = "primary",
   size,
   className,
   colorOverRide,
@@ -35,7 +35,7 @@ function IconButton({
     state: [size, color],
   });
 
-  const ref = useRef<HTMLButtonElement>(props.ref?.current || null);
+  const ref = useMuiRef(props.ref);
   const style = useStyle({ ...propsOverRide.sx, ...sx });
   const overRideColorHex = useColorOverRide({
     colorOverRide: colorOverRide || propsOverRide.colorOverRide,
@@ -45,7 +45,7 @@ function IconButton({
     <Btn
       {...propsOverRide}
       {...props}
-      className={clsx(root.combined, "cursor-pointer")}
+      className={root.combined}
       ref={ref}
       style={{
         ...style.styleFromSx,

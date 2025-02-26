@@ -1,0 +1,137 @@
+.MUI_SpeedDial_root {
+  z-index: 1050;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  pointer-events: none;
+  flex-direction: column-reverse;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  & .MUI_FAB_Root {
+    z-index: 1050;
+    pointer-events: auto;
+    background-color: rgb(var(--bg-primary));
+    color: white;
+    &:hover {
+      background-color: rgb(var(--bg-primary-main));
+    }
+  }
+
+  & .MUI_FAB_Root {
+    & svg {
+      transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    & .MUI_default_icon {
+      transition: rotate 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  & .MUI_SpeedDial_action {
+    flex-direction: column-reverse;
+    margin-bottom: -32px;
+    padding-bottom: 48px;
+    display: flex;
+    pointer-events: auto;
+    visibility: hidden;
+    animation: MUI_Hide 1s forwards;
+
+    & .MUI_SpeedDial_action_button_root {
+      scale: 0;
+      position: relative;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      color: rgba(var(--text-main), 0.6);
+      margin: 8px;
+      transition: scale 200ms cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s;
+      animation: MUI_Hide 0.8s forwards;
+
+      & > .MUI_SpeedDial_action_button_tooltip {
+        transform-origin: 100% 50%;
+        right: 100%;
+        margin-right: 8px;
+        opacity: 1;
+        transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        position: absolute;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.5;
+        letter-spacing: 0.00938em;
+        background-color: rgb(255, 255, 255);
+        border-radius: 4px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+          rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+          rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        color: rgba(var(--text-main), 0.6);
+        background-color: rgb(var(--bg-surface));
+        padding: 4px 16px;
+        word-break: keep-all;
+        transition-delay: 0ms;
+        visibility: hidden;
+        &._open {
+          visibility: visible;
+        }
+      }
+      & .MUI_SpeedDial_action_button {
+        color: inherit;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px,
+          rgba(0, 0, 0, 0.14) 0px 6px 10px 0px,
+          rgba(0, 0, 0, 0.12) 0px 1px 18px 0px;
+        background-color: rgb(var(--bg-surface));
+        &:hover {
+          background-color: rgba(var(--text-main), 0.04);
+        }
+        & svg {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          width: 1em;
+          height: 1em;
+          display: inline-block;
+          -webkit-flex-shrink: 0;
+          -ms-flex-negative: 0;
+          flex-shrink: 0;
+          -webkit-transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+          transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+          fill: currentColor;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+
+  &._open {
+    & .MUI_SpeedDial_action_button_root {
+      scale: 1;
+      animation: none;
+    }
+    & .MUI_SpeedDial_action {
+      visibility: visible;
+      animation: none;
+    }
+    & .MUI_default_icon {
+      rotate: 45deg;
+    }
+    & .MUI_FAB_Root {
+      & svg {
+        transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  }
+}
+
+@keyframes MUI_Hide {
+  0% {
+    visibility: visible;
+  }
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}

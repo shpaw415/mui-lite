@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, type RefObject } from "react";
+import { type RefObject } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
 import { useRandomID, type MuiElementType } from "../../common/utils";
 import InputBase from "../InputBase";
@@ -19,21 +19,16 @@ export type TextFieldProps = {
       };
   children?: any;
   resetValue?: boolean;
-  ref?: RefObject<HTMLInputElement>;
+  ref?: RefObject<HTMLInputElement | null>;
 } & Omit<MuiElementType<HTMLInputElement>, "size">;
 
 function TextField({
   color,
   startIcon,
   label,
-  variant,
+  variant = "standard",
   multiline,
   helpText,
-  onFocus,
-  onBlur,
-  onInput,
-  onChange,
-  onReset,
   resetValue,
   defaultValue,
   endIcon,
@@ -43,7 +38,6 @@ function TextField({
   ...props
 }: TextFieldProps) {
   const style = useStyle(sx);
-  variant = variant ? variant : "standard";
 
   const classes_wrapper = useClassNames({
     component_name: "TextField_Wrapper",

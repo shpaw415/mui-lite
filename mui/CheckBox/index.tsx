@@ -12,6 +12,7 @@ import clsx from "clsx";
 import CheckboxBorder from "@svg/filled/check_box_outline_blank.svg";
 import CheckboxChecked from "@svg/filled/check_box.svg";
 import IconButton from "../IconButton";
+import { useMuiRef } from "../../common/utils";
 
 type _MuiCheckBox = {
   label?: string;
@@ -42,14 +43,14 @@ export default function CheckBox({
   colorOverRide,
   ...props
 }: MuiCheckBox) {
-  const ref = props.ref || useRef<HTMLInputElement>(null);
+  const ref = useMuiRef(props.ref);
 
   const wrapper = useClassNames({
     component_name: "Checkbox",
     state: [color, size],
   });
 
-  const ID = props.id || useRandomID();
+  const ID = props.id || "ID_" + useRandomID();
 
   const RenderCheck = useCallback(
     ({ checked }: { checked?: boolean }) => {
