@@ -1,24 +1,22 @@
-# material_ui_retinked
+# mui-lite
 
 To install:
 
 ```bash
-bun i material_ui_retinked
+bun i mui-lite
 ```
 
 
 ```javascript XML
-import { DefaultTheme, ThemeProvider, type MuiTheme } from "@bunpmjs/mui-lite/common/theme";
-import "@material_ui_rethinked/style/mui-style.css"
-
-
+import "@bunpmjs/mui-lite/style.css";
+import { ThemeProvider, DefaultTheme } from "@bunpmjs/mui-lite/common/theme";
+import Button from "@bunpmjs/mui-lite/Button";
 
 export default function App() {
-    return (<ThemeProvider theme={DefaultTheme}>
-        <html>
-            
-        </html>
-    </ThemeProvider>);
+    return (
+        <ThemeProvider theme={DefaultTheme}>
+            <Button>Material UI Button</Button>
+        </ThemeProvider>
+    );
 }
-
 ```
