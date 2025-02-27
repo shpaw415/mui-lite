@@ -58,19 +58,23 @@ body {
     opacity: 0.4;
   }
   50% {
-    transform: scale(2.5);
+    transform: scale(200);
     opacity: 0.2;
   }
   100% {
-    transform: scale(4);
+    transform: scale(400);
     opacity: 0;
   }
 }
 
 .animate-ripple {
+  position: absolute;
   animation: ripple 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
   background-color: rgb(var(--color-override, var(--bg-main)));
   cursor: inherit;
+  max-width: 1px;
+  max-height: 1px;
+  overflow: visible;
 }
 .MUI_Ripple:is(._primary) {
   background-color: rgb(var(--bg-primary));

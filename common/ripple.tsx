@@ -50,8 +50,8 @@ const RippleEffect: React.FC<RippleEffectProps> = ({
 
     const { left, top, width, height } = container.getBoundingClientRect();
     const size = Math.max(width, height);
-    const x = e.clientX - left - size / 2 + (offset?.left || 0);
-    const y = e.clientY - top - size / 2 + (offset?.top || 0);
+    const x = e.clientX - left - width + (offset?.left || 0);
+    const y = e.clientY - top - height + (offset?.top || 0);
 
     setRipples((prevRipples) => [...prevRipples, { x, y }]);
   }, []);
@@ -121,10 +121,10 @@ function RippleBase({
     if (!container) return;
     !preventClickElement && container.click();
 
-    const { left, top, width, height } = container.getBoundingClientRect();
-    const size = Math.max(width, height);
-    const x = e.clientX + 75 - left - size / 2 + (offset?.left || 0);
-    const y = e.clientY + 75 - top - size / 2 + (offset?.top || 0);
+    const { left, top } = container.getBoundingClientRect();
+
+    const x = e.clientX - left + (offset?.left || 0);
+    const y = e.clientY - top + (offset?.top || 0);
 
     setRipples((prevRipples) => [...prevRipples, { x, y }]);
   }, []);
@@ -133,7 +133,7 @@ function RippleBase({
     if (ripples.length > 0) {
       const timeout = setTimeout(() => {
         setRipples([]);
-      }, 600);
+      }, 100000);
       return () => clearTimeout(timeout);
     }
   }, [ripples]);
@@ -164,8 +164,8 @@ function RippleBase({
       key={index}
       className={`absolute rounded-full bg-current opacity-40 animate-ripple w-[100px] h-[100px] ${rippleClass.combined}`}
       style={{
-        left: `${ripple.x}px`,
-        top: `${ripple.y}px`,
+        left: ripple.x,
+        top: ripple.y,
         ...overRide,
         ...style.styleFromSx,
       }}
