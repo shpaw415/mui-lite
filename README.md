@@ -12,9 +12,9 @@ npm i mui-lite
 
 
 ```javascript XML
-import "mui-lite/style.css";
-import { ThemeProvider, DefaultTheme } from "mui-lite/theme";
-import Button from "mui-lite/Button";
+import "@bunpmjs/mui-lite/style.css";
+import { ThemeProvider, DefaultTheme } from "@bunpmjs/mui-lite/theme";
+import Button from "@bunpmjs/mui-lite/Button";
 
 export default function App() {
     return (
