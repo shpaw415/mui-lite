@@ -269,7 +269,7 @@ export default function ToolTip({
             ...props.sx,
           }}
           className={tooltip.combined}
-          ref={tooltipRef as React.RefObject<HTMLParagraphElement>}
+          ref={tooltipRef}
         >
           {title}
         </Typography>

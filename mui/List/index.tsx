@@ -87,6 +87,7 @@ export function ListItem({
       disableGutters && "disabled-gutters",
     ],
   });
+
   return createElement(component, {
     ...props,
     style: style.styleFromSx,
@@ -177,8 +178,8 @@ export type ListItemTextProps<T extends keyof JSX.IntrinsicElements> = {
   secondary?: React.ReactNode;
   inset?: boolean;
   SlotProps?: SlotProps<{
-    primary: BoxProps;
-    secondary: BoxProps;
+    primary: BoxProps<HTMLSpanElement>;
+    secondary: BoxProps<HTMLParagraphElement>;
   }>;
 } & MuiElementType<HTMLDivElement>;
 

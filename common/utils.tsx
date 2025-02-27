@@ -57,7 +57,7 @@ export function specialCharToUnderScore(str: string) {
 }
 /**
  *
- * @param callback the function that will be called when a click occure
+ * @param callback the function that will be called when a click occur
  * @returns the ref object to set to the element that do not trigger the callback
  */
 export function useClickAwayListener<RefType extends HTMLElement>(
@@ -168,7 +168,7 @@ export function useRandomID(default_value?: string, len?: number) {
   return id;
 }
 
-export type MuiElementType<HTMLType> = Exclude<
+export type MuiElementType<HTMLType extends HTMLElement> = Exclude<
   React.HTMLProps<HTMLType>,
   "style"
 > & {

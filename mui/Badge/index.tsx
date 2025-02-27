@@ -1,9 +1,10 @@
-import { useClassNames, useStyle } from "../../common/theme";
+import { useClassNames } from "../../common/theme";
 import type { MuiElementColors, MuiElementType } from "../../common/utils";
-import { useCallback } from "react";
+import { useCallback, type JSX } from "react";
+import Box from "../Box";
 
 export type BadgeProps = {
-  badgeContent?: number;
+  badgeContent?: number | JSX.Element;
   invisible?: boolean;
   /** default 99 */
   max?: number;
@@ -16,7 +17,6 @@ export type BadgeProps = {
 export default function Badge({
   children,
   className,
-  sx,
   badgeContent,
   invisible,
   max = 99,
@@ -25,7 +25,6 @@ export default function Badge({
   position = "top-right",
   ...props
 }: BadgeProps) {
-  const style = useStyle(sx);
   const wrapper = useClassNames({
     component_name: "Badge_Wrapper",
   });
@@ -49,11 +48,13 @@ export default function Badge({
   );
 
   return (
-    <span className={wrapper.combined}>
+    <Box Element="span" className={wrapper.combined}>
       {children}
-      <span style={style.styleFromSx} className={root.combined} {...props}>
-        {BadgeRender(badgeContent)}
-      </span>
-    </span>
+      <Box Element="span" className={root.combined} {...(props as any)}>
+        {typeof badgeContent == "number"
+          ? BadgeRender(badgeContent)
+          : badgeContent}
+      </Box>
+    </Box>
   );
 }

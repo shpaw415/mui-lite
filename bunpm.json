@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "include": [
+    "README.md",
+    "custom.d.ts",
+    "tsconfig.json",
+    "style",
+    "mui",
+    "common"
+  ]
+}

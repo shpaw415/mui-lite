@@ -5,8 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
-  type ElementType,
-  type ReactElement,
+  type JSX,
   type ReactNode,
 } from "react";
 
@@ -111,7 +110,13 @@ export default function Pagination({
         {showFirstButton && (
           <li>
             <PaginationItem
-              onClick={(e) => page - 1 >= 0 && onChange?.(e, 1)}
+              onClick={(e) =>
+                page - 1 >= 0 &&
+                onChange?.(
+                  e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+                  1
+                )
+              }
               disabled={!Boolean(page - 1 > 0)}
             >
               {firstButtonIcon || <FirstPageIcon />}
@@ -121,7 +126,13 @@ export default function Pagination({
         {!hidePrevButton && (
           <li>
             <PaginationItem
-              onClick={(e) => page - 1 >= 0 && onChange?.(e, page - 1)}
+              onClick={(e) =>
+                page - 1 >= 0 &&
+                onChange?.(
+                  e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+                  page - 1
+                )
+              }
               disabled={!Boolean(page - 1 > 0)}
             >
               {previousIcon || <ArrowBackIcon />}
@@ -168,7 +179,13 @@ export default function Pagination({
         {!hideNextButton && (
           <li>
             <PaginationItem
-              onClick={(e) => page + 1 <= count && onChange?.(e, page + 1)}
+              onClick={(e) =>
+                page + 1 <= count &&
+                onChange?.(
+                  e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+                  page + 1
+                )
+              }
               disabled={!Boolean(page + 1 <= count)}
             >
               {nextIcon || <ArrowNextIcon />}
@@ -178,7 +195,13 @@ export default function Pagination({
         {showLastButton && (
           <li>
             <PaginationItem
-              onClick={(e) => page + 1 <= count && onChange?.(e, count)}
+              onClick={(e) =>
+                page + 1 <= count &&
+                onChange?.(
+                  e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+                  count
+                )
+              }
               disabled={!Boolean(page + 1 <= count)}
             >
               {lastButtonIcon || <LastPageIcon />}
@@ -210,7 +233,12 @@ function PaginationItemCount({
   return (
     <ul>
       <PaginationItem
-        onClick={(e) => onChange?.(e, index)}
+        onClick={(e) =>
+          onChange?.(
+            e as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+            index
+          )
+        }
         selected={page == index}
       >
         {index}
@@ -219,7 +247,7 @@ function PaginationItemCount({
   );
 }
 
-export type PaginationItemProps = BoxProps & {
+export type PaginationItemProps = BoxProps<HTMLButtonElement> & {
   selected?: boolean;
 };
 
@@ -258,17 +286,20 @@ function PaginationItem({
 
 export type TablePaginationProps = {
   count: number;
-  onPageChange?: (event: React.MouseEvent | null, page: number) => void;
+  onPageChange?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    page: number
+  ) => void;
   onRowsPerPageChange?: (rowPerPage: 10 | 25 | 50 | 100) => void;
   page?: number;
   /** set to -1 for all row */
   rowsPerPage?: 10 | 25 | 50 | 100;
-  component?: ElementType;
+  component?: keyof JSX.IntrinsicElements;
   SlotProps?: SlotProps<{
-    toolbar?: BoxProps;
-    label?: BoxProps;
-    spacer?: BoxProps;
-    action?: BoxProps;
+    toolbar?: BoxProps<HTMLDivElement>;
+    label?: BoxProps<HTMLDivElement>;
+    spacer?: BoxProps<HTMLDivElement>;
+    action?: BoxProps<HTMLDivElement>;
     displayRows?: MuiTypographyProps<HTMLParagraphElement>;
   }>;
   labelDisplayedRows?: ({
@@ -282,7 +313,7 @@ export type TablePaginationProps = {
   }) => string;
   getItemAriaLabel?: (type: "first" | "last" | "next" | "previous") => string;
   labelRowsPerPage?: string;
-} & BoxProps;
+} & BoxProps<HTMLDivElement>;
 
 export function TablePagination({
   component = "div",

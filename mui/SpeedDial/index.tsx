@@ -19,11 +19,11 @@ export type SpeedDialProps = {
   onClose?: () => void;
   SlotProps?: SlotProps<{
     fab: FABProps;
-    action?: BoxProps;
+    action?: BoxProps<HTMLDivElement>;
   }>;
   hidden?: boolean;
   trigger?: ("click" | "hover")[];
-} & BoxProps;
+} & BoxProps<HTMLDivElement>;
 
 export default function SpeedDial({
   children,
@@ -108,9 +108,9 @@ export type SpeedDialActionProps = {
   icon?: ReactNode;
   SlotProps?: SlotProps<{
     icon: MuiIconButtonProps;
-    tooltip?: BoxProps;
+    tooltip?: BoxProps<HTMLParagraphElement>;
     "native-tooltip": Partial<ToolTipProps>;
-    root?: BoxProps;
+    root?: BoxProps<HTMLSpanElement>;
   }>;
   tooltipOpen?: boolean;
 } & Omit<MuiIconButtonProps, "children">;

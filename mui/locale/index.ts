@@ -12,11 +12,17 @@ export interface Localization {
       defaultProps: Pick<AlertProps & { closeText: string }, "closeText">;
     };
     MuiBreadcrumbs?: {
-      defaultProps: Pick<{ expandText: string }, "expandText">;
+      defaultProps: Pick<
+        { expandText?: string; getItemAriaLabel?: (val: any) => string },
+        "expandText" | "getItemAriaLabel"
+      >;
     };
     MuiTablePagination?: {
       defaultProps: Pick<
-        TablePaginationProps,
+        Omit<TablePaginationProps, "getItemAriaLabel"> & {
+          getItemAriaLabel?: (type: string) => string;
+          labelDisplayedRows?: (val: any) => string;
+        },
         "labelRowsPerPage" | "labelDisplayedRows" | "getItemAriaLabel"
       >;
     };

@@ -219,7 +219,9 @@ export default function AutoComplete({
                   key={opt}
                   index-data={i}
                   onClick={() => onSelectHandler(opt)}
-                  onMouseEnter={mouseEnterHandler}
+                  onMouseEnter={
+                    mouseEnterHandler as React.MouseEventHandler<HTMLButtonElement>
+                  }
                 >
                   {opt}
                 </ListItemButton>
@@ -234,7 +236,9 @@ export default function AutoComplete({
                   ].join(" ")}
                   index-data={i}
                   onClick={() => onSelectHandler(opt)}
-                  onMouseEnter={mouseEnterHandler}
+                  onMouseEnter={
+                    mouseEnterHandler as React.MouseEventHandler<HTMLButtonElement>
+                  }
                 >
                   {opt.label}
                 </ListItemButton>

@@ -164,8 +164,8 @@ function Slider({
               (valueLabelFormat && valueLabelFormat(fromPercent(value))) ??
               fromPercent(value)
             ).toString()}
-            position="top"
-            trigger={valueLabelDisplay == "on" ? "on" : "onMouseDown"}
+            placement="top"
+            triggers={valueLabelDisplay == "on" ? ["hover"] : ["click"]}
             key={index}
             sx={{
               translate: "-11px 15px",

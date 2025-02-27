@@ -12,6 +12,7 @@ import ArrowDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
 import { List, ListItem } from "../List";
 import Box from "../Box";
 import { type JSX } from "react";
+import { useMuiRef } from "@/common/utils";
 
 export type SelectProps = {
   value?: string;
@@ -48,7 +49,7 @@ function Select({
     }
     return "";
   }, [defaultValue]);
-  const ref = props.ref || useRef<HTMLInputElement>(null);
+  const ref = useMuiRef(props.ref);
   const [_value, setValue] = useState(defaultValue || "");
   const [displayedValue, setDisplayedValue] =
     useState<string>(DefaultValueMemo);
@@ -118,16 +119,13 @@ function Select({
       <Box className={dropDown.combined} sx={dropDownSx}>
         <List className="overflow-auto" disablePadding>
           {(children as Array<JSX.Element>).map((child, index) => {
-            console.log(
-              (displayedValue || DefaultValueMemo) == child.props?.value
-            );
             return (
               <ListItem
                 e-value={child.props.value}
                 key={index}
                 onClick={(ev) => {
                   OnSelectHandler(child, index);
-                  ev.currentTarget.blur();
+                  ref.current?.blur();
                 }}
                 className={
                   (displayedValue || DefaultValueMemo) == child.props?.value

@@ -27,6 +27,8 @@
   "exports": {
     "./*": "./mui/*/index.tsx",
     "./style.css": "./style/mui-style.css",
-    "./theme": "./common/theme/index.tsx"
-  }
+    "./theme": "./common/theme/index.tsx",
+    "./utils": "./common/utils.tsx"
+  },
+  "private": false
 }

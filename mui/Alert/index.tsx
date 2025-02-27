@@ -9,7 +9,6 @@ import InfoIcon from "./info.svg";
 import SuccessIcon from "./success.svg";
 import Paper, { type PaperProps } from "../Paper";
 import { useClassNames, useStyle, useTheme } from "../../common/theme";
-import clsx from "clsx";
 import type { ButtonProps } from "../Button";
 import IconButton from "../IconButton";
 import { type SlotProps } from "../../common/utils";
@@ -24,7 +23,7 @@ export type AlertProps = {
   textColor?: CSSProperties["color"];
   onClose?: React.MouseEventHandler<HTMLButtonElement>;
   SlotProps?: SlotProps<{
-    icon?: BoxProps;
+    icon?: BoxProps<HTMLDivElement>;
   }>;
 } & Omit<PaperProps, "variant" | "action">;
 
