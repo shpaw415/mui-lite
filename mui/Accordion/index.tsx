@@ -4,7 +4,7 @@ import Paper from "../Paper";
 import { useClassNames, useStyle, type SxProps } from "../../common/theme";
 import { createContext, useContext, useRef, useState, type JSX } from "react";
 
-import ExpendIcon from "@svg/filled/expand_more.svg";
+import ExpendIcon from "@material-design-icons/svg/filled/expand_more.svg";
 
 export type AccordionProps = {
   expended?: boolean;

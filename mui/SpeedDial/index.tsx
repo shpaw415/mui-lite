@@ -2,7 +2,7 @@ import { useClassNames } from "../../common/theme";
 import Box, { type BoxProps } from "../Box";
 import { useClickAwayListener, type SlotProps } from "../../common/utils";
 
-import AddIcon from "@svg/filled/add.svg";
+import AddIcon from "@material-design-icons/filled/add.svg";
 import FAB, { type FABProps } from "../FloatingActionButton";
 import { cloneElement, useCallback, type JSX, type ReactNode } from "react";
 import IconButton, { type MuiIconButtonProps } from "../IconButton";

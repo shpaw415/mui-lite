@@ -1,9 +1,9 @@
 import { PropsOverRideProvider, useColorOverRide } from "../../common/utils";
 import { useMemo, type CSSProperties, type JSX } from "react";
 
-import ErrorIcon from "@svg/filled/error_outline.svg";
-import WarningIcon from "@svg/filled/warning_amber.svg";
-import CloseIcon from "@svg/filled/close.svg";
+import ErrorIcon from "@material-design-icons/svg/filled/error_outline.svg";
+import WarningIcon from "@material-design-icons/svg/filled/warning_amber.svg";
+import CloseIcon from "@material-design-icons/svg/filled/close.svg";
 
 import InfoIcon from "./info.svg";
 import SuccessIcon from "./success.svg";

@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
@@ -21,10 +17,10 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
     "paths": {
-      "@svg/*": [
+      "@material-design-icons/svg/*": [
         "./node_modules/@material-design-icons/svg/*"
       ]
-    },
+    }
   },
   "include": [
     "./custom.d.ts",
@@ -33,7 +29,5 @@
     "./style",
     "./common"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

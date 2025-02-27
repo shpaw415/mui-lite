@@ -6,7 +6,7 @@ import {
   type MuiElementType,
 } from "../../common/utils";
 import { type JSX, type RefObject } from "react";
-import CancelIcon from "@svg/filled/cancel.svg";
+import CancelIcon from "@material-design-icons/svg/filled/cancel.svg";
 import { useMuiRef } from "../../common/utils";
 
 export type ChipProps = {

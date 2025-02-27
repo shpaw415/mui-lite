@@ -9,8 +9,8 @@ import {
 } from "../../common/utils";
 import clsx from "clsx";
 
-import CheckboxBorder from "@svg/filled/check_box_outline_blank.svg";
-import CheckboxChecked from "@svg/filled/check_box.svg";
+import CheckboxBorder from "@material-design-icons/filled/check_box_outline_blank.svg";
+import CheckboxChecked from "@material-design-icons/filled/check_box.svg";
 import IconButton from "../IconButton";
 import { useMuiRef } from "../../common/utils";
 

@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type RefObject,
 } from "react";
@@ -12,7 +11,7 @@ import ArrowDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
 import { List, ListItem } from "../List";
 import Box from "../Box";
 import { type JSX } from "react";
-import { useMuiRef } from "@/common/utils";
+import { useMuiRef } from "../../common/utils";
 
 export type SelectProps = {
   value?: string;
