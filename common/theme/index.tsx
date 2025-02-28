@@ -357,7 +357,8 @@ const muiThemeExclude = ["theme", "locale"];
 type muiThemeWithoutExcludedType = keyof Omit<MuiTheme, "theme" | "locale">;
 
 function ArrToStr(val: [number, number, number, number]) {
-  return [val[0], val[1], val[2]].join(", ");
+  if (!Array.isArray(val) || val.length < 3) return undefined;
+  return [val.at(0), val.at(1), val.at(2)].join(", ");
 }
 export function ThemeToCssVar(theme: MuiTheme) {
   const currentTheme = theme.theme;
@@ -372,17 +373,17 @@ export function ThemeToCssVar(theme: MuiTheme) {
     .map((key) => {
       let rgbArray: [number, number, number, number] = fromString(
         theme[key][currentTheme]
-      ).toRgbaArray();
-      const currentColor = `--${key}: ${ArrToStr(rgbArray)};`;
+      )?.toRgbaArray?.();
+      const currentColor = `--${key}: ${rgbArray && ArrToStr(rgbArray)};`;
 
-      rgbArray = fromString(theme[key].light).toRgbaArray();
-      const light = `--${key}-light: ${ArrToStr(rgbArray)}`;
+      rgbArray = fromString(theme[key].light)?.toRgbaArray?.();
+      const light = `--${key}-light: ${rgbArray && ArrToStr(rgbArray)}`;
 
-      rgbArray = fromString(theme[key].dark).toRgbaArray();
-      const dark = `--${key}-dark: ${ArrToStr(rgbArray)}`;
+      rgbArray = fromString(theme[key].dark)?.toRgbaArray?.();
+      const dark = `--${key}-dark: ${rgbArray && ArrToStr(rgbArray)}`;
 
-      rgbArray = fromString(theme[key].main).toRgbaArray();
-      const main = `--${key}-main: ${ArrToStr(rgbArray)}`;
+      rgbArray = fromString(theme[key].main)?.toRgbaArray?.();
+      const main = `--${key}-main: ${rgbArray && ArrToStr(rgbArray)}`;
 
       return `${currentColor};\n${light};\n${dark};\n${main};`.replace(
         ";;",
