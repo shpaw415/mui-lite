@@ -1,7 +1,13 @@
 import { useClassNames } from "../../common/theme";
 import Paper, { type PaperProps } from "../Paper";
-import { type SlotProps } from "../../common/utils";
-import { useRef, type CSSProperties, type JSX, type RefObject } from "react";
+import { usePreventScroll, type SlotProps } from "../../common/utils";
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type JSX,
+  type RefObject,
+} from "react";
 import Backdrop, { type BackdropProps } from "../Backdrop";
 import { useSwipe, type SwipeOptions } from "../../common/swipe";
 
@@ -67,6 +73,13 @@ export default function Drawer({
     !Boolean(swipeOptions) || anchor == "bottom" || anchor == "top"
   );
 
+  const [prevent, restore] = usePreventScroll();
+
+  useEffect(() => {
+    if (variant != "temporary") return;
+    open ? prevent() : restore();
+  }, [open]);
+
   return (
     <>
       <Backdrop
@@ -87,8 +100,10 @@ export default function Drawer({
           onClose?.();
         }}
         sx={{
-          width: open ? width : undefined,
-          ...{ "--closed-width": minifiedWidth || "0px" },
+          ...{
+            "--closed-width": minifiedWidth || "0px",
+            "--width": `${width ?? 200}px`,
+          },
           ...props.sx,
         }}
       />

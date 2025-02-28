@@ -11,7 +11,7 @@ import {
   type RefObject,
 } from "react";
 import {
-  MediaQueryKeys,
+  MediaQueryToNumbers,
   MediaQueryValuesContext,
   ThemeWrapperRefContext,
   type MediaQueryType,
@@ -131,20 +131,12 @@ export function useMouseMoveListener(callback: (ev: MouseEvent) => void) {
  */
 export function useMediaQuery() {
   const mediaQuery = useContext(MediaQueryValuesContext);
-  const [currentSx, setSxType] = useState<keyof MediaQueryType>(() => {
-    if (typeof window == "undefined") return "md";
-    for (const query of MediaQueryKeys.reverse() as Array<
-      keyof MediaQueryType
-    >) {
-      if (window.innerWidth >= mediaQuery[query]) return query;
-    }
-    return "md";
-  });
+  const [currentSx, setSxType] = useState<keyof MediaQueryType>("md");
 
   useEffect(() => {
     const callback = () => {
       const w = window.innerWidth;
-      for (const query of MediaQueryKeys.reverse() as Array<
+      for (const query of Object.keys(mediaQuery).reverse() as Array<
         keyof MediaQueryType
       >) {
         if (w >= mediaQuery[query]) return setSxType(query);
@@ -152,12 +144,39 @@ export function useMediaQuery() {
     };
     window.addEventListener("resize", callback);
 
+    callback();
+
     return () => {
       window.removeEventListener("resize", callback);
     };
   }, []);
 
   return currentSx;
+}
+
+/**
+ *
+ * @param query MediaQuery key to test
+ * @param currentQuery The Current MediaQuery key
+ * @returns query >= currentQuery: true
+ */
+export function MediaQueryLessThen(
+  query: keyof MediaQueryType,
+  currentQuery: keyof MediaQueryType
+) {
+  return MediaQueryToNumbers[query] >= MediaQueryToNumbers[currentQuery];
+}
+/**
+ *
+ * @param query MediaQuery key to test
+ * @param currentQuery The Current MediaQuery key
+ * @returns query <= currentQuery: true
+ */
+export function MediaQueryGreaterThen(
+  query: keyof MediaQueryType,
+  currentQuery: keyof MediaQueryType
+) {
+  return MediaQueryToNumbers[query] <= MediaQueryToNumbers[currentQuery];
 }
 
 export function useRandomID(default_value?: string, len?: number) {

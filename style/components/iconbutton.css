@@ -45,13 +45,13 @@
   transform: scale(1.6);
 }
 .MUI_IconButton_Root:is(._primary) {
-  color: rgb(var(--text-primary));
+  color: rgb(var(--color-override, var(--text-primary)));
 }
 .MUI_IconButton_Root:is(._primary):hover {
   background-color: rgba(var(--bg-primary), 0.1);
 }
 .MUI_IconButton_Root:is(._secondary) {
-  color: rgb(var(--text-secondary));
+  color: rgb(var(--color-override, var(--text-secondary)));
 }
 .MUI_IconButton_Root:is(._secondary):hover {
   background-color: rgba(var(--bg-secondary), 0.1);

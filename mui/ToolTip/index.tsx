@@ -34,6 +34,7 @@ export type ToolTipProps = {
   children: JSX.Element;
   ref?: React.RefObject<HTMLParagraphElement>;
   variant?: "light" | "dark";
+  preventAutoPlacement?: boolean;
 } & MuiTypographyProps<HTMLParagraphElement>;
 
 export default function ToolTip({
@@ -54,6 +55,7 @@ export default function ToolTip({
   children,
   triggers = ["hover"],
   variant = "dark",
+  preventAutoPlacement,
   ...props
 }: ToolTipProps) {
   const [, _setTimeout] = useState<Timer>();
@@ -67,7 +69,8 @@ export default function ToolTip({
 
   const [tooltipRef, triggerCheck] = useViewPortVisible(
     (visible) => {
-      if (visible.x && visible.y) return setBypassPlacement(undefined);
+      if ((visible.x && visible.y) || preventAutoPlacement)
+        return setBypassPlacement(undefined);
       switch (placement) {
         case "top":
           setBypassPlacement("bottom");
@@ -92,7 +95,10 @@ export default function ToolTip({
     const coord = elRef.current?.getBoundingClientRect();
     setCoord({
       top: coord?.top || 0,
-      left: coord?.left || 0,
+      left:
+        placement == "right"
+          ? (coord?.left || 0) + (coord?.width || 0)
+          : coord?.left || 0,
     });
   }, [elRef.current]);
 
@@ -115,7 +121,7 @@ export default function ToolTip({
         clearTimeout(c);
         return setTimeout(() => {
           setActive(true);
-        }, enterDelay || 400);
+        }, enterDelay ?? 400);
       });
     },
     [disabled, props.onMouseEnter, onOpen]
@@ -127,7 +133,7 @@ export default function ToolTip({
       if (open != undefined) return;
       _setTimeout((c) => {
         clearTimeout(c);
-        return setTimeout(() => setActive(false), leaveDelay || 100);
+        return setTimeout(() => setActive(false), leaveDelay ?? 100);
       });
     },
     [open, props.onMouseLeave, onClose]

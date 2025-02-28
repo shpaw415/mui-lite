@@ -92,6 +92,7 @@ export default function CheckBox({
         disabled={props.disabled}
         size={size}
         sx={sx}
+        type="button"
       >
         <RenderCheck
           checked={

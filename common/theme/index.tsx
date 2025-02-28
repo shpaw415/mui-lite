@@ -62,6 +62,10 @@ export const MediaQueryKeys: Array<keyof MediaQueryType> = [
   "lg",
   "xl",
 ];
+export const MediaQueryToNumbers = Object.assign(
+  {},
+  ...MediaQueryKeys.map((key, i) => ({ [key]: i }))
+) as Record<keyof MediaQueryType, number>;
 
 export function MediaQueryProvider({
   value,
