@@ -9,11 +9,11 @@ import {
   type ReactNode,
 } from "react";
 
-import ArrowBackIcon from "@material-design-icons/filled/navigate_before.svg";
-import ArrowNextIcon from "@material-design-icons/filled/navigate_next.svg";
-import FirstPageIcon from "@material-design-icons/filled/first_page.svg";
-import LastPageIcon from "@material-design-icons/filled/last_page.svg";
-import ArrowDropDown from "@material-design-icons/filled/arrow_drop_down.svg";
+import ArrowBackIcon from "@material-design-icons/svg/filled/navigate_before.svg";
+import ArrowNextIcon from "@material-design-icons/svg/filled/navigate_next.svg";
+import FirstPageIcon from "@material-design-icons/svg/filled/first_page.svg";
+import LastPageIcon from "@material-design-icons/svg/filled/last_page.svg";
+import ArrowDropDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
 
 import { RippleBase } from "../../common/ripple";
 import type { BoxProps } from "../Box";
