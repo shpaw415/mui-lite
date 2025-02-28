@@ -451,7 +451,7 @@ const ValueUpdateContext = createContext<
     ((theme: MuiTheme) => void)[],
     React.Dispatch<React.SetStateAction<((theme: MuiTheme) => void)[]>>
   ]
->([] as any);
+>([() => {}, () => {}] as any);
 
 export const ThemeWrapperRefContext =
   createContext<RefObject<HTMLElement | null> | null>(null);
