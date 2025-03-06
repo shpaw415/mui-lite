@@ -8,10 +8,10 @@ import {
   type RefObject,
 } from "react";
 import ArrowDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
-import { List, ListItem } from "../List";
-import Box from "../Box";
+import { List, ListItemButton, ListItemText, type ListProps } from "../List";
+import Box, { type BoxProps } from "../Box";
 import { type JSX } from "react";
-import { useMuiRef } from "../../common/utils";
+import { type SlotProps } from "../../common/utils";
 
 export type SelectProps = {
   value?: string;
@@ -19,7 +19,10 @@ export type SelectProps = {
   onSelect?: (value: string, option: JSX.Element) => void;
   defaultValue?: string;
   children: JSX.Element[] | JSX.Element;
-  dropDownSx?: SxProps;
+  SlotProps?: SlotProps<{
+    "dropdown-wrapper": BoxProps<HTMLDivElement>;
+    "dropdown-list": ListProps;
+  }>;
   formatName?: (value: string | JSX.Element) => string;
   sx?: SxProps;
   ref?: RefObject<HTMLInputElement>;
@@ -32,7 +35,7 @@ function Select({
   defaultValue,
   children,
   onSelect,
-  dropDownSx,
+  SlotProps,
   formatName,
   ...props
 }: SelectProps) {
@@ -48,7 +51,6 @@ function Select({
     }
     return "";
   }, [defaultValue]);
-  const ref = useMuiRef(props.ref);
   const [_value, setValue] = useState(defaultValue || "");
   const [displayedValue, setDisplayedValue] =
     useState<string>(DefaultValueMemo);
@@ -63,6 +65,7 @@ function Select({
 
   const dropDown = useClassNames({
     component_name: "Select_DropDown_Root",
+    className: SlotProps?.["dropdown-wrapper"]?.className,
   });
 
   const select = useClassNames({
@@ -113,18 +116,24 @@ function Select({
         sx={sx}
         readOnly
         {...props}
-        ref={ref}
       />
-      <Box className={dropDown.combined} sx={dropDownSx}>
-        <List className="overflow-auto" disablePadding>
+      <Box {...SlotProps?.["dropdown-wrapper"]} className={dropDown.combined}>
+        <List
+          {...SlotProps?.["dropdown-list"]}
+          className={[
+            "overflow-auto",
+            SlotProps?.["dropdown-list"]?.className,
+          ].join(" ")}
+          disablePadding
+        >
           {(children as Array<JSX.Element>).map((child, index) => {
             return (
-              <ListItem
+              <ListItemButton
                 e-value={child.props.value}
                 key={index}
                 onClick={(ev) => {
                   OnSelectHandler(child, index);
-                  ref.current?.blur();
+                  ev.currentTarget.blur();
                 }}
                 className={
                   (displayedValue || DefaultValueMemo) == child.props?.value
@@ -132,8 +141,12 @@ function Select({
                     : ""
                 }
               >
-                {child?.props?.children || ""}
-              </ListItem>
+                {typeof child.props.children == "string" ? (
+                  <ListItemText primary={child?.props?.children} />
+                ) : (
+                  child?.props?.children
+                )}
+              </ListItemButton>
             );
           })}
         </List>

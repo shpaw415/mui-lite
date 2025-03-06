@@ -49,7 +49,7 @@
 .MUI_Paper_Dialog_Root {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
 }
 
 .MUI_Dialog_Root:not(._fullScreen) .MUI_Paper_Dialog_Root {

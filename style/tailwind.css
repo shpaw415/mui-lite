@@ -672,10 +672,6 @@ video {
   display: none;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-8 {
   height: 2rem;
 }
@@ -701,16 +697,8 @@ video {
   min-height: 100%;
 }
 
-.w-10 {
-  width: 2.5rem;
-}
-
 .w-\[100px\] {
   width: 100px;
-}
-
-.w-\[200px\] {
-  width: 200px;
 }
 
 .w-fit {
@@ -804,10 +792,6 @@ video {
   border-radius: 9999px;
 }
 
-.border {
-  border-width: 1px;
-}
-
 .bg-current {
   background-color: currentColor;
 }
@@ -852,10 +836,6 @@ video {
 
 .fill-current {
   fill: currentColor;
-}
-
-.fill-slate-500 {
-  fill: #64748b;
 }
 
 .p-10 {

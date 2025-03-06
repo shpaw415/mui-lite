@@ -30,7 +30,6 @@ function TextField({
   multiline,
   helpText,
   resetValue,
-  defaultValue,
   endIcon,
   children,
   sx,

@@ -94,7 +94,7 @@ export default function ToolTip({
   const coordSetter = useCallback(() => {
     const coord = elRef.current?.getBoundingClientRect();
     setCoord({
-      top: coord?.top || 0,
+      top: (coord?.top || 0) + window.scrollY,
       left:
         placement == "right"
           ? (coord?.left || 0) + (coord?.width || 0)
@@ -102,7 +102,10 @@ export default function ToolTip({
     });
   }, [elRef.current]);
 
-  useEffect(() => coordSetter(), [elRef.current]);
+  useEffect(
+    () => coordSetter(),
+    [elRef.current, elRef.current?.offsetTop, elRef.current?.offsetLeft]
+  );
 
   useEffect(() => {
     if (active != open && open != undefined) setActive(open);

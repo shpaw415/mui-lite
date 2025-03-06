@@ -14,6 +14,7 @@ import {
 } from "react";
 import {
   ColorToRGBArray,
+  GlobalMediaQueryProvider,
   RGBAArrayToRGB,
   useMediaQuery,
   useRandomID,
@@ -479,24 +480,30 @@ export function ThemeProvider({
   const wrapperRef = useRef<HTMLElement>(props?.ref?.current || null);
   const id = "THEME_" + useRandomID().substring(0, 9);
   return (
-    <MuiColors value={currentTheme}>
-      <style type="text/css">
-        {`.${id}`}
-        {`{\n${ThemeToCssVar(currentTheme)}\n}`}
-      </style>
-      <WrapperElement
-        {...props}
-        className={clsx(id, `MUI_Theme_Wrapper MUI_${theme.theme}`, className)}
-        style={style.styleFromSx}
-        ref={wrapperRef}
-      >
-        <ValueUpdateContext value={updateCallbacks}>
-          <ThemeWrapperRefContext value={wrapperRef}>
-            {children}
-          </ThemeWrapperRefContext>
-        </ValueUpdateContext>
-      </WrapperElement>
-    </MuiColors>
+    <GlobalMediaQueryProvider>
+      <MuiColors value={currentTheme}>
+        <style type="text/css">
+          {`.${id}`}
+          {`{\n${ThemeToCssVar(currentTheme)}\n}`}
+        </style>
+        <WrapperElement
+          {...props}
+          className={clsx(
+            id,
+            `MUI_Theme_Wrapper MUI_${theme.theme}`,
+            className
+          )}
+          style={style.styleFromSx}
+          ref={wrapperRef}
+        >
+          <ValueUpdateContext value={updateCallbacks}>
+            <ThemeWrapperRefContext value={wrapperRef}>
+              {children}
+            </ThemeWrapperRefContext>
+          </ValueUpdateContext>
+        </WrapperElement>
+      </MuiColors>
+    </GlobalMediaQueryProvider>
   );
 }
 

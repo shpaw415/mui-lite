@@ -126,20 +126,22 @@ export function useMouseMoveListener(callback: (ev: MouseEvent) => void) {
   }, []);
 }
 
-/**
- * @param callback the function that will be called when a window resize occure
- */
-export function useMediaQuery() {
+const CurrentMediaQueryContext = createContext<keyof MediaQueryType>("md");
+export function GlobalMediaQueryProvider({ children }: { children: any }) {
   const mediaQuery = useContext(MediaQueryValuesContext);
   const [currentSx, setSxType] = useState<keyof MediaQueryType>("md");
 
   useEffect(() => {
+    let current = currentSx;
     const callback = () => {
       const w = window.innerWidth;
       for (const query of Object.keys(mediaQuery).reverse() as Array<
         keyof MediaQueryType
       >) {
-        if (w >= mediaQuery[query]) return setSxType(query);
+        if (w >= mediaQuery[query] && current != query) {
+          current = query;
+          return setSxType(query);
+        }
       }
     };
     window.addEventListener("resize", callback);
@@ -151,7 +153,18 @@ export function useMediaQuery() {
     };
   }, []);
 
-  return currentSx;
+  return (
+    <CurrentMediaQueryContext value={currentSx}>
+      {children}
+    </CurrentMediaQueryContext>
+  );
+}
+
+/**
+ * @param callback the function that will be called when a window resize occure
+ */
+export function useMediaQuery() {
+  return useContext(CurrentMediaQueryContext);
 }
 
 /**

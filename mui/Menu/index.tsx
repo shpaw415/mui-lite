@@ -134,14 +134,13 @@ export default function Menu({
   );
 
   useEffect(() => {
-    if (disablePreventScroll) return;
+    CoordSetter();
     if (open) {
-      setTimeout(() => prevent(), 100);
-      CoordSetter();
+      !disablePreventScroll && setTimeout(() => prevent(), 100);
     } else {
-      restore();
+      !disablePreventScroll && restore();
     }
-  }, [open]);
+  }, [open, anchorEl?.current]);
 
   useEffect(() => {
     window.addEventListener("resize", CoordSetter);
