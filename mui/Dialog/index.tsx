@@ -5,12 +5,13 @@ import {
   PropsOverRideProvider,
   useDragElement,
   useMuiRef,
+  usePreventScroll,
   type MuiElementType,
   type SlotProps,
 } from "../../common/utils";
 import { useClassNames, useStyle } from "../../common/theme";
 import type { ButtonProps } from "../Button";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 export type DialogProps = {
   onBackdropClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -27,6 +28,7 @@ export type DialogProps = {
   draggable?: boolean;
   onDrag?: (e: MouseEvent) => void;
   scroll?: "paper" | "body";
+  preventBodyScroll?: boolean;
 } & Omit<MuiElementType<HTMLDivElement>, "onDrag">;
 
 export default function Dialog({
@@ -45,8 +47,16 @@ export default function Dialog({
   draggable,
   onDrag,
   scroll,
+  preventBodyScroll,
   ...props
 }: DialogProps) {
+  const [preventScroll, restoreScroll] = usePreventScroll();
+
+  useEffect(() => {
+    if (open && preventBodyScroll) preventScroll();
+    else if (!open) restoreScroll();
+  }, [open, preventBodyScroll]);
+
   const root = useClassNames({
     component_name: "Dialog_Root",
     state: [

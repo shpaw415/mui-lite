@@ -581,7 +581,7 @@ export function usePreventScroll(): [Function, Function] {
       overflow: html.style.overflowY,
       padding: body.style.paddingRight,
     });
-    return restoreScroll();
+    return restoreScroll;
   }, []);
 
   return [preventScroll, restoreScroll];
