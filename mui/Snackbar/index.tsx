@@ -1,12 +1,12 @@
 import { useClassNames } from "../../common/theme";
 import type { PaperProps } from "../Paper";
 import Paper from "../Paper";
-import { useEffect, useMemo, useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { type MuiElementType, type SlotProps } from "../../common/utils";
 import Box, { type BoxProps } from "../Box";
 
 type SnackCommon = {
-  message?: string;
+  message?: string | JSX.Element;
   action?: JSX.Element | JSX.Element[];
 };
 
@@ -28,7 +28,7 @@ export type SnackbarProps = SnackCommon & {
   open?: boolean;
   autoHideDuration?: number;
   onClose?: () => void;
-} & MuiElementType<HTMLDivElement>;
+} & Omit<MuiElementType<HTMLDivElement>, "action">;
 
 export default function Snackbar({
   className,

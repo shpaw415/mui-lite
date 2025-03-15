@@ -130,27 +130,21 @@ const CurrentMediaQueryContext = createContext<keyof MediaQueryType>("md");
 export function GlobalMediaQueryProvider({ children }: { children: any }) {
   const mediaQuery = useContext(MediaQueryValuesContext);
   const [currentSx, setSxType] = useState<keyof MediaQueryType>("md");
-
+  const keys = useMemo(
+    () => Object.keys(mediaQuery).reverse() as Array<keyof MediaQueryType>,
+    []
+  );
   useEffect(() => {
-    let current = currentSx;
-    const callback = () => {
-      const w = window.innerWidth;
-      for (const query of Object.keys(mediaQuery).reverse() as Array<
-        keyof MediaQueryType
-      >) {
-        if (w >= mediaQuery[query] && current != query) {
-          current = query;
-          return setSxType(query);
-        }
-      }
-    };
-    window.addEventListener("resize", callback);
-
+    const ctrl = new AbortController();
+    const callback = () =>
+      setSxType(
+        (current) =>
+          keys.find((query) => window.innerWidth >= mediaQuery[query]) ??
+          current
+      );
+    window.addEventListener("resize", callback, { signal: ctrl.signal });
     callback();
-
-    return () => {
-      window.removeEventListener("resize", callback);
-    };
+    return () => ctrl.abort();
   }, []);
 
   return (
@@ -479,65 +473,31 @@ type visibilityProps = {
   default_y: boolean;
 };
 
-/** @returns [ref, function triggering check] */
-export function useViewPortVisible<T extends HTMLElement>(
-  onVisibilityChange: (visible: visibilityProps) => void,
-  ref?: RefObject<T>,
-  deps?: React.DependencyList
-): [RefObject<T | null>, () => void] {
-  const [visible, setVisibility] = useState<visibilityProps>();
-  const _ref = useMuiRef(ref);
-  const current_value = useCallback(() => {
-    const node = _ref.current;
-    const coord = node?.getBoundingClientRect();
-    return {
-      offsetParent: node?.offsetParent,
-      offsetHeight: coord?.height,
-      offsetTop: coord?.top,
-      offsetWidth: coord?.width,
-      offsetLeft: coord?.left,
-    } as T;
-  }, [_ref.current]);
-  const default_value = useMemo(() => current_value(), [_ref.current]);
-
-  const Handler = useCallback(() => {
-    const defVal = isVisibleInViewport(default_value);
-    setVisibility({
-      ...isVisibleInViewport(current_value()),
-      default_x: defVal.x,
-      default_y: defVal.y,
-    });
-  }, [default_value, _ref.current, ref?.current, current_value]);
-
+export function useIsOutOfViewport<T extends HTMLElement>(
+  ref?: RefObject<T | null>,
+  options?: { threshold: number | number[] }
+) {
+  const [isOutOfViewport, setIsOutOfViewport] = useState(false);
   useEffect(() => {
-    if (!_ref.current || default_value.offsetHeight == undefined) return;
-    const defVal = isVisibleInViewport(default_value);
-    setVisibility({
-      ...isVisibleInViewport(default_value),
-      default_x: defVal.x,
-      default_y: defVal.y,
-    });
-  }, [default_value, _ref.current]);
+    if (!ref?.current) return;
 
-  useEffect(() => {
-    const controller = new AbortController();
-    window.addEventListener("scroll", Handler, { signal: controller.signal });
-    window.addEventListener("resize", Handler, { signal: controller.signal });
-    return () => {
-      controller.abort();
-    };
-  }, [default_value]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsOutOfViewport(entry.intersectionRatio < 1);
+      },
+      {
+        root: null, // null = viewport
+        threshold: options?.threshold || [0, 1], // 0 = complètement hors écran, 1 = complètement visible
+      }
+    );
 
-  useEffect(() => {
-    if (visible == undefined) return;
-    onVisibilityChange(visible);
-  }, [visible, ...(deps || [])]);
+    const element = ref.current;
+    observer.observe(element);
 
-  const triggerCheck = useCallback(() => {
-    Handler();
-  }, [Handler, visible]);
+    return () => observer.unobserve(element);
+  }, [ref, options?.threshold]);
 
-  return [_ref, triggerCheck] as [RefObject<NonNullable<T> | null>, () => void];
+  return isOutOfViewport;
 }
 
 function getHTMLAndBody() {

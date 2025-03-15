@@ -10,9 +10,9 @@ import {
 import {
   MuiSSRPortal,
   useColorOverRide,
+  useIsOutOfViewport,
   useMuiRef,
   useValueOverRide,
-  useViewPortVisible,
 } from "../../common/utils";
 import { useClassNames, type SxProps } from "../../common/theme";
 import Typography, { type MuiTypographyProps } from "../Typography";
@@ -60,36 +60,66 @@ export default function ToolTip({
 }: ToolTipProps) {
   const [, _setTimeout] = useState<Timer>();
   const [active, setActive] = useState(open || false);
-  const [bypassPlacement, setBypassPlacement] =
-    useState<ToolTipProps["placement"]>();
+  const [bypassPlacement, setBypassPlacement] = useState<
+    ToolTipProps["placement"] | null
+  >();
   const [coord, setCoord] = useState<{ left: number; top: number }>({
     left: 0,
     top: 0,
   });
-
-  const [tooltipRef, triggerCheck] = useViewPortVisible(
-    (visible) => {
-      if ((visible.x && visible.y) || preventAutoPlacement)
-        return setBypassPlacement(undefined);
-      switch (placement) {
-        case "top":
-          setBypassPlacement("bottom");
-          break;
-        case "bottom":
-          setBypassPlacement("top");
-          break;
-        case "left":
-          setBypassPlacement("right");
-          break;
-        case "right":
-          setBypassPlacement("left");
-          break;
-      }
-    },
-    props.ref,
-    [placement]
-  );
   const elRef = useMuiRef<HTMLElement>(children.props.ref);
+  const toolTipRef = useMuiRef<HTMLDivElement>(props.ref);
+
+  const tooltipIsVisible = useIsOutOfViewport(toolTipRef, {
+    threshold: [0, 1],
+  });
+
+  useEffect(() => {
+    if (tooltipIsVisible || !active || bypassPlacement === null) {
+      if (tooltipIsVisible && bypassPlacement === null) {
+        setBypassPlacement(undefined);
+        return;
+      }
+    }
+    switch (placement) {
+      case "top":
+        if (bypassPlacement == undefined && !tooltipIsVisible)
+          setBypassPlacement("bottom");
+        else if (bypassPlacement == "bottom" && !tooltipIsVisible)
+          setBypassPlacement("left");
+        else if (bypassPlacement == "left" && !tooltipIsVisible)
+          setBypassPlacement("right");
+        else setBypassPlacement(null);
+        break;
+      case "bottom":
+        if (bypassPlacement == undefined && !tooltipIsVisible)
+          setBypassPlacement("top");
+        else if (bypassPlacement == "top" && !tooltipIsVisible)
+          setBypassPlacement("left");
+        else if (bypassPlacement == "left" && !tooltipIsVisible)
+          setBypassPlacement("right");
+        else setBypassPlacement(null);
+        break;
+      case "left":
+        if (bypassPlacement == undefined && !tooltipIsVisible)
+          setBypassPlacement("right");
+        else if (bypassPlacement == "right" && !tooltipIsVisible)
+          setBypassPlacement("top");
+        else if (bypassPlacement == "top" && !tooltipIsVisible)
+          setBypassPlacement("bottom");
+        else setBypassPlacement(null);
+        break;
+      case "right":
+        if (bypassPlacement == undefined && !tooltipIsVisible)
+          setBypassPlacement("left");
+        else if (bypassPlacement == "left" && !tooltipIsVisible)
+          setBypassPlacement("top");
+        else if (bypassPlacement == "top" && !tooltipIsVisible)
+          setBypassPlacement("bottom");
+        else setBypassPlacement(null);
+        break;
+    }
+  }, [tooltipIsVisible, bypassPlacement]);
 
   const coordSetter = useCallback(() => {
     const coord = elRef.current?.getBoundingClientRect();
@@ -110,10 +140,6 @@ export default function ToolTip({
   useEffect(() => {
     if (active != open && open != undefined) setActive(open);
   }, [open]);
-
-  useEffect(() => {
-    triggerCheck();
-  }, [active]);
 
   const showTip = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -278,7 +304,7 @@ export default function ToolTip({
             ...props.sx,
           }}
           className={tooltip.combined}
-          ref={tooltipRef}
+          ref={toolTipRef}
         >
           {title}
         </Typography>
