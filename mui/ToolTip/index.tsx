@@ -34,7 +34,6 @@ export type ToolTipProps = {
   children: JSX.Element;
   ref?: React.RefObject<HTMLParagraphElement>;
   variant?: "light" | "dark";
-  preventAutoPlacement?: boolean;
 } & MuiTypographyProps<HTMLParagraphElement>;
 
 export default function ToolTip({
@@ -55,7 +54,6 @@ export default function ToolTip({
   children,
   triggers = ["hover"],
   variant = "dark",
-  preventAutoPlacement,
   ...props
 }: ToolTipProps) {
   const [, _setTimeout] = useState<Timer>();
@@ -76,8 +74,8 @@ export default function ToolTip({
     if (tooltipIsVisible || !active || bypassPlacement === null) {
       if (tooltipIsVisible && bypassPlacement === null) {
         setBypassPlacement(undefined);
-        return;
       }
+      return;
     }
     switch (placement) {
       case "top":
@@ -129,11 +127,11 @@ export default function ToolTip({
           ? (coord?.left || 0) + (coord?.width || 0)
           : coord?.left || 0,
     });
-  }, [elRef.current]);
+  }, [elRef]);
 
   useEffect(
     () => coordSetter(),
-    [elRef.current, elRef.current?.offsetTop, elRef.current?.offsetLeft]
+    [elRef, elRef.current?.offsetTop, elRef.current?.offsetLeft]
   );
 
   useEffect(() => {
