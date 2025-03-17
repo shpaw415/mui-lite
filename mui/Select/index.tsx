@@ -81,6 +81,7 @@ function Select({
               formatName ? formatName(child) : child.props?.children
             );
             setValue(child.props?.value);
+          } else {
           }
         }
       : (child: JSX.Element, index: number) => {
@@ -98,7 +99,9 @@ function Select({
     setDisplayedValue(() => {
       for (const child of children as JSX.Element[]) {
         if (child.props?.value != value) continue;
-        return child.props?.children;
+        return formatName
+          ? formatName(child)
+          : child.props?.value ?? child.props.children;
       }
     });
   }
