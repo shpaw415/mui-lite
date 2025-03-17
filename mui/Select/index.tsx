@@ -43,14 +43,20 @@ function Select({
   const _style = useStyle(sx);
   const DefaultValueMemo = useMemo(() => {
     if (defaultValue) {
-      let val = (children as JSX.Element[]).find(
+      const option = (children as JSX.Element[]).find(
         (e) => e.props?.value == defaultValue
-      ) as undefined | string;
-      if (val && formatName) val = formatName(val);
-      return val ? val : "";
+      );
+      if (formatName && option) return formatName(option);
+      else
+        return (
+          (option?.props?.value as string | undefined) ??
+          (option?.props?.children as string | undefined) ??
+          ""
+        );
     }
     return "";
   }, [defaultValue]);
+
   const [_value, setValue] = useState(defaultValue || "");
   const [displayedValue, setDisplayedValue] =
     useState<string>(DefaultValueMemo);
