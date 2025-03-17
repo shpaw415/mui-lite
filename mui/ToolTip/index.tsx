@@ -13,10 +13,11 @@ import {
   useIsOutOfViewport,
   useMuiRef,
   useValueOverRide,
+  type SlotProps,
 } from "../../common/utils";
 import { useClassNames, type SxProps } from "../../common/theme";
 import Typography, { type MuiTypographyProps } from "../Typography";
-import Box from "../Box";
+import Box, { type BoxProps } from "../Box";
 
 export type ToolTipProps = {
   placement?: "bottom" | "left" | "right" | "top";
@@ -29,12 +30,18 @@ export type ToolTipProps = {
   leaveDelay?: number;
   disabled?: boolean;
   backgroundColor?: CSSProperties["backgroundColor"];
-  offSet?: number;
+  offSet?: {
+    x?: string;
+    y?: string;
+  };
   transition?: "fade" | "zoom" | "none";
   triggers?: Array<"hover" | "focus" | "click">;
   children: JSX.Element;
   ref?: React.RefObject<HTMLParagraphElement>;
   variant?: "light" | "dark";
+  SlotProps?: SlotProps<{
+    container: BoxProps<HTMLDivElement>;
+  }>;
 } & MuiTypographyProps<HTMLParagraphElement>;
 
 export default function ToolTip({
@@ -55,6 +62,7 @@ export default function ToolTip({
   children,
   triggers = ["hover"],
   variant = "dark",
+  SlotProps,
   ...props
 }: ToolTipProps) {
   const [, _setTimeout] = useState<Timer>();
@@ -62,10 +70,6 @@ export default function ToolTip({
   const [bypassPlacement, setBypassPlacement] = useState<
     ToolTipProps["placement"] | null
   >();
-  const [coord, setCoord] = useState<{ left: number; top: number }>({
-    left: 0,
-    top: 0,
-  });
   const elRef = useMuiRef<HTMLElement>(children.props.ref);
   const toolTipRef = useMuiRef<HTMLDivElement>(props.ref);
 
@@ -116,24 +120,7 @@ export default function ToolTip({
         else setBypassPlacement(null);
         break;
     }
-    coordSetter();
   }, [tooltipIsVisible, bypassPlacement]);
-
-  const coordSetter = useCallback(() => {
-    const coord = elRef.current?.getBoundingClientRect();
-    setCoord({
-      top: (coord?.top || 0) + window.scrollY,
-      left:
-        placement == "right"
-          ? (coord?.left || 0) + (coord?.width || 0)
-          : coord?.left || 0,
-    });
-  }, [elRef]);
-
-  useEffect(
-    () => coordSetter(),
-    [elRef, elRef.current?.offsetTop, elRef.current?.offsetLeft]
-  );
 
   useEffect(() => {
     if (active != open && open != undefined) setActive(open);
@@ -143,7 +130,6 @@ export default function ToolTip({
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       onOpen?.(e);
       if (disabled || open != undefined) return;
-      coordSetter();
       _setTimeout((c) => {
         clearTimeout(c);
         return setTimeout(() => {
@@ -264,24 +250,22 @@ export default function ToolTip({
     };
   }, [triggers]);
 
-  const { width, height } = useMemo(() => {
-    const el = elRef.current?.getBoundingClientRect();
-    return {
-      width: { half: (el?.width || 0) / 2, full: Math.round(el?.width || 0) },
-      height: {
-        half: (el?.height || 0) / 2,
-        full: Math.round(el?.height || 0),
-      },
-    };
-  }, [elRef.current, active, open]);
-
-  const marginOverRide = useValueOverRide({
-    variable: "--tooltip-margin",
-    valueOverRide: `${offSet ?? 15}px`,
+  const offsetX = useValueOverRide({
+    variable: "--tooltip-offset-x",
+    valueOverRide: offSet?.x,
   });
-
+  const offsetY = useValueOverRide({
+    variable: "--tooltip-offset-y",
+    valueOverRide: offSet?.y,
+  });
   return (
-    <Box className="relative inline-block">
+    <Box
+      {...SlotProps?.container}
+      className={[
+        "MUI_Tooltip-Container",
+        SlotProps?.container?.className,
+      ].join(" ")}
+    >
       {cloneElement(children, {
         ref: elRef,
       })}
@@ -290,14 +274,12 @@ export default function ToolTip({
         {...props}
         sx={{
           ...({
-            "--element-width": `${width.full}px`,
-            "--element-height": `${height.full}px`,
             "--tooltip-background-color":
               variant == "dark" ? "97, 97, 97" : "255, 255, 255",
-            ...marginOverRide,
+            ...offsetX,
+            ...offsetY,
+            ...bgVar,
           } as SxProps),
-          ...coord,
-          ...(bgVar as SxProps),
           ...props.sx,
         }}
         className={tooltip.combined}

@@ -1,11 +1,13 @@
 /* Custom properties */
 :root {
   --tooltip-background-color: 97, 97, 97;
-  --tooltip-margin: 15px;
+  --tooltip-offset-x: 0px;
+  --tooltip-offset-y: 0px;
   --tooltip-arrow-size: 6px;
 }
 
 .MUI_Tooltip-Container {
+  all: inherit;
   position: relative;
   display: inline-block;
 }
@@ -14,7 +16,6 @@
   position: absolute;
   pointer-events: auto;
   border-radius: 4px;
-  transform: translateX(-100%);
   padding: 6px;
   background: rgb(var(--tooltip-background-color));
   font-size: 14px;
@@ -52,8 +53,10 @@
 }
 
 .MUI_Tooltip-Tip._top {
-  transform: translateX(calc(var(--element-width) / 2 - 40%))
-    translateY(calc(0% - var(--element-height)));
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(calc(-50% + var(--tooltip-offset-x)))
+    translateY(var(--tooltip-offset-y));
 }
 /* CSS border triangles */
 .MUI_Tooltip-Tip._top::before {
@@ -62,8 +65,10 @@
 }
 
 .MUI_Tooltip-Tip._right {
-  transform: translateX(calc(var(--element-width) + var(--tooltip-margin)))
-    translateY(calc(var(--element-height) / 2 - 50%));
+  left: 100%;
+  top: 50%;
+  transform: translateY(calc(-50% + var(--tooltip-offset-y)))
+    translateX(var(--tooltip-offset-x));
 }
 
 .MUI_Tooltip-Tip._right::before {
@@ -74,8 +79,10 @@
 }
 
 .MUI_Tooltip-Tip._bottom {
-  transform: translateX(calc(var(--element-width) / 2 - 50%))
-    translateY(calc(var(--element-height) + var(--tooltip-margin)));
+  top: 100%;
+  left: 50%;
+  transform: translateX(calc(-50% + var(--tooltip-offset-x)))
+    translateY(var(--tooltip-offset-y));
 }
 
 .MUI_Tooltip-Tip._bottom::before {
@@ -84,8 +91,10 @@
 }
 
 .MUI_Tooltip-Tip._left {
-  transform: translateX(calc(-100% - var(--tooltip-margin)))
-    translateY(calc(var(--element-height) / 2 - 50%));
+  right: 100%;
+  top: 50%;
+  transform: translateY(calc(-50% + var(--tooltip-offset-y)))
+    translateX(var(--tooltip-offset-x));
 }
 .MUI_Tooltip-Tip._left::before {
   left: auto;
