@@ -1,7 +1,7 @@
 "use client";
-import { type RefObject } from "react";
+import { useId, type RefObject } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
-import { useRandomID, type MuiElementType } from "../../common/utils";
+import { type MuiElementType } from "../../common/utils";
 import InputBase from "../InputBase";
 
 export type TextFieldProps = {
@@ -84,7 +84,8 @@ function TextField({
     variant: variant,
     state: [color],
   });
-  const customIDForLabel = props.id || useRandomID();
+  const idFromUseId = useId();
+  const customIDForLabel = props.id || idFromUseId;
 
   return (
     <div style={style.styleFromSx} className={classes_wrapper.combined}>

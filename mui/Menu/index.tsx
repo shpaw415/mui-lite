@@ -40,20 +40,14 @@ export default function Menu({
   ...props
 }: MenuProps) {
   const [prevent, restore] = usePreventScroll();
-  const [preventClose, setPreventClose] = useState(false);
   const menuRef = useMuiRef(props.ref);
-  useClickAwayListener(
-    (e) => {
-      if (!open || preventClose) return setPreventClose(false);
-      onClose?.();
-    },
-    { deps: [onClose, open, preventClose], ref: menuRef }
-  );
+  useClickAwayListener((e) => open && onClose?.(), {
+    deps: [onClose, open],
+    ref: menuRef,
+  });
   useEffect(() => {
     const ctrl = new AbortController();
-    const handle: React.MouseEventHandler<HTMLElement> = (e) => {
-      setPreventClose(true);
-    };
+    const handle: React.MouseEventHandler<HTMLElement> = (e) => {};
     anchorEl?.current?.addEventListener("click", handle as any, {
       signal: ctrl.signal,
     });

@@ -1,12 +1,8 @@
 "use client";
 import { useClassNames } from "../../common/theme";
-import { useCallback, useEffect, useState, type JSX } from "react";
+import { useCallback, useEffect, useId, useState, type JSX } from "react";
 import Typography from "../Typography";
-import {
-  useRandomID,
-  type MuiElementColors,
-  type MuiElementType,
-} from "../../common/utils";
+import { type MuiElementColors, type MuiElementType } from "../../common/utils";
 import clsx from "clsx";
 
 import CheckboxBorder from "@material-design-icons/svg/filled/check_box_outline_blank.svg";
@@ -49,8 +45,8 @@ export default function CheckBox({
     component_name: "Checkbox",
     state: [color, size],
   });
-
-  const ID = props.id || "ID_" + useRandomID();
+  const idFromUseId = useId();
+  const ID = props.id || "ID_" + idFromUseId;
 
   const RenderCheck = useCallback(
     ({ checked }: { checked?: boolean }) => {

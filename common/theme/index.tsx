@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -17,7 +18,6 @@ import {
   GlobalMediaQueryProvider,
   RGBAArrayToRGB,
   useMediaQuery,
-  useRandomID,
   type MuiElementType,
 } from "../utils";
 import type { ClassValue } from "clsx";
@@ -478,7 +478,8 @@ export function ThemeProvider({
   const json = JSON.stringify(theme);
   useEffect(() => setCurrentTheme(theme), [json]);
   const wrapperRef = useRef<HTMLElement>(props?.ref?.current || null);
-  const id = "THEME_" + useRandomID().substring(0, 9);
+  const idFromUseID = useId();
+  const id = "THEME_" + idFromUseID;
   return (
     <GlobalMediaQueryProvider>
       <MuiColors value={currentTheme}>
