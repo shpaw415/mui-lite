@@ -16,6 +16,7 @@ import {
 } from "../../common/utils";
 import { useClassNames, type SxProps } from "../../common/theme";
 import Typography, { type MuiTypographyProps } from "../Typography";
+import Box from "../Box";
 
 export type ToolTipProps = {
   placement?: "bottom" | "left" | "right" | "top";
@@ -280,32 +281,30 @@ export default function ToolTip({
   });
 
   return (
-    <>
+    <Box className="relative inline-block">
       {cloneElement(children, {
         ref: elRef,
       })}
-      <MuiSSRPortal>
-        <Typography
-          role="tooltip"
-          {...props}
-          sx={{
-            ...({
-              "--element-width": `${width.full}px`,
-              "--element-height": `${height.full}px`,
-              "--tooltip-background-color":
-                variant == "dark" ? "97, 97, 97" : "255, 255, 255",
-              ...marginOverRide,
-            } as SxProps),
-            ...coord,
-            ...(bgVar as SxProps),
-            ...props.sx,
-          }}
-          className={tooltip.combined}
-          ref={toolTipRef}
-        >
-          {title}
-        </Typography>
-      </MuiSSRPortal>
-    </>
+      <Typography
+        role="tooltip"
+        {...props}
+        sx={{
+          ...({
+            "--element-width": `${width.full}px`,
+            "--element-height": `${height.full}px`,
+            "--tooltip-background-color":
+              variant == "dark" ? "97, 97, 97" : "255, 255, 255",
+            ...marginOverRide,
+          } as SxProps),
+          ...coord,
+          ...(bgVar as SxProps),
+          ...props.sx,
+        }}
+        className={tooltip.combined}
+        ref={toolTipRef}
+      >
+        {title}
+      </Typography>
+    </Box>
   );
 }

@@ -5,6 +5,11 @@
   --tooltip-arrow-size: 6px;
 }
 
+.MUI_Tooltip-Container {
+  position: relative;
+  display: inline-block;
+}
+
 .MUI_Tooltip-Tip {
   position: absolute;
   pointer-events: auto;
