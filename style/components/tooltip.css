@@ -9,7 +9,6 @@
 .MUI_Tooltip-Container {
   all: inherit;
   position: relative;
-  display: inline-block;
 }
 
 .MUI_Tooltip-Tip {

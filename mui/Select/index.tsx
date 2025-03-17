@@ -45,7 +45,7 @@ function Select({
     if (defaultValue) {
       let val = (children as JSX.Element[]).find(
         (e) => e.props?.value == defaultValue
-      )?.props.children as undefined | string;
+      ) as undefined | string;
       if (val && formatName) val = formatName(val);
       return val ? val : "";
     }
@@ -75,12 +75,10 @@ function Select({
   const OnSelectHandler = useCallback(
     onSelect
       ? (child: JSX.Element, index: number) => {
-          onSelect(child.props?.value || index, child.props?.children);
+          onSelect(child.props?.value || index, child);
           if (!value) {
             setDisplayedValue(
-              formatName
-                ? formatName(child.props?.children)
-                : child.props?.children
+              formatName ? formatName(child) : child.props?.children
             );
             setValue(child.props?.value);
           }
@@ -88,9 +86,7 @@ function Select({
       : (child: JSX.Element, index: number) => {
           const newValue = child.props?.value as string;
           setDisplayedValue(
-            formatName
-              ? formatName(child.props?.children)
-              : child.props?.children
+            formatName ? formatName(child) : child.props?.children
           );
           setValue(newValue);
         },
