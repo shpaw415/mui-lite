@@ -186,6 +186,14 @@ export function MediaQueryGreaterThen(
   return MediaQueryToNumbers[query] <= MediaQueryToNumbers[currentQuery];
 }
 
+export function useRandomID(default_value?: string, len?: number) {
+  const [id, setID] = useState(default_value || "");
+  useEffect(() => {
+    setID(randomString(len || 5, Array.from("1234567890")));
+  }, []);
+  return id;
+}
+
 export type MuiElementType<HTMLType extends HTMLElement> = Exclude<
   React.HTMLProps<HTMLType>,
   "style"
