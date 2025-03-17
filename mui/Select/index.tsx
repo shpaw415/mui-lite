@@ -22,6 +22,7 @@ export type SelectProps = {
   SlotProps?: SlotProps<{
     "dropdown-wrapper": BoxProps<HTMLDivElement>;
     "dropdown-list": ListProps;
+    "end-icon": React.SVGProps<SVGSVGElement>;
   }>;
   formatName?: (value: string | JSX.Element) => string;
   sx?: SxProps;
@@ -116,7 +117,15 @@ function Select({
     <div style={_style.styleFromSx} className={root.combined}>
       <TextField
         value={displayedValue || DefaultValueMemo}
-        endIcon={<ArrowDown className="MUI_Select_DropDown_Arrow" />}
+        endIcon={
+          <ArrowDown
+            {...SlotProps?.["end-icon"]}
+            className={[
+              "MUI_Select_DropDown_Arrow",
+              SlotProps?.["end-icon"]?.className,
+            ].join(" ")}
+          />
+        }
         className={select.combined}
         sx={sx}
         readOnly
