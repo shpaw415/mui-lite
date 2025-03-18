@@ -245,6 +245,7 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
           {showedOptions.map((opt, i) => {
             return (
               <ListItemButton
+                key={typeof opt == "string" ? opt : opt?.label}
                 {...SlotProps?.listButton}
                 selected={
                   formatSelect
@@ -259,7 +260,6 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
                   pseudo_selection == i ? "pseudo_selected" : undefined,
                   SlotProps?.listButton?.className,
                 ].join(" ")}
-                key={typeof opt == "string" ? opt : opt?.label}
                 index-data={i}
                 onClick={() => onSelectHandler(opt)}
                 onMouseEnter={
