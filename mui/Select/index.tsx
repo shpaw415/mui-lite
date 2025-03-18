@@ -1,6 +1,7 @@
 import { useClassNames, useStyle, type SxProps } from "../../common/theme";
 import TextField, { type TextFieldProps } from "../TextField";
 import {
+  cloneElement,
   useCallback,
   useEffect,
   useMemo,
@@ -11,7 +12,7 @@ import ArrowDown from "@material-design-icons/svg/filled/arrow_drop_down.svg";
 import { List, ListItemButton, ListItemText, type ListProps } from "../List";
 import Box, { type BoxProps } from "../Box";
 import { type JSX } from "react";
-import { type SlotProps } from "../../common/utils";
+import { useMuiRef, type SlotProps } from "../../common/utils";
 
 export type SelectProps = {
   value?: string;
@@ -38,6 +39,7 @@ function Select({
   onSelect,
   SlotProps,
   formatName,
+  ref,
   ...props
 }: SelectProps) {
   if (!Array.isArray(children)) children = [children] as any;
@@ -113,9 +115,30 @@ function Select({
     });
   }
 
+  const startIconRef = useMuiRef<HTMLSpanElement>(
+    SlotProps?.startIconWrapper?.ref
+  );
+  const fieldRef = useMuiRef<HTMLInputElement>(ref);
+  useEffect(() => {
+    const ctrl = new AbortController();
+    startIconRef?.current?.addEventListener(
+      "click",
+      () => {
+        fieldRef.current?.focus();
+      },
+      { signal: ctrl.signal }
+    );
+    return () => ctrl.abort();
+  }, [startIconRef]);
+
   return (
     <div style={_style.styleFromSx} className={root.combined}>
       <TextField
+        SlotProps={{
+          startIconWrapper: {
+            ref: startIconRef,
+          },
+        }}
         value={displayedValue || DefaultValueMemo}
         endIcon={
           <ArrowDown
@@ -130,6 +153,7 @@ function Select({
         sx={sx}
         readOnly
         {...props}
+        ref={fieldRef}
       />
       <Box {...SlotProps?.["dropdown-wrapper"]} className={dropDown.combined}>
         <List

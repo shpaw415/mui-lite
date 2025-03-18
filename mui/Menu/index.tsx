@@ -27,6 +27,7 @@ export type MenuProps = {
     right: CSSProperties["transform"];
     bottom: CSSProperties["transform"];
   }>;
+  preventAutoPlacement?: boolean;
 } & PaperProps;
 
 export default function Menu({
@@ -37,14 +38,26 @@ export default function Menu({
   placement = "bottom",
   className,
   transform,
+  preventAutoPlacement,
   ...props
 }: MenuProps) {
   const [prevent, restore] = usePreventScroll();
   const menuRef = useMuiRef(props.ref);
-  useClickAwayListener((e) => open && onClose?.(), {
-    deps: [onClose, open],
-    ref: menuRef,
-  });
+  const [preventClose, setPreventClose] = useState(false);
+  useEffect(() => {
+    setPreventClose(Boolean(open));
+  }, [open]);
+  useClickAwayListener(
+    (e) => {
+      if (!preventClose && open) {
+        onClose?.();
+      } else if (preventClose) setPreventClose(false);
+    },
+    {
+      deps: [onClose, open, preventClose],
+      ref: menuRef,
+    }
+  );
   useEffect(() => {
     const ctrl = new AbortController();
     const handle: React.MouseEventHandler<HTMLElement> = (e) => {};
@@ -107,9 +120,16 @@ export default function Menu({
     }
   }, [open]);
 
-  const menuIsVisible = useIsOutOfViewport(menuRef);
+  const menuIsVisible = useIsOutOfViewport(menuRef, {
+    threshold: [0.1, 0.5],
+  });
   useEffect(() => {
-    if (menuIsVisible || !open || placement_override === null) {
+    if (
+      preventAutoPlacement ||
+      menuIsVisible ||
+      !open ||
+      placement_override === null
+    ) {
       if (menuIsVisible && placement_override === null)
         set_placement_override(undefined);
       return;
@@ -118,38 +138,26 @@ export default function Menu({
       case "top":
         if (placement_override == undefined) set_placement_override("bottom");
         else if (placement_override == "bottom" && !menuIsVisible)
-          set_placement_override("left");
-        else if (placement_override == "left" && !menuIsVisible)
-          set_placement_override("right");
-        else set_placement_override(null);
+          set_placement_override(null);
         break;
       case "bottom":
         if (placement_override == undefined) set_placement_override("top");
         else if (placement_override == "top" && !menuIsVisible)
-          set_placement_override("left");
-        else if (placement_override == "left" && !menuIsVisible)
-          set_placement_override("right");
-        else set_placement_override(null);
+          set_placement_override(null);
         break;
       case "left":
         if (placement_override == undefined) set_placement_override("right");
         else if (placement_override == "right" && !menuIsVisible)
-          set_placement_override("top");
-        else if (placement_override == "top" && !menuIsVisible)
-          set_placement_override("bottom");
-        else set_placement_override(null);
+          set_placement_override(null);
         break;
       case "right":
         if (placement_override == undefined) set_placement_override("left");
         else if (placement_override == "left" && !menuIsVisible)
-          set_placement_override("top");
-        else if (placement_override == "top" && !menuIsVisible)
-          set_placement_override("bottom");
-        else set_placement_override(null);
+          set_placement_override(null);
         break;
     }
     CoordSetter();
-  }, [menuIsVisible, placement_override]);
+  }, [menuIsVisible, placement_override, open, preventAutoPlacement]);
 
   useEffect(() => {
     CoordSetter();

@@ -1,8 +1,9 @@
 "use client";
 import { useId, type RefObject } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
-import { type MuiElementType } from "../../common/utils";
-import InputBase from "../InputBase";
+import { type MuiElementType, type SlotProps } from "../../common/utils";
+import InputBase, { type InputBaseProps } from "../InputBase";
+import Box, { type BoxProps } from "../Box";
 
 export type TextFieldProps = {
   variant?: "outlined" | "filled" | "standard";
@@ -20,6 +21,12 @@ export type TextFieldProps = {
   children?: any;
   resetValue?: boolean;
   ref?: RefObject<HTMLInputElement | null>;
+  SlotProps?: SlotProps<{
+    endIconWrapper: BoxProps<HTMLSpanElement>;
+    startIconWrapper: BoxProps<HTMLSpanElement>;
+    helpText: BoxProps<HTMLParagraphElement>;
+    input: InputBaseProps;
+  }>;
 } & Omit<MuiElementType<HTMLInputElement>, "size">;
 
 function TextField({
@@ -33,6 +40,7 @@ function TextField({
   endIcon,
   children,
   sx,
+  SlotProps,
   className,
   ...props
 }: TextFieldProps) {
@@ -82,10 +90,11 @@ function TextField({
   const classes_helpText = useClassNames({
     component_name: "TextField_helpText",
     variant: variant,
+    className: SlotProps?.helpText?.className,
     state: [color],
   });
   const idFromUseId = useId();
-  const customIDForLabel = props.id || idFromUseId;
+  const customIDForLabel = props.id || SlotProps?.input?.id || idFromUseId;
 
   return (
     <div style={style.styleFromSx} className={classes_wrapper.combined}>
@@ -98,8 +107,24 @@ function TextField({
             <div className={classes_animationStyle.combined}></div>
           </div>
         )}
-        {startIcon && <span className="MUI_StartIcon">{startIcon}</span>}
-        <InputBase id={customIDForLabel} variant={variant} {...props} />
+        {startIcon && (
+          <Box<HTMLSpanElement>
+            {...SlotProps?.startIconWrapper}
+            Element="span"
+            className={[
+              "MUI_StartIcon",
+              SlotProps?.startIconWrapper?.className,
+            ].join(" ")}
+          >
+            {startIcon}
+          </Box>
+        )}
+        <InputBase
+          id={customIDForLabel}
+          variant={variant}
+          {...props}
+          {...SlotProps?.input}
+        />
         {children}
         {variant == "outlined" && (
           <fieldset className={classes_fieldSet.combined}>
@@ -108,9 +133,28 @@ function TextField({
             </legend>
           </fieldset>
         )}
-        {endIcon && <span className="MUI_EndIcon">{endIcon}</span>}
+        {endIcon && (
+          <Box<HTMLSpanElement>
+            {...SlotProps?.endIconWrapper}
+            Element="span"
+            className={[
+              "MUI_EndIcon",
+              SlotProps?.endIconWrapper?.className,
+            ].join(" ")}
+          >
+            {endIcon}
+          </Box>
+        )}
       </div>
-      {helpText && <p className={classes_helpText.combined}>{helpText}</p>}
+      {helpText && (
+        <Box<HTMLParagraphElement>
+          {...SlotProps?.helpText}
+          Element="p"
+          className={classes_helpText.combined}
+        >
+          {helpText}
+        </Box>
+      )}
     </div>
   );
 }

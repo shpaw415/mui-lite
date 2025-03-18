@@ -2,7 +2,7 @@
 import type { InputHTMLAttributes, ReactElement, RefObject } from "react";
 import { useClassNames, type SxProps } from "../../common/theme";
 
-type InputBaseProps = Omit<
+export type InputBaseProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "size" | "style"
 > & {
