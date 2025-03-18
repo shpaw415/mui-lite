@@ -28,18 +28,21 @@ export default function InputBase({
   id,
   multiline,
   variant,
+  className,
   ...props
 }: InputBaseProps) {
   const classes_input = useClassNames({
     component_name: "TextField_Input",
     variant: variant,
     state: [],
+    className,
   });
 
   const classes_textArea = useClassNames({
     component_name: "TextField_TextArea",
     variant: variant,
     state: [],
+    className,
   });
 
   return multiline ? (
