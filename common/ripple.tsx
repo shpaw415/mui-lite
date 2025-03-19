@@ -133,7 +133,7 @@ function RippleBase({
     if (ripples.length > 0) {
       const timeout = setTimeout(() => {
         setRipples([]);
-      }, 100000);
+      }, 300);
       return () => clearTimeout(timeout);
     }
   }, [ripples]);

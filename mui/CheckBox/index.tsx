@@ -37,9 +37,10 @@ export default function CheckBox({
   icon,
   checkedIcon,
   colorOverRide,
+  ref,
   ...props
 }: MuiCheckBox) {
-  const ref = useMuiRef(props.ref);
+  const _ref = useMuiRef<HTMLInputElement>(ref);
 
   const wrapper = useClassNames({
     component_name: "Checkbox",
@@ -61,14 +62,6 @@ export default function CheckBox({
     [icon, checkedIcon]
   );
   const [, setState] = useState(false);
-  useEffect(() => {
-    const onChangeHandler = () => setState((c) => !c);
-    ref.current?.addEventListener("change", onChangeHandler);
-
-    return () => {
-      ref.current?.removeEventListener("change", onChangeHandler);
-    };
-  }, []);
 
   return (
     <div
@@ -82,28 +75,32 @@ export default function CheckBox({
       }
     >
       <IconButton
-        onClick={() => ref.current?.click()}
         color={color}
+        onClick={() => {
+          ref?.current?.click();
+          setState((c) => !c);
+        }}
         colorOverRide={colorOverRide}
         disabled={props.disabled}
         size={size}
         sx={sx}
         type="button"
       >
-        <RenderCheck
-          checked={
-            typeof props.checked == "undefined"
-              ? ref.current?.checked
-              : props.checked
-          }
-        />
-        <input
-          type="checkbox"
-          className="h-full w-full opacity-0 absolute top-0 left-0"
-          id={ID}
-          {...props}
-          ref={ref}
-        />
+        <div className="w-full h-full">
+          {RenderCheck({
+            checked:
+              props.checked == undefined
+                ? _ref.current?.checked
+                : props.checked,
+          })}
+          <input
+            type="checkbox"
+            className="top-0 left-0 w-full h-full absolute opacity-0"
+            id={ID}
+            {...props}
+            ref={_ref}
+          />
+        </div>
       </IconButton>
 
       {label && (

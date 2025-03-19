@@ -259,6 +259,7 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
                 className={[
                   pseudo_selection == i ? "pseudo_selected" : undefined,
                   SlotProps?.listButton?.className,
+                  ButtonClassId,
                 ].join(" ")}
                 index-data={i}
                 onClick={() => onSelectHandler(opt)}
