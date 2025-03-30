@@ -125,11 +125,6 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
     (pseudo: number, opt?: ScrollIntoViewOptions) => number
   >(
     (pseudo, opt) => {
-      console.log(
-        `button[index-data="${pseudo}"].${
-          SlotProps?.input?.id || ButtonClassId
-        }`
-      );
       const pseudoSelected = document.querySelector(
         `button[index-data="${pseudo}"].${
           SlotProps?.input?.id || ButtonClassId

@@ -20,6 +20,7 @@ export default function Backdrop({
   const root = useClassNames({
     component_name: "Backdrop_Root",
     state: [open && "opened"],
+    className,
   });
 
   return (
