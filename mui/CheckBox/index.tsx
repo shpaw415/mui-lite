@@ -99,7 +99,7 @@ export default function CheckBox({
         sx={sx}
         type="button"
       >
-        <div className="w-full h-full">
+        <div className="w-full h-full flex items-center justify-center">
           {RenderCheck({
             checked:
               props.checked == undefined
