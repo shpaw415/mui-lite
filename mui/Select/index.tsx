@@ -5,6 +5,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type RefObject,
 } from "react";
@@ -38,6 +39,7 @@ function Select({
   children,
   onSelect,
   SlotProps,
+  name,
   formatName,
   ref,
   ...props
@@ -119,6 +121,7 @@ function Select({
     SlotProps?.startIconWrapper?.ref
   );
   const fieldRef = useMuiRef<HTMLInputElement>(ref);
+
   useEffect(() => {
     const ctrl = new AbortController();
     startIconRef?.current?.addEventListener(
@@ -128,8 +131,9 @@ function Select({
       },
       { signal: ctrl.signal }
     );
+
     return () => ctrl.abort();
-  }, [startIconRef]);
+  }, [startIconRef, fieldRef]);
 
   return (
     <div style={_style.styleFromSx} className={root.combined}>
@@ -189,6 +193,7 @@ function Select({
           })}
         </List>
       </Box>
+      <input name={name} type="hidden" value={_value} />
     </div>
   );
 }
