@@ -1,6 +1,31 @@
 .MUI_Select_Root {
   position: relative;
 }
+
+@keyframes DropDownOpen {
+  0% {
+    display: block;
+    transform: scale(0, 0);
+  }
+  100% {
+    display: block;
+    transform: scale(1, 0);
+  }
+}
+@keyframes DropDownClose {
+  0% {
+    display: block;
+    transform: scale(1, 0);
+  }
+  99% {
+    display: block;
+    transform: scale(0, 0);
+  }
+  100% {
+    display: none;
+  }
+}
+
 .MUI_Select_DropDown_Root {
   overflow: hidden;
   opacity: 0;
@@ -16,6 +41,8 @@
   background-color: rgb(var(--bg-surface));
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
     0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  display: none;
+  animation: 0.5s forwards DropDownClose;
 }
 
 .MUI_Select_Root:focus-within .MUI_Select_DropDown_Root {
@@ -23,6 +50,8 @@
   opacity: 1;
   top: 55;
   border-radius: 4px;
+  display: block;
+  animation: 0.5s forwards DropDownOpen;
 }
 .MUI_Select_DropDown_Arrow {
   fill: rgba(var(--text-main), 0.7);
