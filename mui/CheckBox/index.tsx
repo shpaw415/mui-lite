@@ -1,14 +1,19 @@
 "use client";
 import { useClassNames } from "../../common/theme";
-import { useCallback, useEffect, useId, useState, type JSX } from "react";
+import { useCallback, useId, useState, type JSX } from "react";
 import Typography from "../Typography";
-import { type MuiElementColors, type MuiElementType } from "../../common/utils";
+import {
+  type MuiElementColors,
+  type MuiElementType,
+  type SlotProps,
+} from "../../common/utils";
 import clsx from "clsx";
 
 import CheckboxBorder from "@material-design-icons/svg/filled/check_box_outline_blank.svg";
 import CheckboxChecked from "@material-design-icons/svg/filled/check_box.svg";
 import IconButton from "../IconButton";
 import { useMuiRef } from "../../common/utils";
+import Box, { type BoxProps } from "../Box";
 
 type _MuiCheckBox = {
   label?: string;
@@ -16,6 +21,9 @@ type _MuiCheckBox = {
   size?: "small" | "medium" | "large";
   color?: MuiElementColors;
   colorOverRide?: React.CSSProperties["color"];
+  SlotProps?: SlotProps<{
+    container: BoxProps<HTMLDivElement>;
+  }>;
 } & Omit<MuiElementType<HTMLInputElement>, "size" | "color">;
 
 export type MuiCheckBox =
@@ -38,6 +46,7 @@ export default function CheckBox({
   checkedIcon,
   colorOverRide,
   ref,
+  SlotProps,
   ...props
 }: MuiCheckBox) {
   const _ref = useMuiRef<HTMLInputElement>(ref);
@@ -45,6 +54,7 @@ export default function CheckBox({
   const wrapper = useClassNames({
     component_name: "Checkbox",
     state: [color, size],
+    className: SlotProps?.container?.className,
   });
   const idFromUseId = useId();
   const ID = props.id || "ID_" + idFromUseId;
@@ -64,15 +74,18 @@ export default function CheckBox({
   const [, setState] = useState(false);
 
   return (
-    <div
-      className={
-        clsx("flex items-center w-fit h-fit", {
+    <Box
+      {...SlotProps?.container}
+      className={clsx(
+        "flex items-center w-fit h-fit",
+        {
           "flex-row": labelSide == "right",
           "flex-col": labelSide == "bottom",
           "flex-row-reverse": labelSide == "left",
           "flex-col-reverse": labelSide == "top",
-        }) + ` ${wrapper.combined}`
-      }
+        },
+        wrapper.combined
+      )}
     >
       <IconButton
         color={color}
@@ -117,6 +130,6 @@ export default function CheckBox({
           {label + (props.required ? "*" : "")}
         </Typography>
       )}
-    </div>
+    </Box>
   );
 }
