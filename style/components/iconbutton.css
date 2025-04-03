@@ -32,7 +32,9 @@
     font-size: 1.75rem;
   }
 }
-.MUI_IconButton_Root:hover {
+
+.MUI_IconButton_Root:hover,
+.MUI_IconButton_Root:focus {
   background-color: rgba(var(--color-override, var(--bg-primary)), 0.08);
 }
 .MUI_IconButton_Root:is(._small) {
