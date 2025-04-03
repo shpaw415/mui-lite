@@ -54,7 +54,6 @@ function IconButton({
       {children}
       <RippleBase
         ref={ref}
-        offset={{ top: -25, left: -25 }}
         color={color}
         colorOverRide={colorOverRide}
         preventClickElement
