@@ -71,7 +71,7 @@ export default function CheckBox({
     },
     [icon, checkedIcon]
   );
-  const [, setState] = useState(false);
+  const [, setState] = useState(Boolean(props.defaultChecked));
 
   return (
     <Box
@@ -103,7 +103,7 @@ export default function CheckBox({
           {RenderCheck({
             checked:
               props.checked == undefined
-                ? _ref.current?.checked
+                ? _ref.current?.checked ?? props.defaultChecked
                 : props.checked,
           })}
           <input
