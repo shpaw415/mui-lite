@@ -99,6 +99,7 @@ function RippleBase({
   color,
   colorOverRide,
   preventClickElement,
+  onRippleClick,
 }: {
   disabled?: boolean;
   offset?: {
@@ -112,6 +113,7 @@ function RippleBase({
   color?: MuiElementColors;
   colorOverRide?: React.CSSProperties["color"];
   preventClickElement?: boolean;
+  onRippleClick?: () => void;
 }) {
   const [ripples, setRipples] = useState<{ x: number; y: number }[]>([]);
   const handleClick = useCallback((e: React.MouseEvent) => {
@@ -159,6 +161,13 @@ function RippleBase({
 
   const overRide = useColorOverRide({ colorOverRide });
 
+  const onRippleClickHandler = useCallback<
+    React.MouseEventHandler<HTMLSpanElement>
+  >((e) => {
+    handleClick(e);
+    onRippleClick?.();
+  }, []);
+
   return ripples.map((ripple, index) => (
     <span
       key={index}
@@ -169,7 +178,7 @@ function RippleBase({
         ...overRide,
         ...style.styleFromSx,
       }}
-      onClick={handleClick}
+      onClick={onRippleClickHandler}
     />
   ));
 }

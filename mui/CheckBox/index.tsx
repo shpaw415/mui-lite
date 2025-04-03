@@ -1,6 +1,6 @@
 "use client";
 import { useClassNames } from "../../common/theme";
-import { useCallback, useId, useState, type JSX } from "react";
+import { useCallback, useEffect, useId, useState, type JSX } from "react";
 import Typography from "../Typography";
 import {
   type MuiElementColors,
@@ -73,6 +73,22 @@ export default function CheckBox({
   );
   const [, setState] = useState(Boolean(props.defaultChecked));
 
+  useEffect(() => {
+    const ctrl = new AbortController();
+
+    _ref.current?.addEventListener("change", (ev) => {
+      ev.stopPropagation();
+      setState((c) => !c);
+    });
+
+    return () => ctrl.abort();
+  }, [_ref]);
+
+  const clickOnRef = useCallback<() => void>(
+    () => _ref.current?.click(),
+    [_ref]
+  );
+
   return (
     <Box
       {...SlotProps?.container}
@@ -89,12 +105,9 @@ export default function CheckBox({
     >
       <IconButton
         color={color}
-        onClick={() => {
-          ref?.current?.click();
-          setState((c) => !c);
-        }}
         colorOverRide={colorOverRide}
         disabled={props.disabled}
+        onRippleClick={clickOnRef}
         size={size}
         sx={sx}
         type="button"

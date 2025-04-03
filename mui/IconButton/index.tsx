@@ -14,6 +14,7 @@ export type MuiIconButtonProps = {
   color?: MuiElementColors;
   colorOverRide?: React.CSSProperties["color"];
   type?: HTMLButtonElement["type"];
+  onRippleClick?: () => void;
 } & Omit<MuiElementType<HTMLButtonElement>, "type" | "size">;
 
 function IconButton({
@@ -23,6 +24,7 @@ function IconButton({
   className,
   colorOverRide,
   sx,
+  onRippleClick,
   ...props
 }: MuiIconButtonProps) {
   const propsOverRide = usePropsOverRide<MuiIconButtonProps>(arguments);
@@ -57,6 +59,7 @@ function IconButton({
         color={color}
         colorOverRide={colorOverRide}
         preventClickElement
+        onRippleClick={onRippleClick}
       />
     </Btn>
   );
