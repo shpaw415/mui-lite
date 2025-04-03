@@ -67,7 +67,8 @@
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover,
-  &.pseudo_selected {
+  &.pseudo_selected,
+  &:focus {
     text-decoration: none;
     background-color: rgba(var(--text-main), 0.08);
   }

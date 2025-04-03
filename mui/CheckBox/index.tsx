@@ -139,6 +139,7 @@ export default function CheckBox({
           Element="label"
           className="ml-1"
           htmlFor={ID}
+          tabIndex={-1}
         >
           {label + (props.required ? "*" : "")}
         </Typography>
