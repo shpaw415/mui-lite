@@ -1,33 +1,33 @@
 {
-  "compilerOptions": {
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleDetection": "force",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "paths": {
-      "@material-design-icons/svg/*": [
-        "./node_modules/@material-design-icons/svg/*"
-      ]
-    }
-  },
-  "include": [
-    "./custom.d.ts",
-    "./node_modules/@material-design-icons",
-    "./mui",
-    "./style",
-    "./common"
-  ],
-  "exclude": ["node_modules"]
+	"compilerOptions": {
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "force",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noPropertyAccessFromIndexSignature": false,
+		"paths": {
+			"@material-design-icons/svg/*": [
+				"./node_modules/@material-design-icons/svg/*"
+			]
+		}
+	},
+	"include": [
+		"./custom.d.ts",
+		"./node_modules/@material-design-icons",
+		"./mui",
+		"./style",
+		"./common"
+	],
+	"exclude": ["node_modules"]
 }

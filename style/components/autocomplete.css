@@ -1,5 +1,5 @@
 .MUI_AutoComplete_dropdown_root {
-  max-height: 150px;
-  animation: none !important;
-  overflow: auto;
+	max-height: 150px;
+	animation: none !important;
+	overflow: auto;
 }

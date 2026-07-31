@@ -1,104 +1,107 @@
 /* Custom properties */
 :root {
-  --tooltip-background-color: 97, 97, 97;
-  --tooltip-offset-x: 0px;
-  --tooltip-offset-y: 0px;
-  --tooltip-arrow-size: 6px;
+	--tooltip-background-color: 97, 97, 97;
+	--tooltip-offset-x: 0px;
+	--tooltip-offset-y: 0px;
+	--tooltip-arrow-size: 6px;
 }
 
 .MUI_Tooltip-Container {
-  all: inherit;
-  position: relative;
+	all: inherit;
+	position: relative;
 }
 
 .MUI_Tooltip-Tip {
-  position: absolute;
-  pointer-events: auto;
-  border-radius: 4px;
-  padding: 6px;
-  background: rgb(var(--tooltip-background-color));
-  font-size: 14px;
-  line-height: 1;
-  z-index: 1500;
-  white-space: nowrap;
-  visibility: hidden;
-  width: fit-content;
-  max-width: 300px;
-  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 133ms cubic-bezier(0.4, 0, 0.2, 1);
-  &._open {
-    visibility: visible;
-  }
-  &._light {
-    color: black;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
-      rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-  }
-  &._dark {
-    color: white;
-  }
+	position: absolute;
+	pointer-events: auto;
+	border-radius: 4px;
+	padding: 6px;
+	background: rgb(var(--tooltip-background-color));
+	font-size: 14px;
+	line-height: 1;
+	z-index: 1500;
+	white-space: nowrap;
+	visibility: hidden;
+	width: fit-content;
+	max-width: 300px;
+	transition:
+		opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+		transform 133ms cubic-bezier(0.4, 0, 0.2, 1);
+	&._open {
+		visibility: visible;
+	}
+	&._light {
+		color: black;
+		box-shadow:
+			rgba(0, 0, 0, 0.2) 0px 2px 1px -1px,
+			rgba(0, 0, 0, 0.14) 0px 1px 1px 0px,
+			rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+	}
+	&._dark {
+		color: white;
+	}
 }
 
 .MUI_Tooltip-Tip._arrow::before {
-  content: " ";
-  left: 50%;
-  border: solid transparent;
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-width: var(--tooltip-arrow-size);
-  margin-left: calc(var(--tooltip-arrow-size) * -1);
+	content: " ";
+	left: 50%;
+	border: solid transparent;
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-width: var(--tooltip-arrow-size);
+	margin-left: calc(var(--tooltip-arrow-size) * -1);
 }
 
 .MUI_Tooltip-Tip._top {
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(calc(-50% + var(--tooltip-offset-x)))
-    translateY(var(--tooltip-offset-y));
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(calc(-50% + var(--tooltip-offset-x)))
+		translateY(var(--tooltip-offset-y));
 }
 /* CSS border triangles */
 .MUI_Tooltip-Tip._top::before {
-  top: 100%;
-  border-top-color: rgb(var(--tooltip-background-color));
+	top: 100%;
+	border-top-color: rgb(var(--tooltip-background-color));
 }
 
 .MUI_Tooltip-Tip._right {
-  left: 100%;
-  top: 50%;
-  transform: translateY(calc(-50% + var(--tooltip-offset-y)))
-    translateX(var(--tooltip-offset-x));
+	left: 100%;
+	top: 50%;
+	transform: translateY(calc(-50% + var(--tooltip-offset-y)))
+		translateX(var(--tooltip-offset-x));
 }
 
 .MUI_Tooltip-Tip._right::before {
-  left: calc(var(--tooltip-arrow-size) * -1);
-  top: 50%;
-  transform: translateX(0) translateY(-50%);
-  border-right-color: rgb(var(--tooltip-background-color));
+	left: calc(var(--tooltip-arrow-size) * -1);
+	top: 50%;
+	transform: translateX(0) translateY(-50%);
+	border-right-color: rgb(var(--tooltip-background-color));
 }
 
 .MUI_Tooltip-Tip._bottom {
-  top: 100%;
-  left: 50%;
-  transform: translateX(calc(-50% + var(--tooltip-offset-x)))
-    translateY(var(--tooltip-offset-y));
+	top: 100%;
+	left: 50%;
+	transform: translateX(calc(-50% + var(--tooltip-offset-x)))
+		translateY(var(--tooltip-offset-y));
 }
 
 .MUI_Tooltip-Tip._bottom::before {
-  bottom: 100%;
-  border-bottom-color: rgb(var(--tooltip-background-color));
+	bottom: 100%;
+	border-bottom-color: rgb(var(--tooltip-background-color));
 }
 
 .MUI_Tooltip-Tip._left {
-  right: 100%;
-  top: 50%;
-  transform: translateY(calc(-50% + var(--tooltip-offset-y)))
-    translateX(var(--tooltip-offset-x));
+	right: 100%;
+	top: 50%;
+	transform: translateY(calc(-50% + var(--tooltip-offset-y)))
+		translateX(var(--tooltip-offset-x));
 }
 .MUI_Tooltip-Tip._left::before {
-  left: auto;
-  right: calc(var(--tooltip-arrow-size) * -2);
-  top: 50%;
-  transform: translateX(0) translateY(-50%);
-  border-left-color: rgb(var(--tooltip-background-color));
+	left: auto;
+	right: calc(var(--tooltip-arrow-size) * -2);
+	top: 50%;
+	transform: translateX(0) translateY(-50%);
+	border-left-color: rgb(var(--tooltip-background-color));
 }
