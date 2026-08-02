@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useTheme } from "../../common/theme";
 import type { AlertProps } from "../Alert";
 import type { PaginationProps, TablePaginationProps } from "../Pagination";
@@ -4425,7 +4425,8 @@ export const SupportedLocales = [
 	"zhTW",
 ];
 
-const locales: Record<string, Localization> = {
+/** All built-in localizations keyed by locale id (no dynamic require/import). */
+export const locales: Record<SupportedLocalesType, Localization> = {
 	amET,
 	arEG,
 	arSA,
@@ -4487,13 +4488,23 @@ const locales: Record<string, Localization> = {
 	zhTW,
 };
 
-export function useLanguages() {
+/** Resolve a locale id to its Localization (falls back to enUS). */
+export function getLocalization(
+	locale: string | undefined | null,
+): Localization {
+	if (locale && locale in locales) {
+		return locales[locale as SupportedLocalesType];
+	}
+	return enUS;
+}
+
+/**
+ * Active theme locale strings for components (Pagination, Alert, …).
+ *
+ * Looks up the in-module `locales` map — never dynamic `require()` /
+ * `import()` of `./index.ts`, which breaks after tsc emit to `dist/`.
+ */
+export function useLanguages(): Localization {
 	const { locale } = useTheme();
-	const [currentLocalisation, setCurrent] = useState(enUS);
-
-	useEffect(() => {
-		setCurrent(locales[locale] ?? enUS);
-	}, [locale]);
-
-	return currentLocalisation;
+	return useMemo(() => getLocalization(locale), [locale]);
 }
