@@ -4425,15 +4425,74 @@ export const SupportedLocales = [
 	"zhTW",
 ];
 
+const locales: Record<string, Localization> = {
+	amET,
+	arEG,
+	arSA,
+	arSD,
+	azAZ,
+	bnBD,
+	beBY,
+	bgBG,
+	caES,
+	csCZ,
+	daDK,
+	deDE,
+	elGR,
+	enUS,
+	esES,
+	etEE,
+	faIR,
+	fiFI,
+	frFR,
+	heIL,
+	hiIN,
+	hrHR,
+	huHU,
+	hyAM,
+	idID,
+	isIS,
+	itIT,
+	jaJP,
+	khKH,
+	koKR,
+	kuCKB,
+	kuLatn,
+	kkKZ,
+	mkMK,
+	myMY,
+	msMS,
+	neNP,
+	nbNO,
+	nnNO,
+	nlNL,
+	plPL,
+	psAF,
+	ptBR,
+	ptPT,
+	roRO,
+	srRS,
+	ruRU,
+	siLK,
+	skSK,
+	svSE,
+	thTH,
+	trTR,
+	tlTL,
+	ukUA,
+	urPK,
+	viVN,
+	zhCN,
+	zhHK,
+	zhTW,
+};
+
 export function useLanguages() {
 	const { locale } = useTheme();
 	const [currentLocalisation, setCurrent] = useState(enUS);
 
 	useEffect(() => {
-		new Promise(async (resolve) => {
-			setCurrent(require("./index.ts")[locale]);
-			resolve(true);
-		});
+		setCurrent(locales[locale] ?? enUS);
 	}, [locale]);
 
 	return currentLocalisation;
