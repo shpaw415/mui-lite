@@ -1,127 +1,209 @@
+/* Fixed position shell — sizes to content, not the viewport */
 .MUI_Snackbar_Root {
 	z-index: 1400;
 	position: fixed;
 	display: flex;
-	-webkit-box-align: center;
 	align-items: center;
-	-webkit-box-pack: start;
 	justify-content: flex-start;
-	width: fit-content;
-	min-width: 95vw;
+	box-sizing: border-box;
+	/* Root is a placement shell only */
+	width: auto;
+	max-width: calc(100vw - 16px);
+	pointer-events: none;
+	/* Default: top-left (mobile) */
+	top: 8px;
+	left: 8px;
+	right: auto;
+	bottom: auto;
 
-	&._top-center {
-		-webkit-box-pack: center;
-		justify-content: center;
-		-webkit-box-align: center;
-		align-items: center;
+	&._top-left {
 		top: 8px;
+		left: 8px;
+		right: auto;
+		bottom: auto;
+		justify-content: flex-start;
+	}
+	&._top-center {
+		top: 8px;
+		left: 50%;
+		right: auto;
+		bottom: auto;
+		transform: translateX(-50%);
+		justify-content: center;
 	}
 	&._top-right {
-		left: 8px;
-		right: 8px;
-		-webkit-box-align: center;
-		align-items: center;
 		top: 8px;
-		-webkit-box-pack: end;
-		justify-content: flex-end;
-	}
-	&._bottom-right {
-		left: 8px;
 		right: 8px;
-		-webkit-box-align: center;
-		align-items: center;
-		bottom: 8px;
-		-webkit-box-pack: end;
+		left: auto;
+		bottom: auto;
 		justify-content: flex-end;
-	}
-	&._bottom-center {
-		left: 8px;
-		right: 8px;
-		-webkit-box-pack: center;
-		justify-content: center;
-		-webkit-box-align: center;
-		align-items: center;
-		bottom: 8px;
 	}
 	&._bottom-left {
-		left: 8px;
-		right: 8px;
-		-webkit-box-align: center;
-		align-items: center;
 		bottom: 8px;
-		-webkit-box-pack: start;
+		left: 8px;
+		right: auto;
+		top: auto;
 		justify-content: flex-start;
+	}
+	&._bottom-center {
+		bottom: 8px;
+		left: 50%;
+		right: auto;
+		top: auto;
+		transform: translateX(-50%);
+		justify-content: center;
+	}
+	&._bottom-right {
+		bottom: 8px;
+		right: 8px;
+		left: auto;
+		top: auto;
+		justify-content: flex-end;
 	}
 }
 
 @media (min-width: 600px) {
 	.MUI_Snackbar_Root {
-		-webkit-box-flex: initial;
-		flex-grow: initial;
-		min-width: 288px;
+		max-width: calc(100vw - 48px);
+
 		&._top-left {
 			top: 24px;
 			left: 24px;
 			right: auto;
+			bottom: auto;
 		}
 		&._top-center {
+			top: 24px;
 			left: 50%;
 			right: auto;
+			bottom: auto;
 			transform: translateX(-50%);
-			top: 24px;
 		}
 		&._top-right {
-			right: 24px;
-			left: auto;
 			top: 24px;
-		}
-		&._bottom-right {
 			right: 24px;
 			left: auto;
-			bottom: 24px;
-		}
-		&._bottom-center {
-			left: 50%;
-			right: auto;
-			transform: translateX(-50%);
-			bottom: 24px;
+			bottom: auto;
 		}
 		&._bottom-left {
+			bottom: 24px;
 			left: 24px;
 			right: auto;
+			top: auto;
+		}
+		&._bottom-center {
 			bottom: 24px;
+			left: 50%;
+			right: auto;
+			top: auto;
+			transform: translateX(-50%);
+		}
+		&._bottom-right {
+			bottom: 24px;
+			right: 24px;
+			left: auto;
+			top: auto;
 		}
 	}
 }
 
+/* Toast surface: message + action in one horizontal row */
+.MUI_Paper_Root.MUI_Snackbar_Inner,
 .MUI_Snackbar_Inner {
+	pointer-events: auto;
+	/* Solid MUI-like toast (overrides Paper surface tokens) */
 	background-color: rgb(50, 50, 50);
+	background-image: none;
 	color: rgb(255, 255, 255);
-	width: 100%;
-	flex-grow: 1;
-
 	display: flex;
-	-webkit-box-align: center;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	align-items: center;
-	flex-wrap: wrap;
-	-webkit-box-flex: 1;
+	/* Comfortable toast size (MUI-like) */
+	min-width: min(288px, calc(100vw - 16px));
+	max-width: min(560px, calc(100vw - 16px));
+	min-height: 48px;
+	width: max-content;
+	box-sizing: border-box;
+	/* Reset Paper defaults that fight toast layout */
+	padding: 0;
+	overflow: hidden;
+
 	&.child {
+		/* When embedding Alert / custom children */
 		background-color: transparent;
+		background-image: none;
 		color: initial;
+		min-width: min(288px, calc(100vw - 16px));
+		max-width: min(600px, calc(100vw - 16px));
+		width: max-content;
+		min-height: 0;
+		overflow: visible;
+		box-shadow: none;
 	}
 }
 
-.MUI_Snackbar_Content_Root {
-	padding: 6px 16px;
+@media (min-width: 600px) {
+	.MUI_Snackbar_Inner {
+		min-width: 288px;
+		max-width: min(560px, calc(100vw - 48px));
+
+		&.child {
+			min-width: 288px;
+			max-width: min(600px, calc(100vw - 48px));
+		}
+	}
 }
 
+/* Message column — grows, wraps text, vertically centers single line */
+.MUI_Snackbar_Content_Root {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 14px 16px;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-size: 0.875rem;
+	line-height: 1.43;
+	letter-spacing: 0.01071em;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	align-self: center;
+}
+
+/* Action column — stays at the end, never squeezed */
 .MUI_Snackbar_Action_Root {
 	display: flex;
-	-webkit-box-align: center;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	align-items: center;
+	flex: 0 0 auto;
+	align-self: stretch;
 	margin-left: auto;
-	padding-left: 16px;
-	margin-right: -8px;
+	padding: 6px 8px 6px 0;
+	gap: 4px;
+	/* Keep text buttons readable on dark toast */
+	color: inherit;
+
+	/* Text/outlined buttons need light contrast on #323232 */
+	& .MUI_Button_text,
+	& .MUI_Button_outlined {
+		color: rgb(144, 202, 249);
+	}
+}
+
+/* Embedded Alert (or similar) inside snackbar children mode */
+.MUI_Snackbar_Root .MUI_Alert_Root {
+	flex: 1 1 auto;
+	width: 100%;
+	max-width: 100%;
+	/* Never clamp height — title + body must expand the toast */
+	max-height: none;
+	min-height: 48px;
+}
+
+.MUI_Snackbar_Root .MUI_Alert_Root > .MUI_Alert_Action {
+	padding-top: 4px;
+	align-self: center;
 }
 
 :root {
@@ -235,8 +317,27 @@
 	}
 }
 
+/* Fade default: hide when closed */
 .MUI_Snackbar_Root {
+	visibility: hidden;
+	opacity: 0;
+	transition:
+		opacity var(--animation-timer, 500ms) ease,
+		visibility 0s linear var(--animation-timer, 500ms);
+
+	&._open {
+		visibility: visible;
+		opacity: 1;
+		transition:
+			opacity var(--animation-timer, 500ms) ease,
+			visibility 0s linear 0s;
+	}
+
 	&._slide {
+		opacity: 1;
+		/* slide keyframes own visibility */
+		transition: none;
+
 		&._top-center {
 			animation: Slide-Up-hide-animation var(--animation-timer, 500ms) forwards;
 			&._open {
@@ -271,8 +372,8 @@
 			}
 		}
 	}
-}
-.MUI_Snackbar_Root {
+
+	/* Explicit animationSide overrides */
 	&._top {
 		animation: Slide-Up-hide-animation var(--animation-timer, 500ms) forwards !important;
 		&._open {
@@ -299,13 +400,5 @@
 			animation: Slide-right-show-animation var(--animation-timer, 500ms)
 				forwards !important;
 		}
-	}
-}
-
-.MUI_Alert_Root {
-	flex-grow: 1;
-	max-height: 50px !important;
-	& > .MUI_Alert_Action {
-		padding: 0 !important;
 	}
 }

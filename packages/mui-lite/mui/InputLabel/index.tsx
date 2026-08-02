@@ -1,11 +1,22 @@
 "use client";
 
 import clsx from "clsx";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
 import type { MuiElementType } from "../../common/utils";
 import FormLabel, { type FormLabelProps } from "../FormLabel";
 import { formControlState, useFormControl } from "../FormControl";
+
+/** Flatten label children to a string for the outlined fieldset notch. */
+function labelToText(node: ReactNode): string {
+	if (node == null || typeof node === "boolean") return "";
+	if (typeof node === "string" || typeof node === "number") return String(node);
+	if (Array.isArray(node)) return node.map(labelToText).join("");
+	if (typeof node === "object" && node !== null && "props" in node) {
+		return labelToText((node as { props?: { children?: ReactNode } }).props?.children);
+	}
+	return "";
+}
 
 export type InputLabelProps = {
 	children?: ReactNode;
@@ -17,6 +28,17 @@ export type InputLabelProps = {
 } & FormLabelProps &
 	MuiElementType<HTMLLabelElement>;
 
+/**
+ * Floating / shrinking label for FormControl inputs.
+ *
+ * @example Labeled outlined field
+ * ```tsx
+ * <FormControl>
+ *   <InputLabel>Email</InputLabel>
+ *   <OutlinedInput />
+ * </FormControl>
+ * ```
+ */
 export default function InputLabel({
 	children,
 	disableAnimation = false,
@@ -48,6 +70,14 @@ export default function InputLabel({
 	const shrink =
 		shrinkProp ??
 		Boolean(fcs.filled || fcs.focused || fc?.adornedStart);
+
+	// Publish label text so OutlinedInput can size the notched border gap
+	const setLabelText = fc?.setLabelText;
+	useEffect(() => {
+		if (!setLabelText) return;
+		setLabelText(labelToText(children));
+		return () => setLabelText("");
+	}, [children, setLabelText]);
 
 	const root = useClassNames({
 		component_name: "InputLabel",

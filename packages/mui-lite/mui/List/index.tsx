@@ -25,6 +25,18 @@ export type ListProps = {
 	dense?: boolean;
 } & MuiElementType<HTMLUListElement>;
 
+/**
+ * Structured rows for navigation, settings, and selection lists.
+ *
+ * @example Settings list
+ * ```tsx
+ * <List>
+ *   <ListItemButton>
+ *     <ListItemText primary="Account" secondary="Email & security" />
+ *   </ListItemButton>
+ * </List>
+ * ```
+ */
 export function List({
 	sx,
 	subheader,
@@ -121,27 +133,32 @@ export function ListItemButton({
 	children,
 	component = "button",
 	selected,
+	disabled,
 	...props
 }: ListItemButtonProps) {
 	const root = useClassNames({
 		className,
 		component_name: "ListItemButton_Root",
-		state: [selected && "selected"],
+		state: [selected && "selected", disabled && "disabled"],
 	});
 	const style = useStyle(sx);
 	const ref = useRef<HTMLDivElement>(null);
 	return createElement(component, {
 		type: "button",
 		role: "button",
-		tabIndex: 0,
+		tabIndex: disabled ? -1 : 0,
+		disabled,
+		"aria-disabled": disabled || undefined,
 		className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx,
 		...props,
 		children: (
 			<>
 				{children}
-				<div className="MUI_ListItemButton_ripple" ref={ref}>
-					<RippleBase ref={ref} preventClickElement />
-				</div>
+				{!disabled && (
+					<div className="MUI_ListItemButton_ripple" ref={ref}>
+						<RippleBase ref={ref} preventClickElement disabled={disabled} />
+					</div>
+				)}
 			</>
 		),
 	});

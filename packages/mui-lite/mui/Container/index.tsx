@@ -16,6 +16,16 @@ export type ContainerProps = {
 	maxWidth?: ContainerMaxWidth;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Centered max-width page column for readable layouts.
+ *
+ * @example Page body
+ * ```tsx
+ * <Container maxWidth="md">
+ *   <Typography variant="h4">Docs</Typography>
+ * </Container>
+ * ```
+ */
 export default function Container({
 	children,
 	component = "div",

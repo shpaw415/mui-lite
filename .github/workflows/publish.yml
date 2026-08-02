@@ -1,0 +1,157 @@
+name: Publish to npm
+
+# Manual publish only — run from Actions when you are ready to release.
+# Requires repository secret: NPM_TOKEN (npm automation or granular access token
+# with permission to publish @shpaw415/mui-lite).
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: >
+          Version bump: patch | minor | major | prepatch | preminor | premajor |
+          or an exact semver (e.g. 0.1.0). Leave empty to publish the version
+          already in packages/mui-lite/package.json without bumping.
+        required: false
+        type: string
+        default: ""
+      tag:
+        description: npm dist-tag (latest, next, beta, …)
+        required: false
+        type: string
+        default: "latest"
+      dry_run:
+        description: If true, pack and validate but do not publish
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Need full history for tags / version commits
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node (npm publish + provenance)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run tests
+        run: bun test
+
+      - name: Build library (JS + TypeScript declarations)
+        run: bun run build
+
+      - name: Bump version
+        id: version
+        working-directory: packages/mui-lite
+        run: |
+          set -euo pipefail
+          CURRENT=$(node -p "require('./package.json').version")
+          INPUT="${{ inputs.version }}"
+          if [ -z "$INPUT" ]; then
+            NEW="$CURRENT"
+            echo "No version bump requested; publishing $NEW"
+          elif echo "$INPUT" | grep -Eq '^(patch|minor|major|prepatch|preminor|premajor|prerelease)$'; then
+            npm version "$INPUT" --no-git-tag-version
+            NEW=$(node -p "require('./package.json').version")
+            echo "Bumped $CURRENT → $NEW ($INPUT)"
+          else
+            npm version "$INPUT" --no-git-tag-version
+            NEW=$(node -p "require('./package.json').version")
+            echo "Set version $CURRENT → $NEW"
+          fi
+          echo "version=$NEW" >> "$GITHUB_OUTPUT"
+          echo "previous=$CURRENT" >> "$GITHUB_OUTPUT"
+
+      - name: Verify package contents
+        working-directory: packages/mui-lite
+        run: |
+          set -euo pipefail
+          test -f dist/mui/Button/index.js
+          test -f dist/mui/Button/index.d.ts
+          test -f dist/common/theme/index.js
+          test -f dist/common/theme/index.d.ts
+          test -f dist/style/mui-style.css
+          npm pack --dry-run
+
+      - name: Publish to npm
+        working-directory: packages/mui-lite
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ inputs.tag }}"
+          ARGS=(--access public --provenance --tag "$TAG")
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "Dry run — packing only"
+            npm pack
+            exit 0
+          fi
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "::error::NPM_TOKEN secret is not set. Add an npm automation token at Settings → Secrets → Actions."
+            exit 1
+          fi
+          npm publish "${ARGS[@]}"
+
+      - name: Commit version bump and tag
+        if: ${{ inputs.dry_run != true && steps.version.outputs.version != steps.version.outputs.previous }}
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/mui-lite/package.json
+          # bun.lock may change if workspaces rewrite versions
+          git add bun.lock 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No version file changes to commit"
+          else
+            git commit -m "chore(release): v${VERSION}"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists"
+          else
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "## Publish result"
+            echo ""
+            echo "- **Package:** \`@shpaw415/mui-lite\`"
+            echo "- **Version:** \`${{ steps.version.outputs.version }}\`"
+            echo "- **Tag:** \`${{ inputs.tag }}\`"
+            echo "- **Dry run:** \`${{ inputs.dry_run }}\`"
+            echo "- **npm:** https://www.npmjs.com/package/@shpaw415/mui-lite"
+          } >> "$GITHUB_STEP_SUMMARY"

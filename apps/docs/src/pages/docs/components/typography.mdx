@@ -22,8 +22,15 @@ import Typography from "@shpaw415/mui-lite/Typography";
 export function Title() {
   return (
     <>
-      <Typography Element="h1">Page title</Typography>
+      {/* variant drives size/weight (wins over Tailwind preflight) */}
+      <Typography variant="h1">Page title</Typography>
+      <Typography variant="h2">Section</Typography>
+      <Typography variant="body1">Body copy</Typography>
       <Typography color="primary">Highlighted body</Typography>
+      {/* Semantic tag + type scale independently */}
+      <Typography variant="h5" component="h1">
+        Visual h5, semantic h1
+      </Typography>
     </>
   );
 }
@@ -33,6 +40,9 @@ export function Title() {
 
 | Prop | Type | Default |
 | --- | --- | --- |
-| Element | HTML tag name | p |
-| color | primary \| secondary \| error \| … | — |
+| variant | h1–h6 \| subtitle1/2 \| body1/2 \| caption \| button \| overline | body1 |
+| Element / component | HTML tag name | from variant |
+| color | primary \| secondary \| error \| warning \| success \| textSecondary | — |
+| align | left \| center \| right \| justify | inherit |
+| gutterBottom / noWrap / paragraph | boolean | false |
 | sx | SxProps | — |

@@ -23,6 +23,46 @@ import Slider from "@shpaw415/mui-lite/Slider";
 <Slider defaultValue={[20, 80]} />
 ```
 
+## With tooltips (value labels)
+
+Show the current value above the thumb with `toolTip` and `valueLabelDisplay`:
+
+- **`on`** — label always visible
+- **`auto`** — label while dragging (and optionally on hover)
+- **`valueLabelFormat`** — format the number (e.g. `$` or `%`)
+
+```tsx
+import Slider from "@shpaw415/mui-lite/Slider";
+
+// Always show the value
+<Slider
+  defaultValue={40}
+  toolTip
+  valueLabelDisplay="on"
+  aria-label="Volume"
+/>
+
+// Show while dragging, with a custom format
+<Slider
+  defaultValue={55}
+  toolTip
+  valueLabelDisplay="auto"
+  valueLabelFormat={(v) => `${v}%`}
+  aria-label="Brightness"
+/>
+
+// Range filter with currency labels
+<Slider
+  defaultValue={[25, 75]}
+  toolTip
+  valueLabelDisplay="auto"
+  valueLabelFormat={(v) => `$${v}`}
+  min={0}
+  max={100}
+  onChange={(values) => setPriceRange(values)}
+/>
+```
+
 ## Props
 
 | Prop | Type | Default |
@@ -30,4 +70,6 @@ import Slider from "@shpaw415/mui-lite/Slider";
 | min / max / step | number | 0 / 100 / 1 |
 | value / defaultValue | number \| number[] | — |
 | onChange | (values: number[]) => void | — |
-| valueLabelDisplay | on \| auto | — |
+| toolTip | boolean | false |
+| valueLabelDisplay | on \| auto \| off | off |
+| valueLabelFormat | (value: number) => string \| number | — |

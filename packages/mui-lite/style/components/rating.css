@@ -7,6 +7,8 @@
 	text-align: left;
 	width: min-content;
 	-webkit-tap-highlight-color: transparent;
+	/* Prevent layout shift when icons scale on preview */
+	line-height: 1;
 }
 
 .MUI_Rating:is(._small) {
@@ -17,6 +19,7 @@
 }
 
 .MUI_Rating:is(._readOnly) {
+	cursor: default;
 	pointer-events: none;
 }
 
@@ -25,32 +28,117 @@
 	pointer-events: none;
 }
 
+/* One star slot (may contain half-width labels) */
 .MUI_Rating_decimal {
 	position: relative;
 	display: inline-block;
+	/* Square slot matching font-size icon */
+	width: 1em;
+	height: 1em;
+	/* Stack underlay + clipped segments */
+	font-size: inherit;
+	/* Keep hit targets continuous */
+	/* isolate stacking for preview glow */
+	isolation: isolate;
+}
+
+/* Underlay empty star for half-precision (shows outline on empty half) */
+.MUI_Rating_icon_underlay {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	color: rgba(var(--text-main), 0.26);
 }
 
 .MUI_Rating_label {
 	cursor: inherit;
+	display: inline-block;
+	position: relative;
+	/* full-star: fill the slot */
+	width: 100%;
+	height: 100%;
+}
+
+/* Half (or finer) segment: absolute clip window over the star */
+.MUI_Rating_label_decimal {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	overflow: hidden;
+	z-index: 1;
+	/* Later segments stack above earlier for hit-testing from the right */
+}
+
+.MUI_Rating_label_decimal:nth-child(2) {
+	z-index: 2;
+}
+.MUI_Rating_label_decimal:nth-child(3) {
+	z-index: 3;
+}
+.MUI_Rating_label_decimal:nth-child(4) {
+	z-index: 4;
 }
 
 .MUI_Rating_icon {
 	display: flex;
-	transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	/* Smooth fill/preview transitions */
+	transition:
+		transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+		color 120ms cubic-bezier(0.4, 0, 0.2, 1),
+		filter 120ms cubic-bezier(0.4, 0, 0.2, 1),
+		opacity 120ms cubic-bezier(0.4, 0, 0.2, 1);
 	pointer-events: none;
 }
 
+.MUI_Rating_icon > svg {
+	display: block;
+	width: 1em;
+	height: 1em;
+	/* Drop-shadow tracks currentColor for a soft “selection” halo */
+	/* (filter on svg is cheaper than box-shadow on scaled parent) */
+}
+
 .MUI_Rating_icon_filled {
-	color: inherit;
+	color: inherit; /* #faaf00 from root */
 }
 
 .MUI_Rating_icon_empty {
 	color: rgba(var(--text-main), 0.26);
 }
 
-.MUI_Rating:hover .MUI_Rating_icon_filled,
-.MUI_Rating:is(._focusVisible) .MUI_Rating_icon_filled {
-	transform: scale(1.2);
+/*
+ * Preview (hover/focus): soft glow / selection shadow so the user sees
+ * “if I click here, this is the rating”.
+ */
+.MUI_Rating_icon_preview {
+	color: #faaf00;
+	transform: scale(1.15);
+	filter: drop-shadow(0 0 2px rgba(250, 175, 0, 0.95))
+		drop-shadow(0 0 6px rgba(250, 175, 0, 0.55));
+	z-index: 1;
+}
+
+/* Empty icons that are not in the preview range stay muted */
+.MUI_Rating:is(._previewing) .MUI_Rating_icon_empty:not(.MUI_Rating_icon_preview) {
+	opacity: 0.85;
+}
+
+/* Committed fill while not previewing — no scale */
+.MUI_Rating:not(._previewing) .MUI_Rating_icon_filled {
+	transform: none;
+	filter: none;
+}
+
+/* While previewing, committed-only stars (below cursor) still fill but softer than the tip */
+.MUI_Rating:is(._previewing) .MUI_Rating_icon_filled:not(.MUI_Rating_icon_preview) {
+	/* still gold fill without the strong glow of the active tip */
+	filter: drop-shadow(0 0 1px rgba(250, 175, 0, 0.35));
+	transform: scale(1.05);
 }
 
 .MUI_Rating_visuallyHidden {

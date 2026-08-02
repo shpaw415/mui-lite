@@ -35,6 +35,17 @@ export type MenuProps = {
 	children?: ReactNode;
 } & Omit<PaperProps, "children">;
 
+/**
+ * Anchored action menu for overflow and contextual actions.
+ *
+ * @example Row actions
+ * ```tsx
+ * <Menu open={open} anchorEl={btnRef} onClose={onClose}>
+ *   <ListItemButton onClick={edit}>Edit</ListItemButton>
+ *   <ListItemButton onClick={remove}>Delete</ListItemButton>
+ * </Menu>
+ * ```
+ */
 export default function Menu({
 	open = false,
 	onClose,

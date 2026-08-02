@@ -27,6 +27,17 @@ export type ButtonProps = {
 		HTMLButtonElement
 	>;
 
+/**
+ * Primary call-to-action with Material variants, colors, sizes, and ripple.
+ *
+ * @example Save / cancel
+ * ```tsx
+ * <>
+ *   <Button variant="contained" onClick={save}>Save</Button>
+ *   <Button variant="text" onClick={cancel}>Cancel</Button>
+ * </>
+ * ```
+ */
 function Button({
 	children,
 	sx,
@@ -56,12 +67,15 @@ function Button({
 		overRide: override,
 	});
 	const ref = useMuiRef<HTMLButtonElement>(props.ref);
+	const isDisabled = Boolean(props.disabled);
 	const content = (
 		<>
 			{startIcon && <span className="MUI_Button_startIcon">{startIcon}</span>}
 			{children}
 			{endIcon && <span className="MUI_Button_endIcon">{endIcon}</span>}
-			{!disableRipple && <RippleBase ref={ref} preventClickElement />}
+			{!disableRipple && !isDisabled && (
+				<RippleBase ref={ref} preventClickElement disabled={isDisabled} />
+			)}
 		</>
 	);
 	const shared = {

@@ -25,6 +25,14 @@ export type FormControlLabelProps = {
 	inputRef?: React.Ref<any>;
 } & Omit<MuiElementType<HTMLLabelElement>, "onChange">;
 
+/**
+ * Pairs a control (checkbox, radio, switch) with an accessible label.
+ *
+ * @example Labeled switch
+ * ```tsx
+ * <FormControlLabel control={<Switch />} label="Notifications" />
+ * ```
+ */
 export default function FormControlLabel({
 	control,
 	label,

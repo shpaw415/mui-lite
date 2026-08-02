@@ -14,6 +14,16 @@ export type BadgeProps = {
 	position?: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 } & MuiElementType<HTMLSpanElement>;
 
+/**
+ * Notification counts and status dots on icons or avatars.
+ *
+ * @example Inbox count
+ * ```tsx
+ * <Badge badgeContent={4} color="error">
+ *   <MailIcon />
+ * </Badge>
+ * ```
+ */
 export default function Badge({
 	children,
 	className,

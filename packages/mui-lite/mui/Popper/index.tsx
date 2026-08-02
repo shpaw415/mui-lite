@@ -117,6 +117,16 @@ function computePosition(
 	return { top, left, placement: p };
 }
 
+/**
+ * Non-blocking positioned layer (tooltips, dropdowns without modal).
+ *
+ * @example Anchored helper
+ * ```tsx
+ * <Popper open={open} anchorEl={ref.current} placement="bottom-start">
+ *   <Paper sx={{ p: 1 }}>Hint</Paper>
+ * </Popper>
+ * ```
+ */
 export default function Popper({
 	open,
 	anchorEl,

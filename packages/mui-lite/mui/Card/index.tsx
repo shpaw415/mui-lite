@@ -23,6 +23,22 @@ export type CardProps = {
 	raised?: boolean;
 } & PaperProps;
 
+/**
+ * Content tile for product, media, and summary surfaces.
+ *
+ * @example Product card
+ * ```tsx
+ * <Card>
+ *   <CardMedia image={img} title="Shoes" />
+ *   <CardContent>
+ *     <Typography variant="h6">Runner Pro</Typography>
+ *   </CardContent>
+ *   <CardActions>
+ *     <Button size="small">Buy</Button>
+ *   </CardActions>
+ * </Card>
+ * ```
+ */
 export default function Card({
 	children,
 	raised = false,
@@ -236,6 +252,7 @@ export function CardActionArea({
 	className,
 	sx,
 	onClick,
+	disabled,
 	...props
 }: CardActionAreaProps) {
 	const Comp: ElementType = href ? "a" : (component ?? "button");
@@ -243,6 +260,7 @@ export function CardActionArea({
 	const root = useClassNames({
 		component_name: "CardActionArea",
 		className,
+		state: [disabled && "disabled"],
 	});
 	const style = useStyle(sx);
 
@@ -252,13 +270,15 @@ export function CardActionArea({
 			...props,
 			ref,
 			href,
+			disabled: Comp === "button" ? disabled : undefined,
+			"aria-disabled": disabled || undefined,
 			type: Comp === "button" ? "button" : undefined,
 			className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx,
-			onClick,
+			onClick: disabled ? undefined : onClick,
 		},
 		children,
-		!disableRipple && (
-			<RippleBase ref={ref as any} preventClickElement />
+		!disableRipple && !disabled && (
+			<RippleBase ref={ref as any} preventClickElement disabled={disabled} />
 		),
 	);
 }

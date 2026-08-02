@@ -48,6 +48,20 @@ function DefaultIcon({ className }: { className?: string }) {
 	);
 }
 
+/**
+ * Styled native <select> for simple option lists.
+ *
+ * @example Page size
+ * ```tsx
+ * <FormControl variant="standard">
+ *   <InputLabel>Rows</InputLabel>
+ *   <NativeSelect defaultValue={10}>
+ *     <option value={10}>10</option>
+ *     <option value={25}>25</option>
+ *   </NativeSelect>
+ * </FormControl>
+ * ```
+ */
 export default function NativeSelect({
 	children,
 	inputRef,

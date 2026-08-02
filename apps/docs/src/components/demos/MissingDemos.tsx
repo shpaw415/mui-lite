@@ -65,15 +65,48 @@ function Icon({ children }: { children: ReactNode }) {
 
 export function TypographyDemo() {
 	return (
-		<Demo>
-			<Stack spacing={1}>
-				<Typography Element="h1">h1 Heading</Typography>
-				<Typography Element="h2">h2 Heading</Typography>
-				<Typography Element="p">Body paragraph text.</Typography>
-				<Typography color="primary">Primary color</Typography>
-				<Typography color="error">Error color</Typography>
-			</Stack>
-		</Demo>
+		<>
+			<Demo title="Variants (scale)">
+				<Stack spacing={1} style={{ width: "100%" }}>
+					<Typography variant="h1">h1 Heading</Typography>
+					<Typography variant="h2">h2 Heading</Typography>
+					<Typography variant="h3">h3 Heading</Typography>
+					<Typography variant="h4">h4 Heading</Typography>
+					<Typography variant="h5">h5 Heading</Typography>
+					<Typography variant="h6">h6 Heading</Typography>
+					<Typography variant="subtitle1">subtitle1</Typography>
+					<Typography variant="subtitle2">subtitle2</Typography>
+					<Typography variant="body1">
+						body1 — default paragraph text.
+					</Typography>
+					<Typography variant="body2">body2 — secondary body.</Typography>
+					<Typography variant="caption">caption</Typography>
+					<Typography variant="overline">overline</Typography>
+				</Stack>
+			</Demo>
+			<Demo title="Colors">
+				<Stack spacing={1} style={{ width: "100%" }}>
+					<Typography color="primary">Primary color</Typography>
+					<Typography color="secondary">Secondary color</Typography>
+					<Typography color="error">Error color</Typography>
+					<Typography color="warning">Warning color</Typography>
+					<Typography color="success">Success color</Typography>
+					<Typography color="textSecondary">textSecondary / muted</Typography>
+				</Stack>
+			</Demo>
+			<Demo title="Semantic Element + variant">
+				{/* Element sets the HTML tag; variant (or matching Element) sets the type scale */}
+				<Stack spacing={1} style={{ width: "100%" }}>
+					<Typography Element="h1">Element=&quot;h1&quot;</Typography>
+					<Typography Element="h2" variant="h2">
+						Element h2 + variant h2
+					</Typography>
+					<Typography variant="h5" component="h1">
+						variant h5 as &lt;h1&gt;
+					</Typography>
+				</Stack>
+			</Demo>
+		</>
 	);
 }
 
@@ -261,14 +294,55 @@ export function SkeletonDemo() {
 
 export function ProgressDemo() {
 	return (
-		<Demo>
-			<Stack spacing={2} style={{ width: "100%", maxWidth: 320 }}>
-				<CircularProgress color="primary" />
-				<CircularProgress variant="determinate" value={65} color="secondary" />
-				<LinearProgress />
-				<LinearProgress variant="determinate" value={40} color="success" />
-			</Stack>
-		</Demo>
+		<>
+			<Demo title="Busy (indeterminate)">
+				<p style={{ margin: "0 0 12px", fontSize: 14, opacity: 0.75 }}>
+					Unknown progress — continuous animation while waiting.
+				</p>
+				<Stack
+					direction="row"
+					spacing={3}
+					alignItems="center"
+					style={{ width: "100%", flexWrap: "wrap", gap: 16 }}
+				>
+					<div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+						<span style={{ fontSize: 12, opacity: 0.7 }}>Circular</span>
+						<CircularProgress color="primary" />
+					</div>
+					<div style={{ flex: 1, minWidth: 160, display: "flex", flexDirection: "column", gap: 8 }}>
+						<span style={{ fontSize: 12, opacity: 0.7 }}>Linear</span>
+						<LinearProgress />
+					</div>
+				</Stack>
+			</Demo>
+			<Demo title="Determinate">
+				<p style={{ margin: "0 0 12px", fontSize: 14, opacity: 0.75 }}>
+					Known progress — pass <code>value</code> from 0 to 100.
+				</p>
+				<Stack spacing={2} style={{ width: "100%", maxWidth: 360 }}>
+					<div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+						<CircularProgress
+							variant="determinate"
+							value={65}
+							color="secondary"
+						/>
+						<span style={{ fontSize: 14 }}>Circular · 65%</span>
+					</div>
+					<div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+						<span style={{ fontSize: 14 }}>Linear · 40%</span>
+						<LinearProgress
+							variant="determinate"
+							value={40}
+							color="success"
+						/>
+					</div>
+					<div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+						<span style={{ fontSize: 14 }}>Linear · 80%</span>
+						<LinearProgress variant="determinate" value={80} color="primary" />
+					</div>
+				</Stack>
+			</Demo>
+		</>
 	);
 }
 
@@ -315,12 +389,48 @@ export function RadioDemo() {
 
 export function SliderDemo() {
 	return (
-		<Demo>
-			<div style={{ width: "100%", maxWidth: 280, padding: "8px 12px" }}>
-				<Slider defaultValue={30} />
-				<Slider defaultValue={[20, 60]} style={{ marginTop: 24 }} />
-			</div>
-		</Demo>
+		<>
+			<Demo title="Basic">
+				<div style={{ width: "100%", maxWidth: 280, padding: "8px 12px" }}>
+					<Slider defaultValue={30} />
+					<Slider defaultValue={[20, 60]} style={{ marginTop: 24 }} />
+				</div>
+			</Demo>
+			<Demo title="With value tooltips">
+				<div style={{ width: "100%", maxWidth: 280, padding: "24px 12px 8px" }}>
+					{/* toolTip + valueLabelDisplay show the current value while interacting */}
+					<p style={{ margin: "0 0 8px", fontSize: 14, opacity: 0.7 }}>
+						Always show label
+					</p>
+					<Slider
+						defaultValue={40}
+						toolTip
+						valueLabelDisplay="on"
+						aria-label="Volume"
+					/>
+					<p style={{ margin: "20px 0 8px", fontSize: 14, opacity: 0.7 }}>
+						Show label while dragging
+					</p>
+					<Slider
+						defaultValue={55}
+						toolTip
+						valueLabelDisplay="auto"
+						valueLabelFormat={(v) => `${v}%`}
+						aria-label="Brightness"
+					/>
+					<p style={{ margin: "20px 0 8px", fontSize: 14, opacity: 0.7 }}>
+						Range with tooltips
+					</p>
+					<Slider
+						defaultValue={[25, 75]}
+						toolTip
+						valueLabelDisplay="auto"
+						valueLabelFormat={(v) => `$${v}`}
+						aria-label="Price range"
+					/>
+				</div>
+			</Demo>
+		</>
 	);
 }
 

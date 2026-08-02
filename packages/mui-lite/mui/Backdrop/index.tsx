@@ -8,6 +8,14 @@ export type BackdropProps = {
 	invisible?: boolean;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Dims the page behind modals or while a blocking action runs.
+ *
+ * @example Loading overlay
+ * ```tsx
+ * <Backdrop open={loading} />
+ * ```
+ */
 export default function Backdrop({
 	sx,
 	open,

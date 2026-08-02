@@ -9,6 +9,17 @@ export type FormGroupProps = {
 	row?: boolean;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Groups related checkboxes or switches in a form section.
+ *
+ * @example Permission set
+ * ```tsx
+ * <FormGroup>
+ *   <FormControlLabel control={<CheckBox />} label="Read" />
+ *   <FormControlLabel control={<CheckBox />} label="Write" />
+ * </FormGroup>
+ * ```
+ */
 export default function FormGroup({
 	children,
 	component = "div",

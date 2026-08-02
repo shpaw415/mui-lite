@@ -46,6 +46,17 @@ export type AutoCompleteProps<Values extends OptionsTypes<string>> = {
 	value?: string;
 };
 
+/**
+ * Filterable option list for search, tags, and typeahead fields.
+ *
+ * @example Country search
+ * ```tsx
+ * <AutoComplete
+ *   options={countries}
+ *   onSelect={setCountry}
+ * />
+ * ```
+ */
 export default function AutoComplete<Values extends OptionsTypes<string>>({
 	SlotProps,
 	options,

@@ -31,6 +31,21 @@ export type DialogProps = {
 	preventBodyScroll?: boolean;
 } & Omit<MuiElementType<HTMLDivElement>, "onDrag">;
 
+/**
+ * Modal dialog for confirmations, forms, and focused tasks.
+ *
+ * @example Confirm delete
+ * ```tsx
+ * <Dialog open={open} onClose={onClose}>
+ *   <DialogTitle>Delete item?</DialogTitle>
+ *   <DialogContent>This cannot be undone.</DialogContent>
+ *   <DialogActions>
+ *     <Button onClick={onClose}>Cancel</Button>
+ *     <Button color="error" onClick={remove}>Delete</Button>
+ *   </DialogActions>
+ * </Dialog>
+ * ```
+ */
 export default function Dialog({
 	onBackdropClick,
 	disableBackDrop,
@@ -172,14 +187,12 @@ export type DialogActionsProps = {} & MuiElementType<HTMLDivElement>;
 export function DialogActions({ className, sx, ...props }: DialogActionsProps) {
 	const style = useStyle(sx);
 	return (
+		// Default action buttons to text + primary; explicit variant/color on Button wins.
+		// Do not inject sx color overrides — they were painting light text on light paper.
 		<PropsOverRideProvider<ButtonProps>
 			props={{
 				variant: "text",
-				sx: {
-					color: {
-						"text-primary": "light",
-					},
-				},
+				color: "primary",
 			}}
 		>
 			<div

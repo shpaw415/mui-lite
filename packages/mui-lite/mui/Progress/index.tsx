@@ -26,6 +26,15 @@ export type CircularProgressProps = {
 	value?: number;
 } & Omit<MuiElementType<HTMLDivElement>, "size" | "value">;
 
+/**
+ * Loading indicators (circular and linear) for async work.
+ *
+ * @example Page loading
+ * ```tsx
+ * <CircularProgress />
+ * <LinearProgress variant="determinate" value={progress} />
+ * ```
+ */
 export function CircularProgress({
 	color,
 	sx,

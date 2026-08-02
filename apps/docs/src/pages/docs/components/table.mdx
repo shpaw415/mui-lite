@@ -7,23 +7,34 @@ import Table, {
   TableContainer,
   TableHead,
   TableBody,
+  TableFooter,
   TableRow,
   TableCell,
   TableSortLabel,
 } from "@shpaw415/mui-lite/Table";
+import { TablePagination } from "@shpaw415/mui-lite/Pagination";
 ```
 
 ## Why use it
 
 **Table** renders structured tabular data with Material density, sticky headers, hover/selected rows, and sort labels. Use it for admin lists, invoices, and comparison grids where columns align better than cards.
 
-Wrap in **TableContainer** for horizontal scroll on small screens. Use **TableSortLabel** for accessible sort affordances.
+Wrap in **TableContainer** for horizontal scroll (and optional `maxHeight` + **stickyHeader**). Use **TableSortLabel** for accessible sort affordances and **TablePagination** for large datasets.
 
 ## Demo
 
+The interactive demo shows common product patterns:
+
+- **Column sorting** (click headers; toggles asc/desc)
+- **Row selection** (checkbox column + click row; select-all on page)
+- **Pagination** (page + rows-per-page)
+- **Dense / comfortable** density toggle
+- **Sticky header** while scrolling
+- **Footer** with page totals
+
 <TableDemo />
 
-## Example
+## Example — basic
 
 ```tsx
 import Table, {
@@ -32,21 +43,16 @@ import Table, {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
 } from "@shpaw415/mui-lite/Table";
 
-export function Desserts() {
+export function BasicTable() {
   return (
     <TableContainer>
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">
-              <TableSortLabel active direction="desc">
-                Calories
-              </TableSortLabel>
-            </TableCell>
+            <TableCell align="right">Calories</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,3 +66,75 @@ export function Desserts() {
   );
 }
 ```
+
+## Example — sortable columns
+
+```tsx
+const [orderBy, setOrderBy] = useState<"name" | "calories">("name");
+const [order, setOrder] = useState<"asc" | "desc">("asc");
+
+const handleSort = (key: "name" | "calories") => {
+  if (orderBy === key) setOrder((d) => (d === "asc" ? "desc" : "asc"));
+  else {
+    setOrderBy(key);
+    setOrder("asc");
+  }
+};
+
+// ...
+<TableCell sortDirection={orderBy === "calories" ? order : false}>
+  <TableSortLabel
+    active={orderBy === "calories"}
+    direction={orderBy === "calories" ? order : "asc"}
+    onClick={() => handleSort("calories")}
+  >
+    Calories
+  </TableSortLabel>
+</TableCell>
+```
+
+## Example — selection + pagination
+
+```tsx
+const [selected, setSelected] = useState<string[]>([]);
+const [page, setPage] = useState(0);
+const [rowsPerPage, setRowsPerPage] = useState<10 | 25 | 50 | 100>(10);
+
+// slice sorted rows for the current page, then:
+<TableRow
+  hover
+  selected={selected.includes(row.id)}
+  onClick={() => toggleRow(row.id)}
+>
+  <TableCell padding="checkbox">
+    <CheckBox
+      checked={selected.includes(row.id)}
+      onChange={() => toggleRow(row.id)}
+    />
+  </TableCell>
+  {/* ... */}
+</TableRow>
+
+<TablePagination
+  count={rows.length}
+  page={page}
+  rowsPerPage={rowsPerPage}
+  onPageChange={(_e, p) => setPage(p)}
+  onRowsPerPageChange={(r) => {
+    setRowsPerPage(r);
+    setPage(0);
+  }}
+/>
+```
+
+## Composition
+
+| Piece | Role |
+| --- | --- |
+| `TableContainer` | Scroll wrapper (set `maxHeight` for sticky header) |
+| `Table` | `size`, `stickyHeader`, `padding` |
+| `TableHead` / `TableBody` / `TableFooter` | Sections |
+| `TableRow` | `hover`, `selected` |
+| `TableCell` | `align`, `padding="checkbox"`, `sortDirection` |
+| `TableSortLabel` | Clickable sort control in header cells |
+| `TablePagination` | Footer paging (`@shpaw415/mui-lite/Pagination`) |

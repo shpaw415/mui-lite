@@ -52,6 +52,14 @@ type RadioButtonProps = {
 	HTMLInputElement
 >;
 
+/**
+ * Single-select control within a radio group.
+ *
+ * @example Plan choice
+ * ```tsx
+ * <FormControlLabel value="pro" control={<Radio />} label="Pro" />
+ * ```
+ */
 export default function Radio({
 	sx,
 	className,

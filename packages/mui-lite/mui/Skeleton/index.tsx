@@ -12,6 +12,15 @@ export type SkeletonProps = {
 	colorOverRide?: CSSProperties["color"];
 } & MuiElementType<HTMLSpanElement>;
 
+/**
+ * Placeholder shimmer while content loads.
+ *
+ * @example Card loading
+ * ```tsx
+ * <Skeleton variant="rectangular" height={120} />
+ * <Skeleton width="60%" />
+ * ```
+ */
 export default function Skeleton({
 	variant,
 	className,

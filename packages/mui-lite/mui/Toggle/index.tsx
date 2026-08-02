@@ -14,6 +14,17 @@ export type ToggleButtonProps = {
 	type?: "button" | "reset" | "submit";
 } & Omit<MuiElementType<HTMLButtonElement>, "size">;
 
+/**
+ * Toggle button / group for exclusive or multi options (alignment, view mode).
+ *
+ * @example Text align
+ * ```tsx
+ * <ToggleButtonGroup value={align} exclusive onChange={setAlign}>
+ *   <ToggleButton value="left">Left</ToggleButton>
+ *   <ToggleButton value="center">Center</ToggleButton>
+ * </ToggleButtonGroup>
+ * ```
+ */
 export default function ToggleButton({
 	children,
 	className,
@@ -28,10 +39,17 @@ export default function ToggleButton({
 	});
 	const ref = useMuiRef(props.ref);
 
+	const isDisabled = Boolean(props.disabled);
 	return (
 		<button className={button.combined} {...props} ref={ref}>
 			{children}
-			<RippleBase ref={ref} offset={{ top: -25, left: -25 }} />
+			{!isDisabled && (
+				<RippleBase
+					ref={ref}
+					offset={{ top: -25, left: -25 }}
+					disabled={isDisabled}
+				/>
+			)}
 		</button>
 	);
 }

@@ -12,6 +12,16 @@ export type LinkProps = {
 	variant?: string;
 } & Omit<MuiElementType<HTMLAnchorElement>, "color">;
 
+/**
+ * Themed text link with underline and color variants.
+ *
+ * @example Inline docs link
+ * ```tsx
+ * <Typography>
+ *   See the <Link href="/docs">documentation</Link>.
+ * </Typography>
+ * ```
+ */
 export default function Link({
 	children,
 	component,

@@ -58,6 +58,14 @@ export type AlertProps = {
 	}>;
 } & Omit<PaperProps, "variant" | "action">;
 
+/**
+ * Persistent inline feedback for success, warning, error, or info.
+ *
+ * @example Form validation error
+ * ```tsx
+ * <Alert severity="error">Please fix the highlighted fields.</Alert>
+ * ```
+ */
 export default function Alert({
 	sx,
 	variant = "default",
@@ -119,16 +127,27 @@ export default function Alert({
 	});
 	const style = useStyle(sx);
 
+	// Don't let consumer style/className clobber layout after our merges
+	const {
+		className: propsClassName,
+		style: propsStyle,
+		...paperProps
+	} = props as PaperProps & {
+		className?: string;
+		style?: CSSProperties;
+	};
+
 	return (
 		<Paper
 			role="alert"
+			elevation={0}
+			{...paperProps}
 			style={{
 				...style.styleFromSx,
 				...colorOverride,
+				...propsStyle,
 			}}
-			className={clsx(root.combined, style.classNameFromSx)}
-			elevation={0}
-			{...props}
+			className={clsx(root.combined, style.classNameFromSx, propsClassName)}
 		>
 			{Icon && (
 				<Box
@@ -138,8 +157,13 @@ export default function Alert({
 					{Icon}
 				</Box>
 			)}
-			{title && <div className="MUI_Alert_Title">{title}</div>}
-			{children}
+			{/* Message column: title + body share padding so text aligns with the icon */}
+			<div className="MUI_Alert_message">
+				{title && <div className="MUI_Alert_Title">{title}</div>}
+				{children != null && children !== false && (
+					<div className="MUI_Alert_description">{children}</div>
+				)}
+			</div>
 			<PropsOverRideProvider<ButtonProps>
 				props={{ variant: "text", color: severity as any }}
 			>

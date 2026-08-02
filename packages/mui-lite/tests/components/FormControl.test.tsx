@@ -20,9 +20,15 @@ describe("FormControl composition", () => {
 				<FormHelperText>Required field</FormHelperText>
 			</FormControl>,
 		);
-		expect(screen.getByText("Email")).toBeTruthy();
+		// Label appears on InputLabel and (invisible) notched outline legend
+		expect(screen.getByLabelText("Email")).toBeTruthy();
 		expect(screen.getByText("Required field").className).toContain("error");
 		expect(screen.getByTestId("input-root").className).toContain("error");
+		// Notch legend receives the same label text for border gap sizing
+		const legend = document.querySelector(
+			".MUI_Input_notchedOutline_legend span",
+		);
+		expect(legend?.textContent).toBe("Email");
 	});
 
 	test("fullWidth class", () => {

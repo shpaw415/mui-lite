@@ -9,6 +9,18 @@ export type DividerProps = {
 	textAlign?: "center" | "left" | "right";
 } & MuiElementType<HTMLHRElement>;
 
+/**
+ * Visual separator between sections, list items, or toolbars.
+ *
+ * @example Section break
+ * ```tsx
+ * <>
+ *   <Typography>Profile</Typography>
+ *   <Divider />
+ *   <Typography>Settings</Typography>
+ * </>
+ * ```
+ */
 export default function Divider({
 	className,
 	component = "hr",

@@ -23,9 +23,7 @@ const TableContext = createContext<TableContextValue>({
 	stickyHeader: false,
 });
 
-const Tablelvl2Context = createContext<"head" | "body" | "footer" | null>(
-	null,
-);
+const Tablelvl2Context = createContext<"head" | "body" | "footer" | null>(null);
 
 /* ─── Table ─── */
 
@@ -35,8 +33,26 @@ export type TableProps = {
 	padding?: "normal" | "checkbox" | "none";
 	size?: "small" | "medium";
 	stickyHeader?: boolean;
-} & MuiElementType<HTMLTableElement>;
+} & Omit<MuiElementType<HTMLTableElement>, "size">;
 
+/**
+ * Tabular data with head, body, sorting, and pagination helpers.
+ *
+ * @example Simple table
+ * ```tsx
+ * <TableContainer>
+ *   <Table size="small">
+ *     <TableHead>
+ *       <TableRow>
+ *         <TableCell>Name</TableCell>
+ *         <TableCell align="right">Calories</TableCell>
+ *       </TableRow>
+ *     </TableHead>
+ *     <TableBody>{/* rows */ /*}</TableBody>
+ *   </Table>
+ * </TableContainer>
+ * ```
+ */
 export default function Table({
 	children,
 	component = "table",
@@ -57,7 +73,11 @@ export default function Table({
 		<TableContext value={{ padding, size, stickyHeader }}>
 			{createElement(
 				component,
-				{ ...props, className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx },
+				{
+					...props,
+					className: clsx(root.combined, style.classNameFromSx),
+					style: style.styleFromSx,
+				},
 				children,
 			)}
 		</TableContext>
@@ -85,7 +105,11 @@ export function TableContainer({
 	const style = useStyle(sx);
 	return createElement(
 		component,
-		{ ...props, className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx },
+		{
+			...props,
+			className: clsx(root.combined, style.classNameFromSx),
+			style: style.styleFromSx,
+		},
 		children,
 	);
 }
@@ -116,7 +140,11 @@ function makeSection(
 			<Tablelvl2Context value={variant}>
 				{createElement(
 					component,
-					{ ...props, className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx },
+					{
+						...props,
+						className: clsx(root.combined, style.classNameFromSx),
+						style: style.styleFromSx,
+					},
 					children,
 				)}
 			</Tablelvl2Context>
@@ -154,7 +182,11 @@ export function TableRow({
 	const style = useStyle(sx);
 	return createElement(
 		component,
-		{ ...props, className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx },
+		{
+			...props,
+			className: clsx(root.combined, style.classNameFromSx),
+			style: style.styleFromSx,
+		},
 		children,
 	);
 }
@@ -192,8 +224,7 @@ export function TableCell({
 	const variant = variantProp ?? lvl2 ?? "body";
 	const padding = paddingProp ?? table.padding;
 	const size = sizeProp ?? table.size;
-	const Comp: ElementType =
-		component ?? (variant === "head" ? "th" : "td");
+	const Comp: ElementType = component ?? (variant === "head" ? "th" : "td");
 
 	const root = useClassNames({
 		component_name: "TableCell",
@@ -212,14 +243,15 @@ export function TableCell({
 		Comp,
 		{
 			...props,
-			scope: Comp === "th" ? scope ?? "col" : scope,
+			scope: Comp === "th" ? (scope ?? "col") : scope,
 			"aria-sort":
 				sortDirection === "asc"
 					? "ascending"
 					: sortDirection === "desc"
 						? "descending"
 						: undefined,
-			className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx,
+			className: clsx(root.combined, style.classNameFromSx),
+			style: style.styleFromSx,
 		},
 		children,
 	);
@@ -255,7 +287,8 @@ export function TableSortLabel({
 		<span
 			role="button"
 			tabIndex={0}
-			className={clsx(root.combined, style.classNameFromSx)} style={style.styleFromSx}
+			className={clsx(root.combined, style.classNameFromSx)}
+			style={style.styleFromSx}
 			onClick={onClick}
 			onKeyDown={(e) => {
 				if (e.key === "Enter" || e.key === " ") {
@@ -274,6 +307,7 @@ export function TableSortLabel({
 					height="18"
 					aria-hidden
 				>
+					<title>Sort</title>
 					<path d="M7 10l5 5 5-5z" fill="currentColor" />
 				</svg>
 			)}

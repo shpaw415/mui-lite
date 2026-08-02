@@ -22,6 +22,18 @@ export type AppBarProps = {
 	enableColorOnDark?: boolean;
 } & Omit<MuiElementType<HTMLElement>, "color">;
 
+/**
+ * Top application chrome for titles, navigation, and actions.
+ *
+ * @example App header
+ * ```tsx
+ * <AppBar position="static">
+ *   <Toolbar>
+ *     <Typography variant="h6">Dashboard</Typography>
+ *   </Toolbar>
+ * </AppBar>
+ * ```
+ */
 export default function AppBar({
 	children,
 	color = "primary",

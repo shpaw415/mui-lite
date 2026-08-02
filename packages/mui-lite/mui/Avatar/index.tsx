@@ -9,6 +9,14 @@ export type MuiAvatarProps = {
 	alt?: string;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * User image or initials for profiles, comments, and lists.
+ *
+ * @example User chip
+ * ```tsx
+ * <Avatar src={user.photo} alt={user.name} />
+ * ```
+ */
 export default function Avatar({
 	sx,
 	className,

@@ -18,6 +18,16 @@ export type MuiIconButtonProps = {
 	onRippleClick?: () => void;
 } & Omit<MuiElementType<HTMLButtonElement>, "type" | "size">;
 
+/**
+ * Icon-only action for toolbars, lists, and compact UIs.
+ *
+ * @example Close
+ * ```tsx
+ * <IconButton aria-label="close" onClick={onClose}>
+ *   <CloseIcon />
+ * </IconButton>
+ * ```
+ */
 function IconButton({
 	children,
 	color = "primary",
@@ -56,13 +66,16 @@ function IconButton({
 			}}
 		>
 			{children}
-			<RippleBase
-				ref={ref}
-				color={color}
-				colorOverRide={colorOverRide}
-				preventClickElement
-				onRippleClick={onRippleClick}
-			/>
+			{!props.disabled && (
+				<RippleBase
+					ref={ref}
+					color={color}
+					colorOverRide={colorOverRide}
+					preventClickElement
+					disabled={Boolean(props.disabled)}
+					onRippleClick={onRippleClick}
+				/>
+			)}
 		</Btn>
 	);
 }

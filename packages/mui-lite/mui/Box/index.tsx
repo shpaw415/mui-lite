@@ -8,13 +8,21 @@ export type BoxProps<T extends HTMLElement> = {
 	sx?: SxProps;
 } & MuiElementType<T>;
 
+/**
+ * Layout primitive with sx for spacing, color, and responsive styles.
+ *
+ * @example Padded section
+ * ```tsx
+ * <Box sx={{ p: 2, bgcolor: "background.paper" }}>Content</Box>
+ * ```
+ */
 export default function Box<T extends HTMLElement>({
 	sx,
 	Element = "div",
 	className,
 	style,
 	...props
-}: BoxProps<T>) {
+}: BoxProps<T>): JSX.Element {
 	const s = useStyle(sx);
 
 	return createElement(Element, {

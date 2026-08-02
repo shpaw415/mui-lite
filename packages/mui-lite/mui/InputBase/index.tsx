@@ -109,6 +109,14 @@ function syncTextareaHeight(
 	el.style.overflowY = contentH > maxH ? "auto" : "hidden";
 }
 
+/**
+ * Bare input primitive for custom field surfaces.
+ *
+ * @example Search box core
+ * ```tsx
+ * <InputBase placeholder="Search…" fullWidth />
+ * ```
+ */
 export default function InputBase({
 	id,
 	multiline,

@@ -1,26 +1,29 @@
+"use client";
+
 import {
 	type CSSProperties,
 	cloneElement,
 	type JSX,
 	useCallback,
 	useEffect,
+	useLayoutEffect,
 	useMemo,
 	useState,
 } from "react";
-import { type SxProps, useClassNames } from "../../common/theme";
+import { type SxProps, useClassNames, zIndex } from "../../common/theme";
 import {
 	MuiSSRPortal,
 	type SlotProps,
 	useColorOverRide,
-	useIsOutOfViewport,
 	useMuiRef,
-	useValueOverRide,
 } from "../../common/utils";
 import Box, { type BoxProps } from "../Box";
 import Typography, { type MuiTypographyProps } from "../Typography";
 
+export type TooltipPlacement = "bottom" | "left" | "right" | "top";
+
 export type ToolTipProps = {
-	placement?: "bottom" | "left" | "right" | "top";
+	placement?: TooltipPlacement;
 	title: string | JSX.Element;
 	open?: boolean;
 	onClose?: (event: React.SyntheticEvent) => void;
@@ -31,19 +34,111 @@ export type ToolTipProps = {
 	disabled?: boolean;
 	backgroundColor?: CSSProperties["backgroundColor"];
 	offSet?: {
-		x?: string;
-		y?: string;
+		x?: string | number;
+		y?: string | number;
 	};
 	transition?: "fade" | "zoom" | "none";
 	triggers?: Array<"hover" | "focus" | "click">;
 	children: JSX.Element;
+	/** When false, render tip in-flow (not recommended; clipped by overflow). Default true. */
+	disablePortal?: boolean;
 	ref?: React.RefObject<HTMLParagraphElement>;
 	variant?: "light" | "dark";
 	SlotProps?: SlotProps<{
 		container: BoxProps<HTMLDivElement>;
 	}>;
-} & MuiTypographyProps<HTMLParagraphElement>;
+} & Omit<MuiTypographyProps<HTMLParagraphElement>, "variant" | "title" | "children">;
 
+const GAP = 8;
+
+function parseOffset(v: string | number | undefined): number {
+	if (v == null) return 0;
+	if (typeof v === "number") return v;
+	const n = parseFloat(v);
+	return Number.isFinite(n) ? n : 0;
+}
+
+function computePosition(
+	anchor: DOMRect,
+	tipW: number,
+	tipH: number,
+	placement: TooltipPlacement,
+	offsetX: number,
+	offsetY: number,
+): { top: number; left: number } {
+	switch (placement) {
+		case "top":
+			return {
+				top: anchor.top - tipH - GAP + offsetY,
+				left: anchor.left + anchor.width / 2 - tipW / 2 + offsetX,
+			};
+		case "bottom":
+			return {
+				top: anchor.bottom + GAP + offsetY,
+				left: anchor.left + anchor.width / 2 - tipW / 2 + offsetX,
+			};
+		case "left":
+			return {
+				top: anchor.top + anchor.height / 2 - tipH / 2 + offsetY,
+				left: anchor.left - tipW - GAP + offsetX,
+			};
+		case "right":
+			return {
+				top: anchor.top + anchor.height / 2 - tipH / 2 + offsetY,
+				left: anchor.right + GAP + offsetX,
+			};
+	}
+}
+
+function flipPlacement(
+	placement: TooltipPlacement,
+	pos: { top: number; left: number },
+	tipW: number,
+	tipH: number,
+): TooltipPlacement {
+	const pad = 8;
+	const vw = typeof window !== "undefined" ? window.innerWidth : 0;
+	const vh = typeof window !== "undefined" ? window.innerHeight : 0;
+	const overflow = {
+		top: pos.top < pad,
+		bottom: pos.top + tipH > vh - pad,
+		left: pos.left < pad,
+		right: pos.left + tipW > vw - pad,
+	};
+	if (placement === "top" && overflow.top && !overflow.bottom) return "bottom";
+	if (placement === "bottom" && overflow.bottom && !overflow.top) return "top";
+	if (placement === "left" && overflow.left && !overflow.right) return "right";
+	if (placement === "right" && overflow.right && !overflow.left) return "left";
+	return placement;
+}
+
+function clampToViewport(
+	pos: { top: number; left: number },
+	tipW: number,
+	tipH: number,
+) {
+	const pad = 8;
+	const vw = typeof window !== "undefined" ? window.innerWidth : tipW;
+	const vh = typeof window !== "undefined" ? window.innerHeight : tipH;
+	return {
+		top: Math.min(Math.max(pad, pos.top), Math.max(pad, vh - tipH - pad)),
+		left: Math.min(Math.max(pad, pos.left), Math.max(pad, vw - tipW - pad)),
+	};
+}
+
+/**
+ * Hover/focus hint for icons, truncated text, and controls.
+ *
+ * Renders the tip in a portal (default) so it is not clipped by
+ * `overflow: hidden` ancestors (demo cards, drawers, tables, etc.).
+ *
+ * @example Icon hint
+ * ```tsx
+ * <ToolTip title="Delete">
+ *   <IconButton aria-label="delete"><DeleteIcon /></IconButton>
+ * </ToolTip>
+ * ```
+ */
 export default function ToolTip({
 	placement = "bottom",
 	title,
@@ -62,97 +157,147 @@ export default function ToolTip({
 	children,
 	triggers = ["hover"],
 	variant = "dark",
+	disablePortal = false,
 	SlotProps,
 	...props
 }: ToolTipProps) {
-	const [, _setTimeout] = useState<Timer>();
-	const [active, setActive] = useState(open || false);
-	const [bypassPlacement, setBypassPlacement] = useState<
-		ToolTipProps["placement"] | null
-	>();
-	const elRef = useMuiRef<HTMLElement>(children.props.ref);
-	const toolTipRef = useMuiRef<HTMLDivElement>(props.ref);
+	const [, setEnterTimer] = useState<ReturnType<typeof setTimeout>>();
+	const [active, setActive] = useState(Boolean(open));
+	const [resolvedPlacement, setResolvedPlacement] =
+		useState<TooltipPlacement>(placement);
+	const [coords, setCoords] = useState<{ top: number; left: number }>({
+		top: 0,
+		left: 0,
+	});
 
-	const tooltipIsVisible = useIsOutOfViewport(toolTipRef);
+	const elRef = useMuiRef<HTMLElement>(children.props?.ref);
+	const toolTipRef = useMuiRef<HTMLDivElement>(props.ref as any);
+
+	const offsetX = parseOffset(offSet?.x);
+	const offsetY = parseOffset(offSet?.y);
+
+	// Controlled mode
+	useEffect(() => {
+		if (open === undefined) return;
+		if (active !== open) setActive(open);
+	}, [open, active]);
 
 	useEffect(() => {
-		if (tooltipIsVisible || !active || bypassPlacement === null) {
-			if (tooltipIsVisible && bypassPlacement === null) {
-				setBypassPlacement(undefined);
-			}
-			return;
+		setResolvedPlacement(placement);
+	}, [placement]);
+
+	const updatePosition = useCallback(() => {
+		const anchor = elRef.current;
+		if (!anchor) return;
+		const a = anchor.getBoundingClientRect();
+		const tip = toolTipRef.current;
+		const tw = tip?.offsetWidth ?? 0;
+		const th = tip?.offsetHeight ?? 0;
+
+		let place = placement;
+		let pos = computePosition(a, tw, th, place, offsetX, offsetY);
+		const flipped = flipPlacement(place, pos, tw, th);
+		if (flipped !== place) {
+			place = flipped;
+			pos = computePosition(a, tw, th, place, offsetX, offsetY);
 		}
-		switch (placement) {
-			case "top":
-				if (bypassPlacement == undefined && !tooltipIsVisible)
-					setBypassPlacement("bottom");
-				else if (bypassPlacement == "bottom" && !tooltipIsVisible)
-					setBypassPlacement("left");
-				else if (bypassPlacement == "left" && !tooltipIsVisible)
-					setBypassPlacement("right");
-				else setBypassPlacement(null);
-				break;
-			case "bottom":
-				if (bypassPlacement == undefined && !tooltipIsVisible)
-					setBypassPlacement("top");
-				else if (bypassPlacement == "top" && !tooltipIsVisible)
-					setBypassPlacement("left");
-				else if (bypassPlacement == "left" && !tooltipIsVisible)
-					setBypassPlacement("right");
-				else setBypassPlacement(null);
-				break;
-			case "left":
-				if (bypassPlacement == undefined && !tooltipIsVisible)
-					setBypassPlacement("right");
-				else if (bypassPlacement == "right" && !tooltipIsVisible)
-					setBypassPlacement("top");
-				else if (bypassPlacement == "top" && !tooltipIsVisible)
-					setBypassPlacement("bottom");
-				else setBypassPlacement(null);
-				break;
-			case "right":
-				if (bypassPlacement == undefined && !tooltipIsVisible)
-					setBypassPlacement("left");
-				else if (bypassPlacement == "left" && !tooltipIsVisible)
-					setBypassPlacement("top");
-				else if (bypassPlacement == "top" && !tooltipIsVisible)
-					setBypassPlacement("bottom");
-				else setBypassPlacement(null);
-				break;
-		}
-	}, [tooltipIsVisible, bypassPlacement]);
+		pos = clampToViewport(pos, tw || 1, th || 1);
+		setResolvedPlacement(place);
+		setCoords(pos);
+	}, [elRef, toolTipRef, placement, offsetX, offsetY]);
+
+	useLayoutEffect(() => {
+		if (!active) return;
+		updatePosition();
+		// Re-measure after paint when tip has real size
+		const id = requestAnimationFrame(() => updatePosition());
+		return () => cancelAnimationFrame(id);
+	}, [active, title, updatePosition]);
 
 	useEffect(() => {
-		if (active != open && open != undefined) setActive(open);
-	}, [open]);
+		if (!active) return;
+		const onScrollOrResize = () => updatePosition();
+		window.addEventListener("scroll", onScrollOrResize, true);
+		window.addEventListener("resize", onScrollOrResize);
+		return () => {
+			window.removeEventListener("scroll", onScrollOrResize, true);
+			window.removeEventListener("resize", onScrollOrResize);
+		};
+	}, [active, updatePosition]);
 
 	const showTip = useCallback(
-		(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			onOpen?.(e);
-			if (disabled || open != undefined) return;
-			_setTimeout((c) => {
-				clearTimeout(c);
-				return setTimeout(() => {
-					setActive(true);
-				}, enterDelay ?? 400);
+		(e?: React.SyntheticEvent) => {
+			if (e) onOpen?.(e);
+			if (disabled || open !== undefined) return;
+			setEnterTimer((c) => {
+				if (c) clearTimeout(c);
+				return setTimeout(() => setActive(true), enterDelay ?? 200);
 			});
 		},
-		[disabled, props.onMouseEnter, onOpen],
+		[disabled, open, onOpen, enterDelay],
 	);
 
 	const hideTip = useCallback(
-		(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			onClose?.(e);
-			if (open != undefined) return;
-			_setTimeout((c) => {
-				clearTimeout(c);
+		(e?: React.SyntheticEvent) => {
+			if (e) onClose?.(e);
+			if (open !== undefined) return;
+			setEnterTimer((c) => {
+				if (c) clearTimeout(c);
 				return setTimeout(() => setActive(false), leaveDelay ?? 100);
 			});
 		},
-		[open, props.onMouseLeave, onClose],
+		[open, onClose, leaveDelay],
 	);
 
-	const transitionPaires = useMemo<[string, string]>(() => {
+	useEffect(() => {
+		const el = elRef.current;
+		if (!el) return;
+
+		const handlers: Array<{ type: string; fn: EventListener }> = [];
+		const add = (type: string, fn: EventListener) => {
+			el.addEventListener(type, fn);
+			handlers.push({ type, fn });
+		};
+
+		for (const trigger of triggers) {
+			switch (trigger) {
+				case "click":
+					add("click", (e) => {
+						showTip(e as any);
+						children.props?.onClick?.(e);
+					});
+					break;
+				case "focus":
+					add("focus", (e) => {
+						showTip(e as any);
+						children.props?.onFocus?.(e);
+					});
+					add("blur", (e) => {
+						hideTip(e as any);
+						children.props?.onBlur?.(e);
+					});
+					break;
+				case "hover":
+					add("mouseenter", (e) => {
+						showTip(e as any);
+						children.props?.onMouseEnter?.(e);
+					});
+					add("mouseleave", (e) => {
+						hideTip(e as any);
+						children.props?.onMouseLeave?.(e);
+					});
+					break;
+			}
+		}
+
+		return () => {
+			for (const { type, fn } of handlers) {
+				el.removeEventListener(type, fn);
+			}
+		};
+	}, [triggers, showTip, hideTip, children.props, elRef]);
+
+	const transitionPairs = useMemo<[string, string]>(() => {
 		switch (transition) {
 			case "zoom":
 				return ["MUI_Zoom_In", "MUI_Zoom_Out"];
@@ -163,14 +308,18 @@ export default function ToolTip({
 				return ["MUI_Fade_In", "MUI_Fade_Out"];
 		}
 	}, [transition]);
+
 	const tooltip = useClassNames({
 		component_name: "Tooltip-Tip",
 		className: [
 			className,
-			active ? transitionPaires[0] : transitionPaires[1],
-		].join(" "),
+			active ? transitionPairs[0] : transitionPairs[1],
+			disablePortal ? "MUI_Tooltip-Tip_inline" : "MUI_Tooltip-Tip_portal",
+		]
+			.filter(Boolean)
+			.join(" "),
 		state: [
-			bypassPlacement || placement,
+			resolvedPlacement,
 			active && "open",
 			arrow && "arrow",
 			variant,
@@ -182,111 +331,52 @@ export default function ToolTip({
 		colorOverRide: backgroundColor,
 	});
 
-	useEffect(() => {
-		const onclickHandler = (
-			e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-		) => {
-			showTip(e);
-			children.props.onClick?.(e);
-		};
-		const focusHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			showTip(e);
-			children.props.onFocus?.(e);
-		};
-		const blurHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			hideTip(e);
-			children.props.onBlur?.(e);
-		};
-		const mouseEnterHandler = (
-			e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-		) => {
-			showTip(e);
-			children.props.onMouseEnter?.(e);
-		};
-		const mouseLeaveHandler = (
-			e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-		) => {
-			hideTip(e);
-			children.props.onMouseLeave?.(e);
-		};
-
-		const toReturn: { type: keyof HTMLElementEventMap; func: any }[] = [];
-
-		for (const trigger of triggers) {
-			switch (trigger) {
-				case "click":
-					elRef.current?.addEventListener("click", onclickHandler as any);
-					toReturn.push({ type: "click", func: onclickHandler });
-					break;
-				case "focus":
-					elRef.current?.addEventListener("focus", focusHandler as any);
-					elRef.current?.addEventListener("blur", blurHandler as any);
-					toReturn.push(
-						{ type: "focus", func: focusHandler },
-						{ type: "blur", func: blurHandler },
-					);
-					break;
-				case "hover":
-					elRef.current?.addEventListener(
-						"mouseenter",
-						mouseEnterHandler as any,
-					);
-					elRef.current?.addEventListener(
-						"mouseleave",
-						mouseLeaveHandler as any,
-					);
-					toReturn.push(
-						{ type: "mouseenter", func: mouseEnterHandler },
-						{ type: "mouseleave", func: mouseLeaveHandler },
-					);
-					break;
+	const tipNode = (
+		<Typography
+			role="tooltip"
+			{...props}
+			sx={
+				{
+					"--tooltip-background-color":
+						variant === "dark" ? "97, 97, 97" : "255, 255, 255",
+					...bgVar,
+					...props.sx,
+				} as SxProps
 			}
-		}
+			className={tooltip.combined}
+			ref={toolTipRef}
+			style={{
+				...(props as any).style,
+				...(disablePortal
+					? undefined
+					: {
+							position: "fixed",
+							top: coords.top,
+							left: coords.left,
+							transform: "none",
+							zIndex: zIndex.tooltip ?? 1500,
+						}),
+			}}
+		>
+			{title}
+		</Typography>
+	);
 
-		return () => {
-			toReturn.forEach(({ type, func }) => {
-				elRef.current?.removeEventListener(type, func);
-			});
-		};
-	}, [triggers]);
-
-	const offsetX = useValueOverRide({
-		variable: "--tooltip-offset-x",
-		valueOverRide: offSet?.x,
-	});
-	const offsetY = useValueOverRide({
-		variable: "--tooltip-offset-y",
-		valueOverRide: offSet?.y,
-	});
 	return (
 		<Box
 			{...SlotProps?.container}
 			className={[
 				"MUI_Tooltip-Container",
 				SlotProps?.container?.className,
-			].join(" ")}
+			]
+				.filter(Boolean)
+				.join(" ")}
 		>
 			{cloneElement(children, {
 				ref: elRef,
 			})}
-			<Typography
-				role="tooltip"
-				{...props}
-				sx={{
-					...({
-						"--tooltip-background-color":
-							variant == "dark" ? "97, 97, 97" : "255, 255, 255",
-						...offsetX,
-						...offsetY,
-						...bgVar,
-					} as SxProps),
-					...props.sx,
-				}}
-				className={tooltip.combined}
-				ref={toolTipRef}
-			>
-				{title}
-			</Typography>
+			{/* Portaled by default so overflow:hidden parents never clip the tip */}
+			{disablePortal ? tipNode : <MuiSSRPortal>{tipNode}</MuiSSRPortal>}
 		</Box>
 	);
 }

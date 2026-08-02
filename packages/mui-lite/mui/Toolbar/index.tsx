@@ -10,6 +10,17 @@ export type ToolbarProps = {
 	variant?: "regular" | "dense";
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Horizontal bar inside AppBar for title and actions.
+ *
+ * @example App toolbar
+ * ```tsx
+ * <Toolbar>
+ *   <Typography variant="h6" sx={{ flex: 1 }}>App</Typography>
+ *   <IconButton aria-label="account"><AccountIcon /></IconButton>
+ * </Toolbar>
+ * ```
+ */
 export default function Toolbar({
 	children,
 	component = "div",

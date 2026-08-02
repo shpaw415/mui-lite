@@ -19,6 +19,15 @@ export type FormLabelProps = {
 	id?: string;
 } & MuiElementType<HTMLLabelElement>;
 
+/**
+ * Label for a group of controls (radios, checkboxes) or a fieldset.
+ *
+ * @example Radio group label
+ * ```tsx
+ * <FormLabel>Shipping method</FormLabel>
+ * <RadioGroup>{/* radios */ /*}</RadioGroup>
+ * ```
+ */
 export default function FormLabel({
 	children,
 	component = "label",
@@ -61,7 +70,8 @@ export default function FormLabel({
 			...props,
 			htmlFor: htmlFor ?? fc?.htmlFor,
 			id: id ?? fc?.labelId,
-			className: clsx(root.combined, style.classNameFromSx), style: style.styleFromSx,
+			className: clsx(root.combined, style.classNameFromSx),
+			style: style.styleFromSx,
 		},
 		children,
 		fcs.required && (

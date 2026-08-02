@@ -39,6 +39,9 @@ export type FormControlContextValue = {
 	onFilled: (filled: boolean) => void;
 	setAdornedStart: (v: boolean) => void;
 	adornedStart: boolean;
+	/** Plain label text for outlined notch sizing (from InputLabel) */
+	labelText: string;
+	setLabelText: (text: string) => void;
 };
 
 const FormControlContext = createContext<FormControlContextValue | null>(null);
@@ -86,6 +89,18 @@ export type FormControlProps = {
 	size?: FormControlSize;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Field context for label, input, helper text, error, and size.
+ *
+ * @example Composed field
+ * ```tsx
+ * <FormControl error>
+ *   <InputLabel>Email</InputLabel>
+ *   <OutlinedInput />
+ *   <FormHelperText>Required</FormHelperText>
+ * </FormControl>
+ * ```
+ */
 export default function FormControl({
 	children,
 	component = "div",
@@ -106,6 +121,7 @@ export default function FormControl({
 	const [focusedState, setFocused] = useState(false);
 	const [filled, setFilled] = useState(false);
 	const [adornedStart, setAdornedStart] = useState(false);
+	const [labelText, setLabelText] = useState("");
 	const id = useId();
 	const focused = focusedProp ?? focusedState;
 
@@ -134,6 +150,8 @@ export default function FormControl({
 			onFilled,
 			setAdornedStart,
 			adornedStart,
+			labelText,
+			setLabelText,
 		}),
 		[
 			disabled,
@@ -152,6 +170,7 @@ export default function FormControl({
 			onBlur,
 			onFilled,
 			adornedStart,
+			labelText,
 		],
 	);
 

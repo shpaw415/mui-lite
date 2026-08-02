@@ -35,6 +35,13 @@ export type InputCommonProps = {
 	onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 	color?: string;
 	size?: "small" | "medium";
+	/**
+	 * Label text for the outlined notch (gap in the border).
+	 * Usually taken from FormControl / InputLabel automatically.
+	 */
+	label?: string;
+	/** Force the outlined notch open (defaults to filled || focused) */
+	notched?: boolean;
 } & Omit<
 	MuiElementType<HTMLDivElement>,
 	"onChange" | "onFocus" | "onBlur" | "color"
@@ -80,6 +87,8 @@ function InputRoot({
 	onBlur,
 	color,
 	size,
+	label,
+	notched: notchedProp,
 	className,
 	sx,
 	children,
@@ -87,8 +96,24 @@ function InputRoot({
 }: InputCommonProps & { variant: "standard" | "outlined" | "filled" }) {
 	const fc = useFormControl();
 	const fcs = formControlState(
-		{ disabled, error, required, fullWidth, color, size },
-		["disabled", "error", "required", "fullWidth", "color", "size", "focused"],
+		{
+			disabled,
+			error,
+			required,
+			fullWidth,
+			color: color as any,
+			size: size as any,
+		},
+		[
+			"disabled",
+			"error",
+			"required",
+			"fullWidth",
+			"color",
+			"size",
+			"focused",
+			"filled",
+		],
 		fc,
 	);
 	const [filled, setFilled] = useInputFilled(value, defaultValue);
@@ -97,6 +122,16 @@ function InputRoot({
 		fc?.onFilled(filled);
 	}, [filled, fc]);
 
+	const isFilled = Boolean(fcs.filled || filled);
+	const isFocused = Boolean(fcs.focused);
+	// Same conditions as InputLabel shrink — notch only when the label floats up.
+	// (Do not open the border gap while the label still sits in the field center.)
+	const labelShrunk = Boolean(
+		isFilled || isFocused || fc?.adornedStart || startAdornment,
+	);
+	const notched = notchedProp ?? labelShrunk;
+	const notchLabel = label ?? fc?.labelText ?? "";
+
 	const root = useClassNames({
 		component_name: "Input",
 		className,
@@ -104,8 +139,9 @@ function InputRoot({
 			`variant-${variant}`,
 			fcs.disabled && "disabled",
 			fcs.error && "error",
-			fcs.focused && "focused",
-			filled && "filled",
+			isFocused && "focused",
+			isFilled && "filled",
+			notched && "notched",
 			(fcs.fullWidth ?? fullWidth) && "fullWidth",
 			startAdornment && "adornedStart",
 			endAdornment && "adornedEnd",
@@ -174,13 +210,14 @@ function InputRoot({
 			{variant === "outlined" && (
 				<fieldset
 					aria-hidden
-					className="MUI_Input_notchedOutline"
-					style={{
-						// legend width for shrink handled via CSS :focus-within / .filled
-					}}
+					className={clsx(
+						"MUI_Input_notchedOutline",
+						notched && "MUI_Input_notchedOutline_notched",
+					)}
 				>
-					<legend>
-						<span>&#8203;</span>
+					{/* Invisible legend creates a gap in the top border where the label sits */}
+					<legend className="MUI_Input_notchedOutline_legend">
+						<span>{notchLabel ? notchLabel : "\u200B"}</span>
 					</legend>
 				</fieldset>
 			)}
@@ -189,14 +226,47 @@ function InputRoot({
 }
 
 /** Standard underline input */
+/**
+ * Standard underline input for FormControl composition.
+ *
+ * @example Amount field
+ * ```tsx
+ * <FormControl variant="standard">
+ *   <InputLabel>Amount</InputLabel>
+ *   <Input startAdornment={<InputAdornment position="start">$</InputAdornment>} />
+ * </FormControl>
+ * ```
+ */
 export default function Input(props: InputCommonProps) {
 	return <InputRoot variant="standard" {...props} />;
 }
 
+/**
+ * Outlined border input for FormControl composition.
+ *
+ * @example Email field
+ * ```tsx
+ * <FormControl>
+ *   <InputLabel>Email</InputLabel>
+ *   <OutlinedInput type="email" />
+ * </FormControl>
+ * ```
+ */
 export function OutlinedInput(props: InputCommonProps) {
 	return <InputRoot variant="outlined" {...props} />;
 }
 
+/**
+ * Filled variant text input surface (FormControl composition).
+ *
+ * @example With label
+ * ```tsx
+ * <FormControl variant="filled">
+ *   <InputLabel>Email</InputLabel>
+ *   <FilledInput />
+ * </FormControl>
+ * ```
+ */
 export function FilledInput(props: InputCommonProps) {
 	return <InputRoot variant="filled" {...props} />;
 }

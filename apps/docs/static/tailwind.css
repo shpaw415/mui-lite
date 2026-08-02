@@ -54,6 +54,19 @@
   --color-accent: var(--color-accent);
 }
 
+/* Screen-reader only (sidebar search labels) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* ========================================
    GitHub-style markdown prose customization
    ======================================== */
@@ -401,6 +414,62 @@ html.light
 .not-prose .MUI_FormControl,
 .not-prose [class*="MUI_"] {
   max-width: none;
+}
+
+/*
+ * Tailwind preflight: h1–h6 { font-size: inherit; font-weight: inherit }.
+ * Package CSS covers this; these rules reinforce inside .not-prose demos.
+ */
+.not-prose .MUI_Typography_Root:is(h1),
+.not-prose .MUI_Typography_Root:is(._h1) {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.167;
+}
+.not-prose .MUI_Typography_Root:is(h2),
+.not-prose .MUI_Typography_Root:is(._h2) {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+.not-prose .MUI_Typography_Root:is(h3),
+.not-prose .MUI_Typography_Root:is(._h3) {
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+.not-prose .MUI_Typography_Root:is(h4),
+.not-prose .MUI_Typography_Root:is(._h4) {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+.not-prose .MUI_Typography_Root:is(h5),
+.not-prose .MUI_Typography_Root:is(._h5) {
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+.not-prose .MUI_Typography_Root:is(h6),
+.not-prose .MUI_Typography_Root:is(._h6) {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+.not-prose .MUI_Typography_Root:is(._primary) {
+  color: rgb(var(--text-primary, var(--bg-primary)));
+}
+.not-prose .MUI_Typography_Root:is(._error) {
+  color: rgb(var(--text-error, var(--bg-error)));
+}
+.not-prose .MUI_Typography_Root:is(._secondary) {
+  color: rgb(var(--text-secondary, var(--bg-secondary)));
+}
+.not-prose .MUI_Typography_Root:is(._success) {
+  color: rgb(var(--text-success, var(--bg-success)));
+}
+.not-prose .MUI_Typography_Root:is(._warning) {
+  color: rgb(var(--text-warning, var(--bg-warning)));
+}
+.not-prose .MUI_Typography_Root:is(._textSecondary),
+.not-prose .MUI_Typography_Root:is(._text-secondary) {
+  color: rgba(var(--text-main), 0.6);
 }
 
 .prose :where(input, textarea, select, button):not(

@@ -14,9 +14,11 @@ bun add @shpaw415/mui-lite
 npm i @shpaw415/mui-lite
 ```
 
-**Peer dependencies:** `react` ^19, `react-dom` ^19, `typescript` ^5 (optional for types)
+**Peer dependencies:** `react` ^19, `react-dom` ^19
 
 **Dependencies:** `clsx`, `css-color-converter`, `@material-design-icons/svg`
+
+Published builds include compiled ESM JavaScript and TypeScript declaration files (`.d.ts`).
 
 ---
 
@@ -44,9 +46,9 @@ Wrap your tree in `ThemeProvider`. Import the stylesheet once at the app root.
 
 ## Package exports
 
-| Import path | Resolves to |
+| Import path | Resolves to (published) |
 | --- | --- |
-| `@shpaw415/mui-lite/<Component>` | `mui/<Component>/index.tsx` |
+| `@shpaw415/mui-lite/<Component>` | `dist/mui/<Component>/index.js` + `.d.ts` |
 | `@shpaw415/mui-lite/style.css` | bundled component CSS entry |
 | `@shpaw415/mui-lite/theme` | theme provider, hooks, tokens |
 | `@shpaw415/mui-lite/utils` | shared hooks and helpers |

@@ -68,6 +68,17 @@ function resolveResponsive<T>(
 	};
 }
 
+/**
+ * Responsive multi-column layout with 12-column sizing.
+ *
+ * @example Two-column form
+ * ```tsx
+ * <Grid container spacing={2}>
+ *   <Grid size={6}><TextField label="First" fullWidth /></Grid>
+ *   <Grid size={6}><TextField label="Last" fullWidth /></Grid>
+ * </Grid>
+ * ```
+ */
 export default function Grid({
 	children,
 	component = "div",

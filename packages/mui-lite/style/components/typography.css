@@ -1,15 +1,291 @@
-.MUI_Typography_Root {
-	margin: 0px;
-	font-family: Roboto, Helvetica, Arial, sans-serif;
-	line-height: 1.5;
-	letter-spacing: 0.00938em;
-	color: rgb(var(--color-override, var(--text-main)));
+/*
+ * Typography scales must beat Tailwind preflight
+ * (h1–h6 { font-size: inherit; font-weight: inherit }) and typography plugin prose.
+ * Specificity: .MUI_Typography_Root:is(h1) / .MUI_Typography_Root:is(._h1) ≥ (0,1,1)
+ */
 
-	&:is(._success) {
-		color: rgb(var(--text-success));
-	}
-}
-.MUI_Typography_Root_string {
+.MUI_Typography_Root {
+	margin: 0;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
 	font-weight: 400;
 	font-size: 1rem;
+	line-height: 1.5;
+	letter-spacing: 0.00938em;
+	/* Prefer theme text token; allow --color-override from sx/color helpers */
+	color: rgb(var(--color-override, var(--text-main)));
+}
+
+/* ─── Variants (class state) ─── */
+.MUI_Typography_Root:is(._h1),
+.MUI_Typography_Root:is(._variant-h1) {
+	font-size: 2.5rem;
+	font-weight: 300;
+	line-height: 1.167;
+	letter-spacing: -0.01562em;
+}
+
+.MUI_Typography_Root:is(._h2),
+.MUI_Typography_Root:is(._variant-h2) {
+	font-size: 2rem;
+	font-weight: 300;
+	line-height: 1.2;
+	letter-spacing: -0.00833em;
+}
+
+.MUI_Typography_Root:is(._h3),
+.MUI_Typography_Root:is(._variant-h3) {
+	font-size: 1.75rem;
+	font-weight: 400;
+	line-height: 1.167;
+	letter-spacing: 0;
+}
+
+.MUI_Typography_Root:is(._h4),
+.MUI_Typography_Root:is(._variant-h4) {
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.235;
+	letter-spacing: 0.00735em;
+}
+
+.MUI_Typography_Root:is(._h5),
+.MUI_Typography_Root:is(._variant-h5) {
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1.334;
+	letter-spacing: 0;
+}
+
+.MUI_Typography_Root:is(._h6),
+.MUI_Typography_Root:is(._variant-h6) {
+	font-size: 1.125rem;
+	font-weight: 500;
+	line-height: 1.6;
+	letter-spacing: 0.0075em;
+}
+
+.MUI_Typography_Root:is(._subtitle1),
+.MUI_Typography_Root:is(._variant-subtitle1) {
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.75;
+	letter-spacing: 0.00938em;
+}
+
+.MUI_Typography_Root:is(._subtitle2),
+.MUI_Typography_Root:is(._variant-subtitle2) {
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1.57;
+	letter-spacing: 0.00714em;
+}
+
+.MUI_Typography_Root:is(._body1),
+.MUI_Typography_Root:is(._variant-body1),
+.MUI_Typography_Root_string {
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: 0.00938em;
+}
+
+.MUI_Typography_Root:is(._body2),
+.MUI_Typography_Root:is(._variant-body2) {
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1.43;
+	letter-spacing: 0.01071em;
+}
+
+.MUI_Typography_Root:is(._button),
+.MUI_Typography_Root:is(._variant-button) {
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1.75;
+	letter-spacing: 0.02857em;
+	text-transform: uppercase;
+}
+
+.MUI_Typography_Root:is(._caption),
+.MUI_Typography_Root:is(._variant-caption) {
+	font-size: 0.75rem;
+	font-weight: 400;
+	line-height: 1.66;
+	letter-spacing: 0.03333em;
+}
+
+.MUI_Typography_Root:is(._overline),
+.MUI_Typography_Root:is(._variant-overline) {
+	font-size: 0.75rem;
+	font-weight: 400;
+	line-height: 2.66;
+	letter-spacing: 0.08333em;
+	text-transform: uppercase;
+}
+
+/* ─── Element tag fallbacks (demo uses Element="h1" without variant) ───
+ * Must win over Tailwind preflight h1–h6 { font-size: inherit }
+ */
+.MUI_Typography_Root:is(h1) {
+	font-size: 2.5rem;
+	font-weight: 300;
+	line-height: 1.167;
+	letter-spacing: -0.01562em;
+}
+.MUI_Typography_Root:is(h2) {
+	font-size: 2rem;
+	font-weight: 300;
+	line-height: 1.2;
+	letter-spacing: -0.00833em;
+}
+.MUI_Typography_Root:is(h3) {
+	font-size: 1.75rem;
+	font-weight: 400;
+	line-height: 1.167;
+	letter-spacing: 0;
+}
+.MUI_Typography_Root:is(h4) {
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.235;
+	letter-spacing: 0.00735em;
+}
+.MUI_Typography_Root:is(h5) {
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1.334;
+	letter-spacing: 0;
+}
+.MUI_Typography_Root:is(h6) {
+	font-size: 1.125rem;
+	font-weight: 500;
+	line-height: 1.6;
+	letter-spacing: 0.0075em;
+}
+
+/* ─── Colors ─── */
+.MUI_Typography_Root:is(._primary) {
+	color: rgb(var(--text-primary, var(--bg-primary)));
+}
+.MUI_Typography_Root:is(._secondary) {
+	color: rgb(var(--text-secondary, var(--bg-secondary)));
+}
+.MUI_Typography_Root:is(._error) {
+	color: rgb(var(--text-error, var(--bg-error)));
+}
+.MUI_Typography_Root:is(._warning) {
+	color: rgb(var(--text-warning, var(--bg-warning)));
+}
+.MUI_Typography_Root:is(._success) {
+	color: rgb(var(--text-success, var(--bg-success)));
+}
+.MUI_Typography_Root:is(._info) {
+	color: rgb(var(--text-info, var(--bg-info, var(--bg-primary))));
+}
+
+/* Inherit muted/disabled */
+.MUI_Typography_Root:is(._textSecondary),
+.MUI_Typography_Root:is(._text-secondary) {
+	color: rgba(var(--text-main), 0.6);
+}
+.MUI_Typography_Root:is(._disabled) {
+	color: rgba(var(--text-main), 0.38);
+}
+
+/* ─── Align / display helpers ─── */
+.MUI_Typography_Root:is(._align-left) {
+	text-align: left;
+}
+.MUI_Typography_Root:is(._align-center) {
+	text-align: center;
+}
+.MUI_Typography_Root:is(._align-right) {
+	text-align: right;
+}
+.MUI_Typography_Root:is(._align-justify) {
+	text-align: justify;
+}
+.MUI_Typography_Root:is(._noWrap) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.MUI_Typography_Root:is(._gutterBottom) {
+	margin-bottom: 0.35em;
+}
+.MUI_Typography_Root:is(._paragraph) {
+	margin-bottom: 16px;
+}
+
+/*
+ * Inside Tailwind typography (prose), heading styles are very specific.
+ * Re-assert MUI sizes/colors when our class is present.
+ */
+.prose .MUI_Typography_Root:is(h1),
+.prose .MUI_Typography_Root:is(._h1),
+.prose .MUI_Typography_Root:is(._variant-h1) {
+	font-size: 2.5rem;
+	font-weight: 300;
+	line-height: 1.167;
+	letter-spacing: -0.01562em;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(h2),
+.prose .MUI_Typography_Root:is(._h2),
+.prose .MUI_Typography_Root:is(._variant-h2) {
+	font-size: 2rem;
+	font-weight: 300;
+	line-height: 1.2;
+	letter-spacing: -0.00833em;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(h3),
+.prose .MUI_Typography_Root:is(._h3),
+.prose .MUI_Typography_Root:is(._variant-h3) {
+	font-size: 1.75rem;
+	font-weight: 400;
+	line-height: 1.167;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(h4),
+.prose .MUI_Typography_Root:is(._h4),
+.prose .MUI_Typography_Root:is(._variant-h4) {
+	font-size: 1.5rem;
+	font-weight: 400;
+	line-height: 1.235;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(h5),
+.prose .MUI_Typography_Root:is(._h5),
+.prose .MUI_Typography_Root:is(._variant-h5) {
+	font-size: 1.25rem;
+	font-weight: 400;
+	line-height: 1.334;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(h6),
+.prose .MUI_Typography_Root:is(._h6),
+.prose .MUI_Typography_Root:is(._variant-h6) {
+	font-size: 1.125rem;
+	font-weight: 500;
+	line-height: 1.6;
+	margin: 0;
+	color: rgb(var(--color-override, var(--text-main)));
+}
+.prose .MUI_Typography_Root:is(._primary) {
+	color: rgb(var(--text-primary, var(--bg-primary)));
+}
+.prose .MUI_Typography_Root:is(._error) {
+	color: rgb(var(--text-error, var(--bg-error)));
+}
+.prose .MUI_Typography_Root:is(._secondary) {
+	color: rgb(var(--text-secondary, var(--bg-secondary)));
+}
+.prose .MUI_Typography_Root:is(._success) {
+	color: rgb(var(--text-success, var(--bg-success)));
 }

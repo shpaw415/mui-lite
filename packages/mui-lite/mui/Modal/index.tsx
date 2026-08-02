@@ -57,6 +57,16 @@ function resolveContainer(
 	return document.body;
 }
 
+/**
+ * Low-level blocking overlay primitive (prefer Dialog for most UIs).
+ *
+ * @example Custom modal shell
+ * ```tsx
+ * <Modal open={open} onClose={onClose}>
+ *   <Box sx={{ p: 3, bgcolor: "background.paper" }}>Custom body</Box>
+ * </Modal>
+ * ```
+ */
 export default function Modal({
 	children,
 	open,

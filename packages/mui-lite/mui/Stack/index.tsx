@@ -33,6 +33,17 @@ function spacingToCss(spacing: number | string | undefined): string | undefined 
 	return spacing;
 }
 
+/**
+ * One-axis flex layout with consistent spacing.
+ *
+ * @example Form column
+ * ```tsx
+ * <Stack spacing={2}>
+ *   <TextField label="Email" />
+ *   <Button variant="contained">Submit</Button>
+ * </Stack>
+ * ```
+ */
 export default function Stack({
 	children,
 	component = "div",

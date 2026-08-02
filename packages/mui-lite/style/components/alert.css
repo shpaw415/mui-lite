@@ -1,12 +1,19 @@
 .MUI_Alert_Root {
 	display: flex;
+	/* Align icon, message, and action to the top; message padding centers single-line text */
+	align-items: flex-start;
 	padding: 6px 16px;
-
-	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
 	font-weight: 400;
 	font-size: 0.875rem;
 	line-height: 1.43;
 	letter-spacing: 0.01071em;
+	box-sizing: border-box;
+	/* Grow with title + body; avoid flex collapse clipping multi-line content */
+	width: 100%;
+	min-width: 0;
+	height: auto;
+	overflow: hidden; /* clip to border-radius; height still follows content */
 
 	&:is(._filled) {
 		font-weight: 500;
@@ -33,7 +40,7 @@
 		background-color: rgba(var(--bg-error), 0.12);
 		color: rgb(var(--color-override));
 		& > .MUI_Alert_icon {
-			color: rgb(var(--text-error-dark));
+			color: rgb(var(--text-error-dark, var(--text-error)));
 		}
 		&:is(._filled) {
 			background-color: rgb(var(--bg-error-main));
@@ -47,20 +54,21 @@
 		}
 	}
 	&:is(._warning) {
-		background-color: rgba(var(--bg-warning), 0.12);
-		color: rgb(var(--color-override));
+		background-color: rgba(var(--bg-warning, 237, 108, 2), 0.12);
+		color: rgb(var(--color-override, var(--text-warning, 237, 108, 2)));
 		& > .MUI_Alert_icon {
-			color: rgb(var(--text-warning));
+			color: rgb(var(--text-warning, 237, 108, 2));
 		}
 		&:is(._filled) {
-			background-color: rgb(var(--bg-warning-main));
-			color: rgb(var(--bg-main));
+			background-color: rgb(var(--bg-warning-main, 219, 104, 9));
+			/* Prefer surface contrast text; fall back to near-black for light themes */
+			color: rgb(var(--bg-main, 0, 0, 0));
 			& > .MUI_Alert_icon {
-				color: rgb(var(--bg-main));
+				color: rgb(var(--bg-main, 0, 0, 0));
 			}
 		}
 		&:is(._outlined) {
-			border-color: rgb(var(--bg-warning));
+			border-color: rgb(var(--bg-warning, 237, 108, 2));
 		}
 	}
 	&:is(._info) {
@@ -88,17 +96,20 @@
 		background: transparent;
 	}
 
+	/* Icon: same vertical padding as message so first line aligns with glyph center */
 	& > .MUI_Alert_icon {
 		margin-right: 12px;
-		padding: 7px 0px;
+		padding: 7px 0;
 		display: flex;
+		align-items: center;
 		font-size: 22px;
 		opacity: 0.9;
+		flex-shrink: 0;
 		& > svg {
 			user-select: none;
 			width: 1em;
 			height: 1em;
-			display: inline-block;
+			display: block;
 			flex-shrink: 0;
 			fill: currentColor;
 			font-size: inherit;
@@ -107,19 +118,61 @@
 	}
 }
 
+/* Title + body share this box (MUI .MuiAlert-message) */
+.MUI_Alert_message {
+	padding: 8px 0;
+	min-width: 0;
+	/* min-height: min-content prevents flex from collapsing this column when
+	   overflow is non-visible (classic flex min-size bug → text spills under Alert) */
+	min-height: min-content;
+	flex: 1 1 auto;
+	/* Prefer wrapping over a nested scrollport that can collapse height */
+	overflow: visible;
+	display: flex;
+	flex-direction: column;
+	/* Center content vertically relative to the icon column on single-line alerts */
+	justify-content: center;
+}
+
 .MUI_Alert_Title {
-	padding: 8px 0px;
-	min-width: 0px;
-	overflow: auto;
+	font-family: inherit;
+	font-weight: 500;
+	font-size: 1rem;
+	line-height: 1.5;
+	letter-spacing: 0.00938em;
+	margin: 0 0 0.35em;
+	padding: 0;
+	min-width: 0;
 	color: inherit;
+	/* Title must stay in normal flow so it expands the Paper height */
+	display: block;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+/* Body text: no extra top offset; inherits message padding */
+.MUI_Alert_description {
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+	color: inherit;
+	display: block;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+/* When both title and description exist, stack from the top of the message box */
+.MUI_Alert_message:has(.MUI_Alert_Title) {
+	justify-content: flex-start;
 }
 
 .MUI_Alert_Action {
 	display: flex;
 	align-items: flex-start;
-	padding: 4px 0px 0px 16px;
+	padding: 4px 0 0 16px;
 	margin-left: auto;
 	margin-right: -8px;
+	flex-shrink: 0;
 }
 
 .MUI_Alert_Root._filled .MUI_Alert_Action svg {

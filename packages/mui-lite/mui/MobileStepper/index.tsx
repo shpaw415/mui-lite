@@ -17,6 +17,19 @@ export type MobileStepperProps = {
 	LinearProgressProps?: React.ComponentProps<typeof LinearProgress>;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Compact step indicator for carousels and mobile wizards.
+ *
+ * @example Onboarding steps
+ * ```tsx
+ * <MobileStepper
+ *   steps={4}
+ *   activeStep={step}
+ *   nextButton={<Button onClick={next}>Next</Button>}
+ *   backButton={<Button onClick={back}>Back</Button>}
+ * />
+ * ```
+ */
 export default function MobileStepper({
 	steps,
 	activeStep = 0,

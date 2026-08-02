@@ -30,6 +30,14 @@ export type TextFieldProps = {
 	}>;
 } & Omit<MuiElementType<HTMLInputElement>, "size">;
 
+/**
+ * Labeled text input (standard / outlined / filled) with helper text.
+ *
+ * @example Login field
+ * ```tsx
+ * <TextField label="Email" variant="outlined" fullWidth />
+ * ```
+ */
 function TextField({
 	color,
 	startIcon,

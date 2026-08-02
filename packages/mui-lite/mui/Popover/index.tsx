@@ -56,6 +56,16 @@ function originOffset(
 	return 0;
 }
 
+/**
+ * Anchored modal surface for pickers and lightweight overlays.
+ *
+ * @example Color picker shell
+ * ```tsx
+ * <Popover open={open} anchorEl={anchor} onClose={onClose}>
+ *   <Box sx={{ p: 2 }}>Picker content</Box>
+ * </Popover>
+ * ```
+ */
 export default function Popover({
 	open,
 	anchorEl,

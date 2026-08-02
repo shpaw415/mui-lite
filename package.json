@@ -4,6 +4,7 @@
 	"type": "module",
 	"workspaces": ["packages/*", "apps/*"],
 	"scripts": {
+		"build": "bun run --filter @shpaw415/mui-lite build",
 		"test": "bun test packages/mui-lite/tests",
 		"test:watch": "bun test --watch packages/mui-lite/tests",
 		"typecheck": "bunx tsc -p packages/mui-lite --noEmit",

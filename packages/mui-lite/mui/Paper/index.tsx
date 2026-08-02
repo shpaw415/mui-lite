@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { createElement, type ElementType, useMemo } from "react";
 import { useClassNames, useStyle, useTheme } from "../../common/theme";
 import {
@@ -13,6 +14,14 @@ export type PaperProps = {
 	element?: ElementType;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Elevated surface for cards, menus, and floating panels.
+ *
+ * @example Panel
+ * ```tsx
+ * <Paper elevation={2} sx={{ p: 2 }}>Dashboard widget</Paper>
+ * ```
+ */
 export default function Paper({
 	elevation = 1,
 	sx,
@@ -39,7 +48,8 @@ export default function Paper({
 
 	const root = useClassNames({
 		component_name: "Paper_Root",
-		className: [className, sxStyle.classNameFromSx],
+		// clsx so nested arrays/strings flatten (useClassNames joins with spaces)
+		className: clsx(className, sxStyle.classNameFromSx),
 		state: [elevation && `elevation${elevation}`, variant, square && "square"],
 	});
 

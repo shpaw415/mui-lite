@@ -336,6 +336,18 @@ export type StepperProps = {
 	connector?: ReactNode;
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Multi-step wizard progress for checkout and onboarding.
+ *
+ * @example Checkout steps
+ * ```tsx
+ * <Stepper activeStep={1}>
+ *   <Step><StepLabel>Cart</StepLabel></Step>
+ *   <Step><StepLabel>Shipping</StepLabel></Step>
+ *   <Step><StepLabel>Pay</StepLabel></Step>
+ * </Stepper>
+ * ```
+ */
 export default function Stepper({
 	children,
 	activeStep = 0,

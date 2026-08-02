@@ -23,6 +23,16 @@ export type FABProps = {
 	colorOverRide?: React.CSSProperties["color"];
 } & Omit<MuiElementType<HTMLButtonElement>, "type" | "size">;
 
+/**
+ * Primary floating action for create / compose on a screen.
+ *
+ * @example Compose
+ * ```tsx
+ * <FAB color="primary" aria-label="add" onClick={compose}>
+ *   <AddIcon />
+ * </FAB>
+ * ```
+ */
 export default function FAB({
 	className,
 	color,
@@ -68,11 +78,14 @@ export default function FAB({
 			ref={ref}
 		>
 			{children}
-			<RippleBase
-				ref={ref}
-				offset={{ top: -10, left: -10 }}
-				preventClickElement
-			/>
+			{!props.disabled && (
+				<RippleBase
+					ref={ref}
+					offset={{ top: -10, left: -10 }}
+					preventClickElement
+					disabled={Boolean(props.disabled)}
+				/>
+			)}
 		</button>
 	);
 }

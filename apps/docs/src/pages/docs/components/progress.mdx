@@ -8,7 +8,12 @@ import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
 
 ## Why use it
 
-**CircularProgress** and **LinearProgress** indicate busy or determinate completion. Use indeterminate while waiting; determinate when you know percent complete.
+**CircularProgress** and **LinearProgress** indicate work in progress:
+
+| Mode | When to use | API |
+| --- | --- | --- |
+| **Busy (indeterminate)** | Waiting with no known % (fetch, spinner) | Default — omit `value`, or `variant="indeterminate"` |
+| **Determinate** | Upload/download, steps with a known percent | `variant="determinate"` + `value={0–100}` |
 
 ## Demo
 
@@ -19,7 +24,11 @@ import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
 ```tsx
 import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
 
+// Busy — continuous animation, no value
 <CircularProgress />
+<LinearProgress />
+
+// Determinate — fill matches value
 <CircularProgress variant="determinate" value={75} />
 <LinearProgress variant="determinate" value={40} />
 ```
@@ -28,7 +37,7 @@ import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
 
 | Prop | Type | Default |
 | --- | --- | --- |
-| variant | indeterminate \| determinate | indeterminate |
-| value | 0–100 | — |
+| variant | indeterminate \| determinate \| buffer (linear) | indeterminate |
+| value | 0–100 (required for determinate) | — |
 | color | palette | — |
 | size (circular) | number \| string | — |

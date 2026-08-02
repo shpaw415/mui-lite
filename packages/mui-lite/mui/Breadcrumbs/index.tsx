@@ -21,6 +21,18 @@ export type BreadcrumbsProps = {
 	expandText?: string;
 } & MuiElementType<HTMLElement>;
 
+/**
+ * Hierarchy path for nested pages and multi-level navigation.
+ *
+ * @example Folder trail
+ * ```tsx
+ * <Breadcrumbs>
+ *   <Link href="/">Home</Link>
+ *   <Link href="/docs">Docs</Link>
+ *   <Typography>Button</Typography>
+ * </Breadcrumbs>
+ * ```
+ */
 export default function Breadcrumbs({
 	children,
 	component = "nav",

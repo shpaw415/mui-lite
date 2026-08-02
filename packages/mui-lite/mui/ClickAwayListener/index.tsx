@@ -15,6 +15,16 @@ export type ClickAwayListenerProps = {
 	disableReactTree?: boolean;
 };
 
+/**
+ * Detects outside clicks to dismiss menus, popovers, and editors.
+ *
+ * @example Close popover
+ * ```tsx
+ * <ClickAwayListener onClickAway={() => setOpen(false)}>
+ *   <div>{open && <Menu />}</div>
+ * </ClickAwayListener>
+ * ```
+ */
 export default function ClickAwayListener({
 	children,
 	onClickAway,

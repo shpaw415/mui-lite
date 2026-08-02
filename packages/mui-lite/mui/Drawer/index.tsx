@@ -138,6 +138,18 @@ function temporaryGeometry(
 const useIsoLayoutEffect =
 	typeof document !== "undefined" ? useLayoutEffect : useEffect;
 
+/**
+ * Side panel for navigation, filters, and mobile menus.
+ *
+ * @example Nav drawer
+ * ```tsx
+ * <Drawer open={open} onClose={onClose}>
+ *   <List>
+ *     <ListItemButton>Home</ListItemButton>
+ *   </List>
+ * </Drawer>
+ * ```
+ */
 export default function Drawer({
 	open = false,
 	variant = "temporary",

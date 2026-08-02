@@ -236,18 +236,62 @@ export function PopperDemo() {
 }
 
 export function RatingDemo() {
-	const [value, setValue] = useState<number | null>(2);
+	const [value, setValue] = useState<number | null>(2.5);
+	const [hover, setHover] = useState(-1);
 	return (
-		<Demo>
-			<Stack spacing={1}>
-				<Rating name="demo" value={value} onChange={(_e, v) => setValue(v)} />
-				<Typography>{value !== null ? String(value) : "null"}</Typography>
-				<Rating name="read" value={4} readOnly />
-				<Rating name="disabled" value={3} disabled />
-				<Rating name="sizes" defaultValue={2} size="small" />
-				<Rating name="sizes2" defaultValue={2} size="large" />
-			</Stack>
-		</Demo>
+		<>
+			<Demo title="Interactive (half-star)">
+				<Stack spacing={1}>
+					<Typography variant="body2" color="textSecondary">
+						Hover to preview · click to set · default step is ½ star
+					</Typography>
+					<Rating
+						name="demo"
+						value={value}
+						precision={0.5}
+						onChange={(_e, v) => setValue(v)}
+						onChangeActive={(_e, v) => setHover(v)}
+					/>
+					<Typography>
+						{hover !== -1
+							? `Preview: ${hover}`
+							: value !== null
+								? `Value: ${value}`
+								: "Unset"}
+					</Typography>
+				</Stack>
+			</Demo>
+			<Demo title="States & sizes">
+				<Stack spacing={1.5}>
+					<Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
+						<Typography variant="caption" style={{ width: 72 }}>
+							Read-only
+						</Typography>
+						<Rating name="read" value={4.5} precision={0.5} readOnly />
+					</Stack>
+					<Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
+						<Typography variant="caption" style={{ width: 72 }}>
+							Disabled
+						</Typography>
+						<Rating name="disabled" value={3} precision={0.5} disabled />
+					</Stack>
+					<Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
+						<Typography variant="caption" style={{ width: 72 }}>
+							Whole
+						</Typography>
+						<Rating name="whole" defaultValue={3} precision={1} />
+					</Stack>
+					<Stack direction="row" spacing={2} style={{ alignItems: "center" }}>
+						<Typography variant="caption" style={{ width: 72 }}>
+							Sizes
+						</Typography>
+						<Rating name="sm" defaultValue={2.5} precision={0.5} size="small" />
+						<Rating name="md" defaultValue={2.5} precision={0.5} size="medium" />
+						<Rating name="lg" defaultValue={2.5} precision={0.5} size="large" />
+					</Stack>
+				</Stack>
+			</Demo>
+		</>
 	);
 }
 

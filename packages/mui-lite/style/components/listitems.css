@@ -14,8 +14,11 @@
 
 .MUI_ListItem_ul {
 	list-style: none;
-	margin: 0px;
-	padding: 8px 0px;
+	margin: 0;
+	/* Vertical only — no extra left inset on nested list roots */
+	padding: 8px 0;
+	padding-left: 0;
+	padding-right: 0;
 	position: relative;
 	display: flex;
 	flex: 1;

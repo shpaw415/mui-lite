@@ -93,6 +93,17 @@ export type BottomNavigationProps = {
 	showLabels?: boolean;
 } & Omit<MuiElementType<HTMLDivElement>, "onChange">;
 
+/**
+ * Mobile primary navigation across a few top-level destinations.
+ *
+ * @example Tab bar
+ * ```tsx
+ * <BottomNavigation value={tab} onChange={setTab}>
+ *   <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+ *   <BottomNavigationAction label="Search" icon={<SearchIcon />} />
+ * </BottomNavigation>
+ * ```
+ */
 export default function BottomNavigation({
 	children,
 	value,

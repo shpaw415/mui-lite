@@ -19,6 +19,14 @@ export type FormHelperTextProps = {
 	id?: string;
 } & MuiElementType<HTMLParagraphElement>;
 
+/**
+ * Helper or error text under a FormControl field.
+ *
+ * @example Validation message
+ * ```tsx
+ * <FormHelperText error>Invalid email</FormHelperText>
+ * ```
+ */
 export default function FormHelperText({
 	children,
 	component = "p",

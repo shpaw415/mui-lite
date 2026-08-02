@@ -117,12 +117,20 @@
 
 .MUI_Dialog_Action_Root {
 	display: flex;
-	-webkit-box-align: center;
 	align-items: center;
 	padding: 8px;
-	-webkit-box-pack: end;
 	justify-content: flex-end;
 	flex: 0 0 auto;
+	gap: 8px;
+}
+
+/* Ensure action button labels stay readable on dialog paper */
+.MUI_Dialog_Action_Root .MUI_Button_text {
+	color: rgb(var(--text-primary, var(--bg-primary)));
+}
+.MUI_Dialog_Action_Root .MUI_Button_contained {
+	/* keep contrast: primary fill, on-primary text from button styles */
+	color: #fff;
 }
 
 .MUI_Dialog_Body_Scroll_Root {

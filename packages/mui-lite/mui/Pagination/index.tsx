@@ -83,6 +83,14 @@ export type PaginationProps = Omit<
 	) => string;
 };
 
+/**
+ * Page controls for tables, search results, and lists.
+ *
+ * @example Results paging
+ * ```tsx
+ * <Pagination count={10} page={page} onChange={(_, p) => setPage(p)} />
+ * ```
+ */
 export default function Pagination({
 	sx,
 	variant = "text",
@@ -291,11 +299,14 @@ function PaginationItem({
 			ref={ref as any}
 		>
 			{children}
-			<RippleBase
-				preventClickElement
-				ref={ref}
-				offset={{ top: -35, left: -35 }}
-			/>
+			{!disabled && (
+				<RippleBase
+					preventClickElement
+					ref={ref}
+					disabled={disabled}
+					offset={{ top: -35, left: -35 }}
+				/>
+			)}
 		</Box>
 	);
 }
@@ -331,6 +342,19 @@ export type TablePaginationProps = {
 	labelRowsPerPage?: string;
 } & BoxProps<HTMLDivElement>;
 
+/**
+ * Table footer paging (rows-per-page + page controls).
+ *
+ * @example Table footer
+ * ```tsx
+ * <TablePagination
+ *   count={100}
+ *   page={page}
+ *   rowsPerPage={10}
+ *   onPageChange={(_, p) => setPage(p)}
+ * />
+ * ```
+ */
 export function TablePagination({
 	component = "div",
 	page = 0,

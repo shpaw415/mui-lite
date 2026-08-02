@@ -13,9 +13,26 @@ Lightweight Material Design components for React 19.
 
 ```bash
 bun install
+bun run build            # compile @shpaw415/mui-lite (JS + .d.ts + CSS)
 bun test                 # unit tests
 bun run docs:dev         # docs site
 bun run typecheck
+```
+
+## Publishing to npm
+
+The library is published from GitHub Actions (manual workflow).
+
+1. Add repository secret **`NPM_TOKEN`** (npm automation token with publish access to `@shpaw415`).
+2. Open **Actions → Publish to npm → Run workflow**.
+3. Optionally set a version bump (`patch` / `minor` / `major` or exact semver) and dist-tag.
+4. Use **dry_run** first to pack without publishing.
+
+Locally:
+
+```bash
+bun run build
+cd packages/mui-lite && npm publish --access public
 ```
 
 ## Library quick start

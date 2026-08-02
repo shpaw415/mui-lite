@@ -30,6 +30,14 @@ export type ChipProps = {
 	size?: "small";
 } & Omit<MuiElementType<HTMLDivElement>, "size">;
 
+/**
+ * Compact tags for filters, categories, and removable selections.
+ *
+ * @example Filter chip
+ * ```tsx
+ * <Chip label="React" onDelete={clear} />
+ * ```
+ */
 export default function Chip({
 	variant = "filled",
 	children,
@@ -85,12 +93,14 @@ export default function Chip({
 			{icon && !avatar && icon}
 			<span className="MUI_Chip_Content">
 				{children}
-				<RippleBase
-					preventClickElement
-					disabled={!props.onClick || Boolean(onDelete)}
-					ref={ref}
-					colorOverRide={theme["text-main"][theme.theme]}
-				/>
+				{props.onClick && !props.disabled && (
+					<RippleBase
+						preventClickElement
+						disabled={Boolean(props.disabled) || !props.onClick}
+						ref={ref}
+						colorOverRide={theme["text-main"][theme.theme]}
+					/>
+				)}
 			</span>
 			{onDelete && (
 				<span

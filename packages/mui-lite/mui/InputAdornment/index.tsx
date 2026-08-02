@@ -21,6 +21,14 @@ export type InputAdornmentProps = {
 	variant?: "standard" | "outlined" | "filled";
 } & MuiElementType<HTMLDivElement>;
 
+/**
+ * Start/end adornment (icons, units) inside text inputs.
+ *
+ * @example Currency prefix
+ * ```tsx
+ * <InputAdornment position="start">$</InputAdornment>
+ * ```
+ */
 export default function InputAdornment({
 	children,
 	position,

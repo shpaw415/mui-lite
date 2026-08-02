@@ -61,6 +61,17 @@ export type SelectProps = {
 	onOpenChange?: (open: boolean) => void;
 } & Omit<TextFieldProps, "value" | "onSelect" | "defaultValue">;
 
+/**
+ * Custom dropdown select with Material field styling and menu.
+ *
+ * @example Fruit picker
+ * ```tsx
+ * <Select name="fruit" label="Fruit" defaultValue="apple">
+ *   <option value="apple">Apple</option>
+ *   <option value="banana">Banana</option>
+ * </Select>
+ * ```
+ */
 function Select({
 	sx,
 	className,

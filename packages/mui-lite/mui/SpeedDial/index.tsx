@@ -31,6 +31,16 @@ export type SpeedDialProps = {
 	trigger?: ("click" | "hover")[];
 } & BoxProps<HTMLDivElement>;
 
+/**
+ * Fan-out FAB for multiple related primary actions.
+ *
+ * @example Create actions
+ * ```tsx
+ * <SpeedDial ariaLabel="Create" icon={<AddIcon />}>
+ *   <SpeedDialAction icon={<FileIcon />} tooltipTitle="File" onClick={newFile} />
+ * </SpeedDial>
+ * ```
+ */
 export default function SpeedDial({
 	children,
 	SlotProps,

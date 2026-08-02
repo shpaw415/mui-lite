@@ -73,17 +73,14 @@ body {
 	background-color: rgb(var(--bg-main));
 }
 
-@keyframes ripple {
+/* Material-style ink: grow from click and fade out */
+@keyframes mui-ripple-enter {
 	0% {
 		transform: scale(0);
-		opacity: 0.4;
-	}
-	50% {
-		transform: scale(200);
-		opacity: 0.2;
+		opacity: 0.3;
 	}
 	100% {
-		transform: scale(400);
+		transform: scale(1);
 		opacity: 0;
 	}
 }
@@ -99,16 +96,19 @@ body {
 .MUI_Ripple_span {
 	position: absolute;
 	border-radius: 50%;
-	width: 100px;
-	height: 100px;
-	opacity: 0.4;
-	background-color: rgb(var(--color-override, currentColor, var(--bg-main)));
+	/* size set inline from host dimensions; start scaled to 0 */
+	transform: scale(0);
+	opacity: 0.3;
+	/* inherit host text color (white on contained, primary on text/outlined) */
+	background-color: currentColor;
 	pointer-events: none;
-	animation: ripple 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-	cursor: inherit;
-	max-width: 1px;
-	max-height: 1px;
-	overflow: visible;
+	animation: mui-ripple-enter 550ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	z-index: 0;
+}
+
+/* Optional RGB override set as --color-override: "r, g, b" on the span */
+.MUI_Ripple_span[style*="--color-override"] {
+	background-color: rgb(var(--color-override));
 }
 
 .MUI_Ripple:is(._primary),
@@ -126,6 +126,14 @@ body {
 .MUI_Ripple:is(._warning),
 .MUI_Ripple_span:is(._warning) {
 	background-color: rgb(var(--bg-warning));
+}
+
+/* Keep label/icon above the ink */
+.MUI_Button > :not(.MUI_Ripple_span),
+.MUI_IconButton_Root > :not(.MUI_Ripple_span),
+.MUI_ButtonBase > :not(.MUI_Ripple_span) {
+	position: relative;
+	z-index: 1;
 }
 
 ::-webkit-scrollbar {

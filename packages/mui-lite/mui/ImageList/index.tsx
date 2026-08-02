@@ -34,6 +34,20 @@ export type ImageListProps = {
 	variant?: "standard" | "woven" | "masonry" | "quilted";
 } & MuiElementType<HTMLUListElement>;
 
+/**
+ * Responsive media gallery grid (masonry-style image collections).
+ *
+ * @example Photo grid
+ * ```tsx
+ * <ImageList cols={3} gap={8}>
+ *   {photos.map((p) => (
+ *     <ImageListItem key={p}>
+ *       <img src={p} alt="" loading="lazy" />
+ *     </ImageListItem>
+ *   ))}
+ * </ImageList>
+ * ```
+ */
 export default function ImageList({
 	children,
 	component = "ul",

@@ -1,15 +1,18 @@
 import type React from "react";
-import { Footer, Header, MuiDocsProvider } from "../components";
+import { Header, MuiDocsProvider } from "../components";
 
+/**
+ * App shell: fixed viewport height, header always visible.
+ * Each route owns its own scroll region (home page or docs pane).
+ */
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<MuiDocsProvider>
-			<div className="min-h-screen flex flex-col selection:bg-accent/30">
+			<div className="flex h-dvh flex-col overflow-hidden selection:bg-accent/30">
 				<Header />
-				<main className="flex-1 prose prose-lg mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:px-8 prose-pre:bg-transparent prose-pre:p-0">
+				<main className="flex min-h-0 flex-1 flex-col overflow-hidden">
 					{children}
 				</main>
-				<Footer />
 			</div>
 		</MuiDocsProvider>
 	);

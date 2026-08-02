@@ -1,13 +1,28 @@
+"use client";
+
 import clsx from "clsx";
-import { createContext, type JSX, useContext, useRef, useState } from "react";
+import {
+	createContext,
+	type JSX,
+	useCallback,
+	useContext,
+	useMemo,
+	useState,
+} from "react";
 import { type SxProps, useClassNames, useStyle } from "../../common/theme";
 import type { MuiElementType } from "../../common/utils";
-import type { PaperProps } from "../Paper";
-import Paper from "../Paper";
+import Collapse from "../Collapse";
+import Paper, { type PaperProps } from "../Paper";
 
 function ExpandMoreIcon() {
 	return (
-		<svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden focusable="false">
+		<svg
+			viewBox="0 0 24 24"
+			width="1em"
+			height="1em"
+			aria-hidden
+			focusable="false"
+		>
 			<path
 				fill="currentColor"
 				d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
@@ -17,77 +32,143 @@ function ExpandMoreIcon() {
 }
 
 export type AccordionProps = {
+	/** Controlled expanded state */
 	expended?: boolean;
+	/** @alias expended */
+	expanded?: boolean;
 	defaultExpended?: boolean;
+	defaultExpanded?: boolean;
+	/** Optional summary node (or pass AccordionSummary as a child) */
 	Summary?: JSX.Element;
 	disabled?: boolean;
+	/** Collapse animation duration in ms */
+	transitionDuration?: number;
 	sx?: SxProps;
+	onChange?: (expanded: boolean) => void;
 } & PaperProps;
 
-const ExpendedContext = createContext<
-	[boolean, React.Dispatch<React.SetStateAction<boolean>>]
->([false, () => {}]);
-const StateContext = createContext<{ disabled?: boolean }>({
-	disabled: false,
+type ExpandedCtx = {
+	expanded: boolean;
+	setExpanded: (next: boolean | ((prev: boolean) => boolean)) => void;
+	disabled?: boolean;
+};
+
+const ExpandedContext = createContext<ExpandedCtx>({
+	expanded: false,
+	setExpanded: () => {},
 });
 
+/**
+ * Expandable section for FAQ, settings groups, and progressive disclosure.
+ *
+ * @example FAQ item
+ * ```tsx
+ * <Accordion>
+ *   <AccordionSummary>Shipping</AccordionSummary>
+ *   <AccordionDetails>We ship worldwide in 3–5 days.</AccordionDetails>
+ * </Accordion>
+ * ```
+ */
 export default function Accordion({
 	expended,
+	expanded: expandedProp,
 	defaultExpended,
+	defaultExpanded,
 	children,
 	Summary,
 	disabled,
 	className,
+	transitionDuration = 300,
+	onChange,
 	...props
 }: AccordionProps) {
-	const expendedControl = useState(Boolean(defaultExpended));
+	const controlled = expended ?? expandedProp;
+	const isControlled = controlled !== undefined;
+	const [internal, setInternal] = useState(
+		Boolean(defaultExpended ?? defaultExpanded),
+	);
+	const expanded = isControlled ? Boolean(controlled) : internal;
+
+	const setExpanded = useCallback(
+		(next: boolean | ((prev: boolean) => boolean)) => {
+			const value = typeof next === "function" ? next(expanded) : next;
+			if (!isControlled) setInternal(value);
+			onChange?.(value);
+		},
+		[expanded, isControlled, onChange],
+	);
+
+	const ctx = useMemo<ExpandedCtx>(
+		() => ({ expanded, setExpanded, disabled }),
+		[expanded, setExpanded, disabled],
+	);
 
 	const root = useClassNames({
 		component_name: "Accordion_Root",
 		className,
-		state: [disabled && "disabled", expendedControl[0] && "expended"],
+		state: [disabled && "disabled", expanded && "expended", expanded && "expanded"],
 	});
 
-	const collapse = useClassNames({
-		component_name: "Accordion_Collapse",
-		state: [expendedControl[0] && "expended", disabled && "disabled"],
-	});
-
-	const ref = useRef<HTMLDivElement>(null);
-
-	if (typeof expended != "undefined" && expended != expendedControl[0])
-		expendedControl[1](expended);
+	// Split summary children vs body when Summary prop is not used
+	const childArray = Array.isArray(children)
+		? children
+		: children != null
+			? [children]
+			: [];
+	let summaryNode = Summary;
+	const body: typeof childArray = [];
+	for (const child of childArray) {
+		if (
+			!summaryNode &&
+			child &&
+			typeof child === "object" &&
+			"type" in child &&
+			(child as any).type?.displayName === "AccordionSummary"
+		) {
+			summaryNode = child as JSX.Element;
+		} else {
+			body.push(child);
+		}
+	}
 
 	return (
-		<ExpendedContext value={expendedControl}>
-			<StateContext value={{ disabled }}>
-				<Paper elevation={5} {...props} className={root.combined}>
-					{Summary && Summary}
-					<div className={collapse.combined} ref={ref}>
-						{children}
-					</div>
-				</Paper>
-			</StateContext>
-		</ExpendedContext>
+		<ExpandedContext value={ctx}>
+			<Paper elevation={1} square {...props} className={root.combined}>
+				{summaryNode}
+				{/*
+				 * Height animation via Collapse (measured px), not CSS height:auto /
+				 * visibility keyframes — avoids flicker and layout thrash.
+				 */}
+				<Collapse
+					open={expanded}
+					timeout={transitionDuration}
+					// Keep mounted so re-open doesn't reflow from empty
+					unmountOnExit={false}
+				>
+					<div>{body}</div>
+				</Collapse>
+			</Paper>
+		</ExpandedContext>
 	);
 }
 
 export type AccordionSummaryProps = {
 	expendIcon?: JSX.Element;
+	expandIcon?: JSX.Element;
 	Element?: keyof JSX.IntrinsicElements;
 } & MuiElementType<HTMLHeadingElement>;
 
 export function AccordionSummary({
 	children,
 	expendIcon,
+	expandIcon,
 	className,
 	Element = "h3",
 	sx,
 	...props
 }: AccordionSummaryProps) {
 	const style = useStyle(sx);
-	const [expended, setExpended] = useContext(ExpendedContext);
-	const { disabled } = useContext(StateContext);
+	const { expanded, setExpanded, disabled } = useContext(ExpandedContext);
 	const root = useClassNames({
 		component_name: "Accordion_Summary_Root",
 		className,
@@ -95,39 +176,41 @@ export function AccordionSummary({
 
 	const btn = useClassNames({
 		component_name: "Accordion_Summary_Btn",
-		state: [expended && "expended"],
+		state: [expanded && "expended", expanded && "expanded"],
 	});
 
 	const content = useClassNames({
 		component_name: "Accordion_Summary_Content",
-		state: [expended && "expended"],
+		state: [expanded && "expended", expanded && "expanded"],
 	});
 	const icon = useClassNames({
 		component_name: "Accordion_Summary_Icon",
-		state: [expended && "expended"],
+		state: [expanded && "expended", expanded && "expanded"],
 	});
+
+	const iconNode = expandIcon ?? expendIcon ?? <ExpandMoreIcon />;
 
 	return (
 		<Element
-			className={clsx(root.combined, style.classNameFromSx)} style={style.styleFromSx}
+			className={clsx(root.combined, style.classNameFromSx)}
+			style={style.styleFromSx}
 			{...(props as any)}
 		>
 			<button
 				className={btn.combined}
 				type="button"
 				tabIndex={0}
-				aria-expanded={expended}
-				onClick={() => setExpended((c) => !c)}
+				aria-expanded={expanded}
+				onClick={() => setExpanded((c) => !c)}
 				disabled={disabled}
 			>
 				<span className={content.combined}>{children}</span>
-				<span className={icon.combined}>
-					{expendIcon || <ExpandMoreIcon />}
-				</span>
+				<span className={icon.combined}>{iconNode}</span>
 			</button>
 		</Element>
 	);
 }
+AccordionSummary.displayName = "AccordionSummary";
 
 export type AccordionDetailsProps = MuiElementType<HTMLDivElement>;
 
@@ -149,6 +232,7 @@ export function AccordionDetails({
 		/>
 	);
 }
+AccordionDetails.displayName = "AccordionDetails";
 
 export type AccordionActionProps = MuiElementType<HTMLDivElement>;
 
@@ -170,3 +254,4 @@ export function AccordionActions({
 		/>
 	);
 }
+AccordionActions.displayName = "AccordionActions";

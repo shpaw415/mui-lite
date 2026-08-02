@@ -10,7 +10,9 @@ import Rating from "@shpaw415/mui-lite/Rating";
 
 **Rating** captures or displays a star score (reviews, satisfaction, difficulty). Use controlled `value` + `onChange` for input; `readOnly` for display-only averages.
 
-Built on radio inputs for keyboard and screen-reader support.
+- **Half-star steps** by default (`precision={0.5}`)
+- **Hover preview** with a soft glow so users see the score before clicking
+- Built on radio inputs for keyboard and screen-reader support
 
 ## Demo
 
@@ -24,16 +26,23 @@ import Rating from "@shpaw415/mui-lite/Rating";
 import Typography from "@shpaw415/mui-lite/Typography";
 
 export function ReviewScore() {
-  const [value, setValue] = useState<number | null>(3);
+  const [value, setValue] = useState<number | null>(3.5);
   return (
     <>
+      {/* Interactive: hover previews fill + glow; click commits */}
       <Rating
         name="review"
         value={value}
+        precision={0.5}
         onChange={(_e, v) => setValue(v)}
       />
       <Typography>{value ?? "unset"}</Typography>
+
+      {/* Display-only average */}
       <Rating name="avg" value={4.5} precision={0.5} readOnly />
+
+      {/* Whole stars only */}
+      <Rating name="whole" defaultValue={3} precision={1} />
     </>
   );
 }
@@ -41,4 +50,14 @@ export function ReviewScore() {
 
 ## Props
 
-value, defaultValue, max, precision, readOnly, disabled, size, icon / emptyIcon, onChange, onChangeActive, getLabelText
+| Prop | Type | Default |
+| --- | --- | --- |
+| value / defaultValue | number \| null | — / null |
+| max | number | 5 |
+| precision | number | **0.5** (half stars) |
+| readOnly / disabled | boolean | false |
+| size | small \| medium \| large | medium |
+| onChange | (e, value) => void | — |
+| onChangeActive | (e, value) => void | hover/focus preview |
+| icon / emptyIcon | ReactNode | default stars |
+| getLabelText | (value) => string | `"N Stars"` |

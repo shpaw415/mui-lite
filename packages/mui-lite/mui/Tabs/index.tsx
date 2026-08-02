@@ -46,6 +46,17 @@ export type TabProps = {
 	_index?: number;
 } & Omit<MuiElementType<HTMLButtonElement>, "value">;
 
+/**
+ * Single tab control used inside Tabs.
+ *
+ * @example Tab item
+ * ```tsx
+ * <Tabs value={tab} onChange={(_, v) => setTab(v)}>
+ *   <Tab label="Overview" value="overview" />
+ *   <Tab label="Details" value="details" />
+ * </Tabs>
+ * ```
+ */
 export function Tab({
 	label,
 	icon,
@@ -131,6 +142,17 @@ export type TabsProps = {
 	"aria-labelledby"?: string;
 } & Omit<MuiElementType<HTMLDivElement>, "onChange">;
 
+/**
+ * Peer view switcher for related panels on one page.
+ *
+ * @example Profile sections
+ * ```tsx
+ * <Tabs value={tab} onChange={(_, v) => setTab(v)}>
+ *   <Tab label="Profile" value="profile" />
+ *   <Tab label="Security" value="security" />
+ * </Tabs>
+ * ```
+ */
 export default function Tabs({
 	children,
 	value,

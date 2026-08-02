@@ -11,6 +11,17 @@ export type CssBaselineProps = {
  * Prefer importing `@shpaw415/mui-lite/style.css` once at the app root;
  * this component injects a minimal complementary reset.
  */
+/**
+ * Global reset and theme background for consistent baselines.
+ *
+ * @example App root
+ * ```tsx
+ * <>
+ *   <CssBaseline />
+ *   <App />
+ * </>
+ * ```
+ */
 export default function CssBaseline({
 	children,
 	enableColorScheme = false,

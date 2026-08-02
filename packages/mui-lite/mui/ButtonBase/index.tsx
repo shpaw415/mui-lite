@@ -30,6 +30,16 @@ export type ButtonBaseProps = {
 	type?: "button" | "submit" | "reset";
 } & Omit<MuiElementType<HTMLButtonElement>, "disabled" | "type">;
 
+/**
+ * Headless pressable surface for custom interactive elements.
+ *
+ * @example Custom tile
+ * ```tsx
+ * <ButtonBase onClick={select} sx={{ p: 2, borderRadius: 1 }}>
+ *   Choose plan
+ * </ButtonBase>
+ * ```
+ */
 export default function ButtonBase({
 	children,
 	className,
@@ -141,6 +151,7 @@ export default function ButtonBase({
 			<RippleBase
 				ref={ref as React.RefObject<HTMLElement | null>}
 				preventClickElement
+				disabled={disabled}
 				offset={centerRipple ? { top: 0, left: 0 } : undefined}
 			/>
 		),

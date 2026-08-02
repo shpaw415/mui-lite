@@ -1,14 +1,21 @@
 .MUI_Collapse_Root {
+	/* Only animate the sized axis — no opacity/visibility fights */
 	transition:
 		height var(--collapse-timeout, 300ms) cubic-bezier(0.4, 0, 0.2, 1) 0ms,
 		width var(--collapse-timeout, 300ms) cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 	overflow: hidden;
-	height: auto;
-	width: auto;
+	/* Promote to own layer during transition for smoother paint */
+	will-change: height, width;
+}
+
+/* One-frame snap (auto → measured px) must not animate */
+.MUI_Collapse_Root:is(._instant) {
+	transition: none !important;
 }
 
 .MUI_Collapse_Root:is(._vertical) {
 	min-height: 0;
+	width: 100%;
 }
 
 .MUI_Collapse_Root:is(._horizontal) {
@@ -17,12 +24,22 @@
 }
 
 .MUI_Collapse_Root:is(._hidden):not(._open) {
+	/* Keep in layout for measure when not unmounting; hide pointer hits */
 	visibility: hidden;
+	pointer-events: none;
+}
+
+.MUI_Collapse_Root:is(._open),
+.MUI_Collapse_Root:is(._entered) {
+	visibility: visible;
+	pointer-events: auto;
 }
 
 .MUI_Collapse_Root > .MUI_Collapse_wrapper {
 	display: flex;
 	width: 100%;
+	/* Avoid subpixel clearing that can flash content */
+	min-height: 0;
 }
 
 .MUI_Collapse_Root:is(._horizontal) > .MUI_Collapse_wrapper {

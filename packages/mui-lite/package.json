@@ -1,7 +1,86 @@
 {
 	"name": "@shpaw415/mui-lite",
-	"type": "module",
 	"version": "0.0.1",
+	"description": "Lightweight Material Design components for React 19 — MUI-like APIs without Emotion",
+	"type": "module",
+	"license": "MIT",
+	"author": "shpaw415",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/shpaw415/mui-lite.git",
+		"directory": "packages/mui-lite"
+	},
+	"bugs": {
+		"url": "https://github.com/shpaw415/mui-lite/issues"
+	},
+	"homepage": "https://github.com/shpaw415/mui-lite#readme",
+	"keywords": [
+		"mui",
+		"material-ui",
+		"react",
+		"components",
+		"ui",
+		"css",
+		"ssr",
+		"typescript"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"exports": {
+		"./package.json": "./package.json",
+		"./style.css": {
+			"bun": "./style/mui-style.css",
+			"default": "./dist/style/mui-style.css"
+		},
+		"./theme": {
+			"types": "./dist/common/theme/index.d.ts",
+			"bun": "./common/theme/index.tsx",
+			"import": "./dist/common/theme/index.js",
+			"default": "./dist/common/theme/index.js"
+		},
+		"./utils": {
+			"types": "./dist/common/utils.d.ts",
+			"bun": "./common/utils.tsx",
+			"import": "./dist/common/utils.js",
+			"default": "./dist/common/utils.js"
+		},
+		"./locale": {
+			"types": "./dist/mui/locale/index.d.ts",
+			"bun": "./mui/locale/index.ts",
+			"import": "./dist/mui/locale/index.js",
+			"default": "./dist/mui/locale/index.js"
+		},
+		"./*": {
+			"types": "./dist/mui/*/index.d.ts",
+			"bun": "./mui/*/index.tsx",
+			"import": "./dist/mui/*/index.js",
+			"default": "./dist/mui/*/index.js"
+		}
+	},
+	"typesVersions": {
+		"*": {
+			"theme": ["dist/common/theme/index.d.ts"],
+			"utils": ["dist/common/utils.d.ts"],
+			"locale": ["dist/mui/locale/index.d.ts"],
+			"*": ["dist/mui/*/index.d.ts"]
+		}
+	},
+	"scripts": {
+		"build": "node scripts/build.mjs",
+		"prepublishOnly": "node scripts/build.mjs",
+		"test": "bun test tests",
+		"typecheck": "bunx tsc -p tsconfig.json --noEmit"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.2.0",
@@ -11,10 +90,10 @@
 		"@types/react-dom": "19.0.4",
 		"happy-dom": "^17.1.1",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
+		"react-dom": "^19.0.0",
+		"typescript": "^5.7.3"
 	},
 	"peerDependencies": {
-		"typescript": "^5.7.3",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
 	},
@@ -22,17 +101,6 @@
 		"@material-design-icons/svg": "0.14.13",
 		"clsx": "2.1.1",
 		"css-color-converter": "2.0.0"
-	},
-	"keywords": ["mui", "ui", "style", "ssr", "framework"],
-	"exports": {
-		"./*": "./mui/*/index.tsx",
-		"./style.css": "./style/mui-style.css",
-		"./theme": "./common/theme/index.tsx",
-		"./utils": "./common/utils.tsx",
-		"./locale": "./mui/locale/index.ts"
-	},
-	"scripts": {
-		"test": "bun test tests"
 	},
 	"private": false
 }

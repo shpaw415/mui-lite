@@ -37,6 +37,14 @@ export type MuiCheckBox =
 			checkedIcon?: undefined;
 	  });
 
+/**
+ * Multi-select boolean control for forms and filters.
+ *
+ * @example Accept terms
+ * ```tsx
+ * <FormControlLabel control={<CheckBox />} label="I agree" />
+ * ```
+ */
 export default function CheckBox({
 	label,
 	size,

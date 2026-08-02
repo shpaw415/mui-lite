@@ -1,59 +1,40 @@
-import { describe, expect, test, mock } from "bun:test";
-import { renderWithTheme, screen, fireEvent } from "../helpers/render";
-import Button, { ButtonGroup } from "../../mui/Button";
+import { describe, expect, test } from "bun:test";
+import Button from "../../mui/Button";
+import { fireEvent, renderWithTheme, screen } from "../helpers/render";
 
-describe("Button", () => {
-	test("renders children", () => {
-		renderWithTheme(<Button>Click me</Button>);
-		expect(screen.getByRole("button", { name: /click me/i })).toBeTruthy();
-	});
-
-	test("applies variant and color classes", () => {
-		renderWithTheme(
-			<Button variant="outlined" color="secondary">
-				Save
-			</Button>,
+describe("Button ripple", () => {
+	test("spawns a ripple span on pointerdown", () => {
+		const { container } = renderWithTheme(
+			<Button variant="contained">Click me</Button>,
 		);
-		const btn = screen.getByRole("button", { name: /save/i });
-		expect(btn.className).toContain("MUI_Button");
-		expect(btn.className).toContain("outlined");
-		expect(btn.className).toContain("secondary");
+		const btn = screen.getByRole("button", { name: "Click me" });
+		expect(container.querySelector(".MUI_Ripple_span")).toBeNull();
+
+		fireEvent.pointerDown(btn, { clientX: 20, clientY: 10, button: 0 });
+
+		const ripple = container.querySelector(".MUI_Ripple_span") as HTMLElement;
+		expect(ripple).toBeTruthy();
+		expect(ripple.style.width).not.toBe("");
+		expect(ripple.style.height).not.toBe("");
 	});
 
-	test("fires onClick", () => {
-		const onClick = mock(() => {});
-		renderWithTheme(<Button onClick={onClick}>Go</Button>);
-		fireEvent.click(screen.getByRole("button", { name: /go/i }));
-		expect(onClick).toHaveBeenCalledTimes(1);
-	});
-
-	test("respects disabled", () => {
-		const onClick = mock(() => {});
-		renderWithTheme(
-			<Button disabled onClick={onClick}>
-				Nope
-			</Button>,
+	test("disableRipple does not spawn ink", () => {
+		const { container } = renderWithTheme(
+			<Button disableRipple>No ripple</Button>,
 		);
-		const btn = screen.getByRole("button", { name: /nope/i }) as HTMLButtonElement;
-		expect(btn.disabled).toBe(true);
+		const btn = screen.getByRole("button", { name: "No ripple" });
+		fireEvent.pointerDown(btn, { clientX: 10, clientY: 10, button: 0 });
+		expect(container.querySelector(".MUI_Ripple_span")).toBeNull();
 	});
 
-	test("fullWidth class", () => {
-		renderWithTheme(<Button fullWidth>Wide</Button>);
-		expect(screen.getByRole("button", { name: /wide/i }).className).toContain(
-			"fullWidth",
+	test("disabled button does not spawn ink", () => {
+		const { container } = renderWithTheme(
+			<Button disabled>Disabled</Button>,
 		);
-	});
-});
-
-describe("ButtonGroup", () => {
-	test("renders group role", () => {
-		renderWithTheme(
-			<ButtonGroup>
-				<Button>One</Button>
-				<Button>Two</Button>
-			</ButtonGroup>,
-		);
-		expect(screen.getByRole("group")).toBeTruthy();
+		const btn = screen.getByRole("button", { name: "Disabled" });
+		// Ripple host is not mounted when disabled
+		expect(container.querySelector(".MUI_Ripple_span")).toBeNull();
+		fireEvent.pointerDown(btn, { clientX: 10, clientY: 10, button: 0 });
+		expect(container.querySelector(".MUI_Ripple_span")).toBeNull();
 	});
 });

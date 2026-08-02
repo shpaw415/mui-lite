@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { type JSX, useEffect, useState } from "react";
 import { useClassNames } from "../../common/theme";
 import type { MuiElementType, SlotProps } from "../../common/utils";
@@ -30,15 +31,28 @@ export type SnackbarProps = SnackCommon & {
 	onClose?: () => void;
 } & Omit<MuiElementType<HTMLDivElement>, "action">;
 
+/**
+ * Transient toast for success, errors, and short notifications.
+ *
+ * @example Saved toast
+ * ```tsx
+ * <Snackbar
+ *   open={open}
+ *   autoHideDuration={3000}
+ *   onClose={onClose}
+ *   message="Saved"
+ * />
+ * ```
+ */
 export default function Snackbar({
 	className,
 	message,
 	action,
-	position = "top-left",
+	position = "bottom-center",
 	SlotProps,
 	animation = "fade",
 	animationSide,
-	open,
+	open = false,
 	autoHideDuration,
 	onClose,
 	children,
@@ -51,33 +65,47 @@ export default function Snackbar({
 	});
 	const [, setTimer] = useState<Timer>();
 	useEffect(() => {
-		if (open && autoHideDuration)
+		if (open && autoHideDuration) {
 			setTimer((c) => {
 				clearTimeout(c);
 				return setTimeout(() => {
 					onClose?.();
 				}, autoHideDuration);
 			});
-		else if (!open)
+		} else if (!open) {
 			setTimer((c) => {
 				clearTimeout(c);
 				return undefined;
 			});
-	}, [open]);
+		}
+		return () => {
+			setTimer((c) => {
+				clearTimeout(c);
+				return undefined;
+			});
+		};
+	}, [open, autoHideDuration, onClose]);
 
 	return (
-		<div role="alert" className={root.combined} {...props}>
+		<div role="presentation" className={root.combined} {...props}>
 			{children ? (
-				children
+				<Paper
+					elevation={6}
+					{...SlotProps?.paper}
+					className={clsx(
+						"MUI_Snackbar_Inner",
+						"child",
+						SlotProps?.paper?.className,
+					)}
+				>
+					{children}
+				</Paper>
 			) : (
 				<Paper
 					elevation={6}
 					{...SlotProps?.paper}
-					className={[
-						"MUI_Snackbar_Inner",
-						SlotProps?.paper?.className,
-						children && "child",
-					].join(" ")}
+					className={clsx("MUI_Snackbar_Inner", SlotProps?.paper?.className)}
+					role="alert"
 				>
 					<SnackbarContent
 						message={message}
@@ -91,38 +119,47 @@ export default function Snackbar({
 }
 
 export type SnackbarContentProps = SnackCommon & {
+	className?: string;
 	SlotProps?: SlotProps<{
 		message: BoxProps<HTMLDivElement>;
 		action: BoxProps<HTMLDivElement>;
 	}>;
 };
 
+/**
+ * Internal message + action row used by Snackbar.
+ * Can also be composed inside a custom snackbar surface.
+ */
 export function SnackbarContent({
 	message,
 	action,
+	className,
 	SlotProps,
 }: SnackbarContentProps) {
 	return (
 		<>
-			{message && (
+			{message != null && message !== "" && (
 				<Box
-					{...SlotProps?.action}
-					children={message}
-					className={[
+					{...SlotProps?.message}
+					className={clsx(
 						"MUI_Snackbar_Content_Root",
 						SlotProps?.message?.className,
-					].join(" ")}
-				/>
+						className,
+					)}
+				>
+					{message}
+				</Box>
 			)}
-			{action && (
+			{action != null && (
 				<Box
 					{...SlotProps?.action}
-					className={[
+					className={clsx(
 						"MUI_Snackbar_Action_Root",
 						SlotProps?.action?.className,
-					].join(" ")}
-					children={action}
-				/>
+					)}
+				>
+					{action}
+				</Box>
 			)}
 		</>
 	);

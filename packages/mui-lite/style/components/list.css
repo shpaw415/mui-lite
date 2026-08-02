@@ -8,9 +8,19 @@
 .MUI_List_Root {
 	position: relative;
 	list-style: none;
-	margin: 0px;
+	/* Reset browser/ul defaults — only vertical rhythm, no horizontal inset */
+	margin: 0;
+	padding: 8px 0;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* List disablePadding — flush edges (items own their own gutters) */
+.MUI_List_Root:is(._disabled-padding),
+.MUI_List_Root:is(._dense):is(._disabled-padding) {
+	padding: 0;
 }
 
 .MUI_ListItem_Root {
@@ -26,10 +36,17 @@
 	text-align: left;
 	padding: 8px 16px;
 }
-._disabled-padding > .MUI_ListItem_Root,
-.MUI_ListItem_Root._disabled-padding {
-	padding: 0px;
-	padding-left: 8px;
+
+/* Full clear — used with ListItemButton which supplies its own padding */
+.MUI_ListItem_Root:is(._disabled-padding),
+.MUI_List_Root:is(._disabled-padding) > .MUI_ListItem_Root {
+	padding: 0;
+}
+
+/* Keep vertical spacing only when gutters are off */
+.MUI_ListItem_Root:is(._disabled-gutters) {
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .MUI_ListItemButton_Root {

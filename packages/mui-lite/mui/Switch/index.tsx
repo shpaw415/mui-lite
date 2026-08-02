@@ -16,6 +16,14 @@ export type MuiSwitchProps = Omit<
 	labelControl?: boolean;
 };
 
+/**
+ * Binary on/off toggle for settings and preferences.
+ *
+ * @example Dark mode
+ * ```tsx
+ * <FormControlLabel control={<Switch checked={dark} onChange={toggle} />} label="Dark mode" />
+ * ```
+ */
 function Switch({
 	sx,
 	className,
@@ -61,11 +69,14 @@ function Switch({
 							{...props}
 						/>
 					</span>
-					<RippleBase
-						ref={_ref}
-						offset={{ left: -25, top: -25 }}
-						color="primary"
-					/>
+					{!props.disabled && (
+						<RippleBase
+							ref={_ref}
+							offset={{ left: -25, top: -25 }}
+							color="primary"
+							disabled={Boolean(props.disabled)}
+						/>
+					)}
 				</span>
 				<span className={track.combined} />
 			</span>
