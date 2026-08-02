@@ -1,4 +1,13 @@
-import { type RenderOptions, render } from "@testing-library/react";
+import {
+	type RenderOptions,
+	render,
+	cleanup,
+	fireEvent,
+	screen,
+	waitFor,
+	act,
+	within,
+} from "@testing-library/react/pure";
 import type { ReactElement, ReactNode } from "react";
 import {
 	DefaultTheme,
@@ -22,4 +31,5 @@ export function renderWithTheme(
 	return render(ui, { wrapper: Wrapper, ...options });
 }
 
-export * from "@testing-library/react";
+export { cleanup, fireEvent, screen, waitFor, act, within, render };
+export type { RenderOptions };

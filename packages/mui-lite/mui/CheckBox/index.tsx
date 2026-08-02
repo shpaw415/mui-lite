@@ -82,14 +82,15 @@ export default function CheckBox({
 	const [, setState] = useState(Boolean(props.defaultChecked));
 
 	useEffect(() => {
-		const ctrl = new AbortController();
-
-		_ref.current?.addEventListener("change", (ev) => {
-			ev.stopPropagation();
+		const el = _ref.current;
+		if (!el) return;
+		const onNativeChange = () => {
 			setState((c) => !c);
-		});
-
-		return () => ctrl.abort();
+		};
+		// Do not stopPropagation — React 17+ root delegation needs the event
+		// to bubble so props.onChange (and FormControlLabel) still fire.
+		el.addEventListener("change", onNativeChange);
+		return () => el.removeEventListener("change", onNativeChange);
 	}, [_ref]);
 
 	const clickOnRef = useCallback<() => void>(

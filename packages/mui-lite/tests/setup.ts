@@ -1,6 +1,10 @@
 import { GlobalWindow } from "happy-dom";
 import { afterEach } from "bun:test";
 
+// Avoid @testing-library/react auto-registering beforeAll/afterEach
+// (breaks under Bun's test runner on CI). Cleanup is handled below.
+process.env.RTL_SKIP_AUTO_CLEANUP = "true";
+
 const happyWindow = new GlobalWindow({
 	url: "http://localhost:3000",
 	width: 1024,
@@ -64,7 +68,7 @@ function install(win: InstanceType<typeof GlobalWindow>) {
 install(happyWindow);
 
 afterEach(async () => {
-	const { cleanup } = await import("@testing-library/react");
+	const { cleanup } = await import("@testing-library/react/pure");
 	cleanup();
 	document.body.innerHTML = "";
 });
