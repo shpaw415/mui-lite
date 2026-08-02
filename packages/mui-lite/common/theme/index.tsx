@@ -2,6 +2,7 @@
 
 import type { ClassValue } from "clsx";
 import clsx from "clsx";
+import { fromString as cssColorFromString } from "css-color-converter";
 import {
 	type CSSProperties,
 	createContext,
@@ -333,8 +334,8 @@ function ArrToStr(val: [number, number, number, number]) {
 }
 export function ThemeToCssVar(theme: MuiTheme) {
 	const currentTheme = theme.theme;
-	const { fromString } = require("css-color-converter") as {
-		fromString: (val: string) => any;
+	const fromString = cssColorFromString as (val: string) => {
+		toRgbaArray?: () => [number, number, number, number];
 	};
 	return (
 		(Object.keys(theme) as Array<keyof MuiTheme>).filter(

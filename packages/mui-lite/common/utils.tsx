@@ -1,3 +1,4 @@
+import { fromString as cssColorFromString } from "css-color-converter";
 import {
 	createContext,
 	type JSX,
@@ -248,10 +249,8 @@ type A = number;
 
 type RGBAType = [R, G, B, A];
 
-const { fromString } = require("css-color-converter") as {
-	fromString: (val: string) => {
-		toRgbaArray: () => RGBAType;
-	};
+const fromString = cssColorFromString as (val: string) => {
+	toRgbaArray: () => RGBAType;
 };
 function ArrToStr(val: RGBAType) {
 	return [val[0], val[1], val[2]].join(", ");

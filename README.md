@@ -13,7 +13,7 @@ Lightweight Material Design components for React 19.
 
 ```bash
 bun install
-bun run build            # compile @shpaw415/mui-lite (JS + .d.ts + CSS)
+bun run build            # compile @shpaw415/mui-lite (JS + .d.ts + CSS; needed for consumers of dist exports)
 bun test                 # unit tests
 bun run docs:dev         # docs site
 bun run typecheck

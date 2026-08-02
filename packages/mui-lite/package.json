@@ -1,6 +1,6 @@
 {
 	"name": "@shpaw415/mui-lite",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Lightweight Material Design components for React 19 — MUI-like APIs without Emotion",
 	"type": "module",
 	"license": "MIT",
@@ -34,31 +34,24 @@
 	],
 	"exports": {
 		"./package.json": "./package.json",
-		"./style.css": {
-			"bun": "./style/mui-style.css",
-			"default": "./dist/style/mui-style.css"
-		},
+		"./style.css": "./dist/style/mui-style.css",
 		"./theme": {
 			"types": "./dist/common/theme/index.d.ts",
-			"bun": "./common/theme/index.tsx",
 			"import": "./dist/common/theme/index.js",
 			"default": "./dist/common/theme/index.js"
 		},
 		"./utils": {
 			"types": "./dist/common/utils.d.ts",
-			"bun": "./common/utils.tsx",
 			"import": "./dist/common/utils.js",
 			"default": "./dist/common/utils.js"
 		},
 		"./locale": {
 			"types": "./dist/mui/locale/index.d.ts",
-			"bun": "./mui/locale/index.ts",
 			"import": "./dist/mui/locale/index.js",
 			"default": "./dist/mui/locale/index.js"
 		},
 		"./*": {
 			"types": "./dist/mui/*/index.d.ts",
-			"bun": "./mui/*/index.tsx",
 			"import": "./dist/mui/*/index.js",
 			"default": "./dist/mui/*/index.js"
 		}

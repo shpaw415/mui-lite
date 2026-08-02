@@ -19,6 +19,7 @@ npm i @shpaw415/mui-lite
 **Dependencies:** `clsx`, `css-color-converter`, `@material-design-icons/svg`
 
 Published builds include compiled ESM JavaScript and TypeScript declaration files (`.d.ts`).
+Package `exports` point only at `dist/` (no source `bun` conditions) so Bun and Node both resolve the published tarball without postinstall patches.
 
 ---
 
