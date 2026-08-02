@@ -1,0 +1,58 @@
+import { ButtonDemo } from "../../../components/demos";
+
+# Button
+
+```ts
+import Button from "@shpaw415/mui-lite/Button";
+import { ButtonGroup } from "@shpaw415/mui-lite/Button";
+```
+
+## Why use it
+
+Use **Button** for the main call-to-action in a view: submit, confirm, navigate, or trigger a primary workflow. Prefer it over raw `<button>` when you need Material variants (`contained` / `outlined` / `text`), theme colors, sizes, ripple, and consistent focus styles without writing CSS.
+
+- **contained** — primary actions (save, send)
+- **outlined** — secondary actions that still need emphasis
+- **text** — low-emphasis actions (cancel, learn more)
+- **ButtonGroup** — related actions that should share size/variant
+
+## Demo
+
+<ButtonDemo />
+
+## Example
+
+```tsx
+import Button, { ButtonGroup } from "@shpaw415/mui-lite/Button";
+
+export function Actions() {
+  return (
+    <>
+      <Button variant="contained" color="primary" onClick={save}>
+        Save
+      </Button>
+      <Button variant="outlined" onClick={cancel}>
+        Cancel
+      </Button>
+      <ButtonGroup variant="outlined">
+        <Button>Left</Button>
+        <Button>Center</Button>
+        <Button>Right</Button>
+      </ButtonGroup>
+    </>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | contained \| outlined \| text | contained |
+| color | primary \| secondary \| error \| warning \| success | — |
+| size | small \| medium \| large | — |
+| fullWidth | boolean | false |
+| disableRipple | boolean | false |
+| startIcon / endIcon | ReactNode | — |
+| href | string | — |
+| sx | SxProps | — |

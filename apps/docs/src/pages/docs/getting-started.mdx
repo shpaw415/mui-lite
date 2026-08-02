@@ -1,0 +1,65 @@
+# Getting Started
+
+## Requirements
+
+- React 19+
+- TypeScript 5+ (recommended)
+- Bun or Node package manager
+
+## Installation
+
+```bash
+bun add @shpaw415/mui-lite
+```
+
+Peer dependencies: `react`, `react-dom`.
+
+## Stylesheet
+
+Import once at the app root:
+
+```ts
+import "@shpaw415/mui-lite/style.css";
+```
+
+## Theme provider
+
+Wrap your tree with `ThemeProvider`:
+
+```tsx
+import { ThemeProvider, DefaultTheme } from "@shpaw415/mui-lite/theme";
+
+export function App({ children }) {
+  return (
+    <ThemeProvider theme={DefaultTheme}>
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+## First component
+
+```tsx
+import Button from "@shpaw415/mui-lite/Button";
+
+<Button variant="contained" color="primary" onClick={() => alert("hi")}>
+  Click me
+</Button>
+```
+
+## Package exports
+
+| Path | Purpose |
+| --- | --- |
+| `@shpaw415/mui-lite/<Name>` | Component deep import |
+| `@shpaw415/mui-lite/style.css` | All component CSS |
+| `@shpaw415/mui-lite/theme` | ThemeProvider, hooks, tokens |
+| `@shpaw415/mui-lite/utils` | Shared hooks |
+| `@shpaw415/mui-lite/locale` | Locales |
+
+## Next steps
+
+- [Theming](/docs/theming)
+- [sx prop](/docs/sx)
+- [Components](/docs/components)

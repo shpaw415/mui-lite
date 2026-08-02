@@ -1,0 +1,37 @@
+import { AvatarDemo } from "../../../components/demos";
+
+# Avatar
+
+```ts
+import Avatar, { AvatarGroup } from "@shpaw415/mui-lite/Avatar";
+```
+
+## Why use it
+
+**Avatar** shows a user or entity as image or initials. **AvatarGroup** stacks multiple avatars with a surplus count for collaborator lists.
+
+## Demo
+
+<AvatarDemo />
+
+## Example
+
+```tsx
+import Avatar, { AvatarGroup } from "@shpaw415/mui-lite/Avatar";
+
+<Avatar src="/me.jpg" alt="Me">JD</Avatar>
+<AvatarGroup max={3}>
+  <Avatar>A</Avatar>
+  <Avatar>B</Avatar>
+  <Avatar>C</Avatar>
+  <Avatar>D</Avatar>
+</AvatarGroup>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| src | string | — |
+| alt | string | — |
+| children | ReactNode | fallback |

@@ -1,0 +1,47 @@
+import { PopperDemo } from "../../../components/demos";
+
+# Popper
+
+```ts
+import Popper from "@shpaw415/mui-lite/Popper";
+```
+
+## Why use it
+
+**Popper** positions floating UI next to an anchor without a blocking backdrop (tooltips, dropdown panels, autocomplete lists). It is a lightweight fixed-position helper — no Popper.js / Floating UI dependency.
+
+Use **Popover** when you need modal dismiss behavior; **Popper** when the page stays interactive underneath.
+
+## Demo
+
+<PopperDemo />
+
+## Example
+
+```tsx
+import { useRef, useState } from "react";
+import Popper from "@shpaw415/mui-lite/Popper";
+import Paper from "@shpaw415/mui-lite/Paper";
+import Button from "@shpaw415/mui-lite/Button";
+
+export function Float() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLButtonElement | null>(null);
+  return (
+    <>
+      <Button ref={ref as any} onClick={() => setOpen((o) => !o)}>
+        Toggle
+      </Button>
+      <Popper open={open} anchorEl={() => ref.current} placement="bottom-start">
+        <Paper elevation={3} style={{ padding: 12 }}>
+          Floating panel
+        </Paper>
+      </Popper>
+    </>
+  );
+}
+```
+
+## Placement
+
+top, bottom, left, right (plus -start / -end), auto

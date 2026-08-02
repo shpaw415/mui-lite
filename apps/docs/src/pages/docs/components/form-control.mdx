@@ -1,0 +1,53 @@
+import { FormControlDemo } from "../../../components/demos";
+
+# FormControl
+
+```ts
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+```
+
+## Why use it
+
+**FormControl** shares `error`, `disabled`, `required`, `focused`, and `variant` with labels, inputs, and helper text. Use it to build accessible fields that stay visually consistent without prop-drilling the same flags to every child.
+
+Compose with **InputLabel**, **Input** / **OutlinedInput** / **FilledInput**, **InputAdornment**, and **FormHelperText**.
+
+## Demo
+
+<FormControlDemo />
+
+## Example
+
+```tsx
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+import InputAdornment from "@shpaw415/mui-lite/InputAdornment";
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+
+export function EmailField({ error }: { error?: string }) {
+  return (
+    <FormControl variant="outlined" error={Boolean(error)} fullWidth>
+      <InputLabel>Email</InputLabel>
+      <OutlinedInput
+        type="email"
+        startAdornment={<InputAdornment position="start">@</InputAdornment>}
+      />
+      <FormHelperText>{error || "We never share your email."}</FormHelperText>
+    </FormControl>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | outlined \| filled \| standard | outlined |
+| error / disabled / required | boolean | false |
+| fullWidth | boolean | false |
+| margin | none \| dense \| normal | none |
+| size | small \| medium | medium |

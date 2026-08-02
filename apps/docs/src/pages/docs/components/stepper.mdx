@@ -1,0 +1,59 @@
+import { StepperDemo } from "../../../components/demos";
+
+# Stepper
+
+```ts
+import Stepper, {
+  Step,
+  StepLabel,
+  StepContent,
+  StepButton,
+} from "@shpaw415/mui-lite/Stepper";
+```
+
+## Why use it
+
+**Stepper** guides users through a linear (or non-linear) multi-step process: checkout, onboarding, wizards. Use it when order matters and progress should stay visible.
+
+Horizontal for short desktop flows; vertical + **StepContent** for mobile or steps with long forms.
+
+## Demo
+
+<StepperDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import Stepper, { Step, StepLabel } from "@shpaw415/mui-lite/Stepper";
+import Button from "@shpaw415/mui-lite/Button";
+
+const steps = ["Cart", "Shipping", "Payment"];
+
+export function Checkout() {
+  const [active, setActive] = useState(0);
+  return (
+    <>
+      <Stepper activeStep={active}>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      <Button onClick={() => setActive((s) => s + 1)}>Next</Button>
+    </>
+  );
+}
+```
+
+## Vertical
+
+```tsx
+<Stepper activeStep={0} orientation="vertical">
+  <Step>
+    <StepLabel>First</StepLabel>
+    <StepContent>Details for step one…</StepContent>
+  </Step>
+</Stepper>
+```

@@ -1,0 +1,34 @@
+import { PaginationDemo } from "../../../components/demos";
+
+# Pagination
+
+```ts
+import Pagination from "@shpaw415/mui-lite/Pagination";
+```
+
+## Why use it
+
+**Pagination** moves between pages of results. Use when lists are server-paginated or long client lists should not scroll forever. TablePagination lives on the same export for data tables.
+
+## Demo
+
+<PaginationDemo />
+
+## Example
+
+```tsx
+import Pagination from "@shpaw415/mui-lite/Pagination";
+
+<Pagination count={10} page={page} onChange={(_e, p) => setPage(p)} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| count | number | required |
+| page | number | — |
+| onChange | (e, page) => void | — |
+| color | primary \| secondary | — |
+| shape | circular \| rounded | circular |
+| variant | text \| outlined | text |

@@ -1,0 +1,747 @@
+import { SxDemo } from "../../components/demos";
+
+# sx prop
+
+Most mui-lite components accept **`sx`** — a MUI-compatible style prop **without Emotion**.
+
+It supports:
+
+- CSS properties (camelCase)
+- Spacing shorthands (`p`, `m`, `px`, …)
+- Palette paths (`primary.main`, `background.paper`, …)
+- Responsive objects / arrays / nested breakpoint bags
+- Theme callbacks and arrays of style objects
+- Pseudo-classes and nested selectors (`&:hover`, `& .child`)
+
+Inline styles handle static base rules. Media queries and nested selectors are injected once as a stable class (`ml-sx-…`).
+
+## Live demos
+
+<SxDemo />
+
+---
+
+## Quick start
+
+```tsx
+import Box from "@shpaw415/mui-lite/Box";
+import Button from "@shpaw415/mui-lite/Button";
+import Stack from "@shpaw415/mui-lite/Stack";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function WelcomeCard() {
+  return (
+    <Box
+      sx={{
+        p: 2,
+        maxWidth: 400,
+        borderRadius: 2,
+        bgcolor: "background.paper",
+        color: "text.primary",
+        border: "1px solid",
+        borderColor: "divider",
+        transition: "box-shadow 0.2s ease",
+        "&:hover": {
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+        },
+        md: { p: 3 },
+      }}
+    >
+      <Typography sx={{ typography: "h6", mb: 1 }}>
+        Welcome
+      </Typography>
+      <Typography sx={{ typography: "body2", color: "text.secondary", mb: 2 }}>
+        Style layout and theme colors with a single prop.
+      </Typography>
+      <Stack direction="row" spacing={1}>
+        <Button variant="contained">Continue</Button>
+        <Button variant="outlined">Skip</Button>
+      </Stack>
+    </Box>
+  );
+}
+```
+
+---
+
+## Complete reference example
+
+One component that exercises the main features together:
+
+```tsx
+import Box from "@shpaw415/mui-lite/Box";
+import type { SxProps } from "@shpaw415/mui-lite/theme";
+import { useState } from "react";
+
+type PanelProps = {
+  active?: boolean;
+  sx?: SxProps;
+  children?: React.ReactNode;
+};
+
+export function Panel({ active, sx, children }: PanelProps) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <Box
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      sx={[
+        // 1) Base styles + spacing scale (p: 2 → 16px)
+        {
+          p: 2,
+          mx: "auto",
+          maxWidth: 480,
+          borderRadius: 2,
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.paper",
+          color: "text.primary",
+          typography: "body2",
+          transition: "background-color 0.15s, border-color 0.15s",
+        },
+
+        // 2) Responsive values (mobile-first)
+        {
+          width: { xs: 1, sm: 0.9, md: 0.7 }, // 100% → 90% → 70%
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          gap: { xs: 1, md: 2 },
+        },
+
+        // 3) Nested breakpoint bag (legacy + MUI style)
+        {
+          md: {
+            p: 3,
+            alignItems: "center",
+          },
+        },
+
+        // 4) Theme callback
+        (theme) => ({
+          boxShadow:
+            theme.theme === "dark"
+              ? "0 0 0 1px rgba(255,255,255,0.08)"
+              : "0 1px 3px rgba(0,0,0,0.08)",
+        }),
+
+        // 5) Pseudos + nested selectors (injected CSS class)
+        {
+          "&:focus-visible": {
+            outline: "2px solid",
+            outlineColor: "primary.main",
+            outlineOffset: 2,
+          },
+          "& .panel-title": {
+            typography: "subtitle1",
+            fontWeight: 600,
+            mb: 0.5,
+          },
+          "& .panel-meta": {
+            typography: "caption",
+            color: "text.secondary",
+          },
+          "&:hover .panel-title": {
+            color: "primary.main",
+          },
+        },
+
+        // 6) Conditional styles (falsey entries ignored)
+        active && {
+          borderColor: "primary.main",
+          bgcolor: "primary.light",
+          color: "#fff",
+        },
+        hovered &&
+          !active && {
+            borderColor: "primary.light",
+          },
+
+        // 7) Consumer override last (wins on conflicts)
+        sx,
+      ]}
+    >
+      {children}
+    </Box>
+  );
+}
+
+// Usage
+export function Example() {
+  return (
+    <Panel active>
+      <div>
+        <div className="panel-title">Billing</div>
+        <div className="panel-meta">Updated 2 hours ago</div>
+      </div>
+      <Box sx={{ ml: { md: "auto" } }}>
+        <strong>$42.00</strong>
+      </Box>
+    </Panel>
+  );
+}
+```
+
+---
+
+## Spacing
+
+Numbers use the theme spacing scale (default unit **8px**). Strings pass through as raw CSS.
+
+| Shorthand | Expands to |
+| --- | --- |
+| `m` | `margin` |
+| `mt` `mr` `mb` `ml` | `marginTop` … |
+| `mx` `my` | horizontal / vertical margin |
+| `p` `pt` `pr` `pb` `pl` `px` `py` | padding equivalents |
+| `gap` `rowGap` `columnGap` | flex/grid gap |
+
+```tsx
+sx={{
+  p: 2,        // padding: 16px
+  mt: 0.5,     // margin-top: 4px
+  mx: "auto",  // margin-left/right: auto
+  gap: 1.5,    // gap: 12px
+  margin: 3,   // longhands also use the scale when numeric
+}}
+```
+
+### Custom spacing scale
+
+Pass `spacing` on the theme object (number or function):
+
+```tsx
+import { DefaultTheme, ThemeProvider } from "@shpaw415/mui-lite/theme";
+
+const theme = {
+  ...DefaultTheme,
+  spacing: 4, // unit 4px → p: 2 → 8px
+  // or: spacing: (n: number) => `${n * 0.25}rem`,
+};
+
+<ThemeProvider theme={theme}>{/* … */}</ThemeProvider>
+```
+
+---
+
+## Colors
+
+### Palette path strings (MUI-style)
+
+```tsx
+sx={{
+  color: "primary.main",
+  bgcolor: "background.paper",      // alias → backgroundColor
+  backgroundColor: "background.default",
+  borderColor: "divider",
+  borderTopColor: "error.main",
+}}
+```
+
+| Path | Resolves from theme token |
+| --- | --- |
+| `primary.main` / `.light` / `.dark` | `bg-primary` |
+| `secondary.*` | `bg-secondary` |
+| `error.*` `warning.*` `success.*` | matching `bg-*` |
+| `info.*` | `text-info` |
+| `text.primary` | `text-main` (theme shade) |
+| `text.secondary` | `text-secondary` |
+| `background.paper` | `bg-surface` |
+| `background.default` | `bg-main` |
+| `divider` | light/dark rgba line |
+
+Raw CSS colors pass through: `#fff`, `rgb(…)`, `hsl(…)`, `var(…)`, `inherit`, `currentColor`, `transparent`.
+
+Native tokens also work: `"bg-primary.main"`, `"text-error.theme"`, bare `"bg-surface"`.
+
+### Legacy token objects
+
+```tsx
+sx={{
+  backgroundColor: { "bg-primary": "theme" }, // active light/dark
+  color: { "text-main": "main" },
+}}
+```
+
+Shades: `"theme"` | `"main"` | `"light"` | `"dark"`.
+
+---
+
+## Responsive values
+
+Breakpoints (min-width, mobile-first):
+
+| Key | Min width |
+| --- | --- |
+| `xs` | 0 |
+| `sm` | 600 |
+| `md` | 900 |
+| `lg` | 1200 |
+| `xl` | 1536 |
+
+### Per-property object
+
+```tsx
+sx={{
+  width: { xs: 1, sm: 0.5, md: 300 },
+  // fraction 0–1 → percent (1 → 100%, 0.5 → 50%)
+  // other numbers keep CSS meaning (300 → 300, often px via browser for unitless width)
+  p: { xs: 1, md: 3 },
+  display: { xs: "none", md: "flex" },
+}}
+```
+
+### Nested breakpoint bags
+
+```tsx
+sx={{
+  p: 1,
+  flexDirection: "column",
+  md: {
+    p: 3,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  lg: { maxWidth: 960 },
+}}
+```
+
+### Array syntax
+
+Indexes map to `xs`, `sm`, `md`, `lg`, `xl`. `null` skips a step:
+
+```tsx
+sx={{
+  p: [1, 2, 3],           // xs=1, sm=2, md=3
+  width: [1, null, 0.5],  // xs=100%, md=50% (sm unchanged)
+}}
+```
+
+### Use case: responsive page shell
+
+```tsx
+export function PageShell({
+  sidebar,
+  children,
+}: {
+  sidebar: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        gap: 2,
+        p: { xs: 2, md: 3 },
+        minHeight: "100vh",
+        bgcolor: "background.default",
+      }}
+    >
+      <Box
+        Element="aside"
+        sx={{
+          width: { xs: 1, md: 280 },
+          flexShrink: 0,
+          p: 2,
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        {sidebar}
+      </Box>
+      <Box Element="main" sx={{ flex: 1, minWidth: 0 }}>
+        {children}
+      </Box>
+    </Box>
+  );
+}
+```
+
+---
+
+## Theme callbacks
+
+```tsx
+sx={(theme) => ({
+  p: 2,
+  color: theme.theme === "dark" ? "#fff" : theme["text-main"].main,
+  bgcolor: theme["bg-surface"][theme.theme],
+})}
+```
+
+Callbacks receive the full mui-lite theme (tokens + `theme: "light" | "dark"` + optional `spacing`).
+
+---
+
+## Arrays of sx (merge + conditionals)
+
+Later entries win. `false`, `null`, and `undefined` are skipped — ideal for state:
+
+```tsx
+function NavItem({
+  selected,
+  dense,
+  sx,
+  children,
+}: {
+  selected?: boolean;
+  dense?: boolean;
+  sx?: SxProps;
+  children?: React.ReactNode;
+}) {
+  return (
+    <Box
+      sx={[
+        {
+          px: 2,
+          py: 1,
+          borderRadius: 1,
+          cursor: "pointer",
+          typography: "body2",
+          "&:hover": { bgcolor: "primary.light", color: "#fff" },
+        },
+        dense && { py: 0.5, typography: "caption" },
+        selected && {
+          bgcolor: "primary.main",
+          color: "#fff",
+          "&:hover": { bgcolor: "primary.dark" },
+        },
+        sx, // allow parent overrides
+      ]}
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+Library components that merge overrides (e.g. Button) use the same array form internally.
+
+---
+
+## Pseudos and nested selectors
+
+These cannot live in React `style={{}}`, so mui-lite injects a small CSS rule once and attaches `classNameFromSx`.
+
+```tsx
+sx={{
+  // pseudo-class
+  "&:hover": { color: "primary.main" },
+  "&:active": { transform: "scale(0.98)" },
+  "&:disabled": { opacity: 0.5 },
+
+  // descendants
+  "& .icon": { mr: 1, fontSize: 18 },
+  "& > img": { borderRadius: 1, width: 1 },
+
+  // combined
+  "&:hover .icon": { color: "secondary.main" },
+
+  // at-rules
+  "@media (prefers-reduced-motion: reduce)": {
+    transition: "none",
+  },
+}}
+```
+
+### Use case: interactive list row
+
+```tsx
+import Box from "@shpaw415/mui-lite/Box";
+
+export function ListRow({
+  title,
+  subtitle,
+  onClick,
+}: {
+  title: string;
+  subtitle?: string;
+  onClick?: () => void;
+}) {
+  return (
+    <Box
+      onClick={onClick}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        px: 2,
+        py: 1.5,
+        borderRadius: 1,
+        cursor: onClick ? "pointer" : "default",
+        bgcolor: "background.paper",
+        border: "1px solid",
+        borderColor: "divider",
+        transition: "background-color 0.15s, border-color 0.15s",
+        "&:hover": {
+          bgcolor: "background.default",
+          borderColor: "primary.light",
+        },
+        "&:focus-visible": {
+          outline: "2px solid",
+          outlineColor: "primary.main",
+          outlineOffset: 2,
+        },
+        "& .title": { typography: "subtitle2", fontWeight: 600 },
+        "& .subtitle": { typography: "caption", color: "text.secondary" },
+      }}
+    >
+      <Box sx={{ flex: 1, minWidth: 0 }}>
+        <div className="title">{title}</div>
+        {subtitle && <div className="subtitle">{subtitle}</div>}
+      </Box>
+      <Box sx={{ color: "text.secondary", typography: "body2" }}>›</Box>
+    </Box>
+  );
+}
+```
+
+---
+
+## Typography shortcut
+
+```tsx
+sx={{ typography: "h6" }}
+// sets fontSize, fontWeight, lineHeight, letterSpacing
+// (and textTransform for button / overline)
+```
+
+Presets: `h1`–`h6`, `subtitle1`, `subtitle2`, `body1`, `body2`, `button`, `caption`, `overline`.
+
+```tsx
+<Box sx={{ typography: "overline", color: "text.secondary", mb: 1 }}>
+  Section
+</Box>
+<Box sx={{ typography: "h4", mb: 2 }}>Dashboard</Box>
+```
+
+---
+
+## Other system helpers
+
+```tsx
+sx={{
+  // 0–1 fractions → percent for box size props
+  width: 0.5,       // 50%
+  maxWidth: 1,      // 100%
+
+  // borderRadius number → n × 4px
+  borderRadius: 2,  // 8px
+
+  // plain CSS always allowed
+  position: "sticky",
+  top: 0,
+  zIndex: 10,
+  overflow: "hidden",
+}}
+```
+
+---
+
+## Use cases
+
+### 1. Centered auth layout
+
+```tsx
+export function AuthLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        p: 2,
+        bgcolor: "background.default",
+      }}
+    >
+      <Box
+        sx={{
+          width: 1,
+          maxWidth: 400,
+          p: { xs: 2, sm: 3 },
+          borderRadius: 2,
+          bgcolor: "background.paper",
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+}
+```
+
+### 2. Toolbar with clustered actions
+
+```tsx
+import Stack from "@shpaw415/mui-lite/Stack";
+import Button from "@shpaw415/mui-lite/Button";
+import Box from "@shpaw415/mui-lite/Box";
+
+export function EditorToolbar() {
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={1}
+      sx={{
+        px: 2,
+        py: 1,
+        borderBottom: "1px solid",
+        borderColor: "divider",
+        bgcolor: "background.paper",
+        position: "sticky",
+        top: 0,
+        zIndex: 5,
+      }}
+    >
+      <Box sx={{ typography: "subtitle2", mr: 1 }}>Draft</Box>
+      <Box sx={{ flex: 1 }} />
+      <Button size="small" variant="text">
+        Preview
+      </Button>
+      <Button size="small" variant="contained">
+        Publish
+      </Button>
+    </Stack>
+  );
+}
+```
+
+### 3. Stat tiles (grid of metric cards)
+
+```tsx
+const stats = [
+  { label: "Users", value: "12.4k", tone: "primary.main" },
+  { label: "Revenue", value: "$48k", tone: "success.main" },
+  { label: "Churn", value: "2.1%", tone: "warning.main" },
+] as const;
+
+export function StatsRow() {
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gap: 2,
+        gridTemplateColumns: {
+          xs: "1fr",
+          sm: "1fr 1fr",
+          md: "1fr 1fr 1fr",
+        },
+      }}
+    >
+      {stats.map((s) => (
+        <Box
+          key={s.label}
+          sx={{
+            p: 2,
+            borderRadius: 2,
+            bgcolor: "background.paper",
+            border: "1px solid",
+            borderColor: "divider",
+            borderTop: "3px solid",
+            borderTopColor: s.tone,
+          }}
+        >
+          <Box sx={{ typography: "caption", color: "text.secondary" }}>
+            {s.label}
+          </Box>
+          <Box sx={{ typography: "h5", mt: 0.5 }}>{s.value}</Box>
+        </Box>
+      ))}
+    </Box>
+  );
+}
+```
+
+### 4. Visually hidden (a11y) + focus reveal
+
+```tsx
+sx={{
+  position: "absolute",
+  width: 1,
+  height: 1,
+  p: 0,
+  m: -1,
+  overflow: "hidden",
+  clip: "rect(0,0,0,0)",
+  whiteSpace: "nowrap",
+  border: 0,
+  "&:focus": {
+    position: "static",
+    width: "auto",
+    height: "auto",
+    m: 0,
+    clip: "auto",
+    overflow: "visible",
+  },
+}}
+```
+
+---
+
+## API
+
+### `useStyle(sx?)`
+
+```tsx
+import { useStyle } from "@shpaw415/mui-lite/theme";
+
+function Custom({ sx, className, style, ...props }) {
+  const { theme, styleFromSx, classNameFromSx } = useStyle(sx);
+  return (
+    <div
+      className={[className, classNameFromSx].filter(Boolean).join(" ")}
+      style={{ ...styleFromSx, ...style }}
+      {...props}
+    />
+  );
+}
+```
+
+Built-in components already merge `classNameFromSx` for you.
+
+### `resolveSx(theme, sx)` (non-React)
+
+```ts
+import { resolveSx, createSpacing } from "@shpaw415/mui-lite/theme";
+
+const { style, className, cssText } = resolveSx(theme, {
+  p: 2,
+  "&:hover": { color: "primary.main" },
+});
+// style → inline CSSProperties
+// className → injected class (browser) or still returned during SSR
+// cssText → raw CSS before injection (tests / SSR tooling)
+```
+
+### Types
+
+```ts
+import type { SxProps, SxObject } from "@shpaw415/mui-lite/theme";
+
+const sx: SxProps = { p: 2 };
+const sxFn: SxProps = (theme) => ({ color: theme["text-main"].main });
+const sxList: SxProps = [{ p: 1 }, false, { color: "red" }];
+```
+
+---
+
+## vs Emotion / MUI `sx`
+
+| Feature | mui-lite | MUI + Emotion |
+| --- | --- | --- |
+| Spacing / palette paths | yes | yes |
+| Responsive object / array | yes | yes |
+| Theme callbacks | yes | yes |
+| Pseudos / nested selectors | yes (CSS inject) | yes |
+| Runtime | small shared `<style data-mui-lite-sx>` | Emotion cache |
+| `styled()` / variants API | no | yes |
+| SSR CSS extraction | class names stable; hydrate injects | Emotion SSR helpers |
+
+**Design goal:** keep MUI-like authoring for layout and theming without pulling Emotion into the runtime.

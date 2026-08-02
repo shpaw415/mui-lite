@@ -1,0 +1,62 @@
+import { TableDemo } from "../../../components/demos";
+
+# Table
+
+```ts
+import Table, {
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableSortLabel,
+} from "@shpaw415/mui-lite/Table";
+```
+
+## Why use it
+
+**Table** renders structured tabular data with Material density, sticky headers, hover/selected rows, and sort labels. Use it for admin lists, invoices, and comparison grids where columns align better than cards.
+
+Wrap in **TableContainer** for horizontal scroll on small screens. Use **TableSortLabel** for accessible sort affordances.
+
+## Demo
+
+<TableDemo />
+
+## Example
+
+```tsx
+import Table, {
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@shpaw415/mui-lite/Table";
+
+export function Desserts() {
+  return (
+    <TableContainer>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell align="right">
+              <TableSortLabel active direction="desc">
+                Calories
+              </TableSortLabel>
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow hover>
+            <TableCell>Frozen yoghurt</TableCell>
+            <TableCell align="right">159</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+```

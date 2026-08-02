@@ -1,0 +1,44 @@
+import { RatingDemo } from "../../../components/demos";
+
+# Rating
+
+```ts
+import Rating from "@shpaw415/mui-lite/Rating";
+```
+
+## Why use it
+
+**Rating** captures or displays a star score (reviews, satisfaction, difficulty). Use controlled `value` + `onChange` for input; `readOnly` for display-only averages.
+
+Built on radio inputs for keyboard and screen-reader support.
+
+## Demo
+
+<RatingDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import Rating from "@shpaw415/mui-lite/Rating";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function ReviewScore() {
+  const [value, setValue] = useState<number | null>(3);
+  return (
+    <>
+      <Rating
+        name="review"
+        value={value}
+        onChange={(_e, v) => setValue(v)}
+      />
+      <Typography>{value ?? "unset"}</Typography>
+      <Rating name="avg" value={4.5} precision={0.5} readOnly />
+    </>
+  );
+}
+```
+
+## Props
+
+value, defaultValue, max, precision, readOnly, disabled, size, icon / emptyIcon, onChange, onChangeActive, getLabelText

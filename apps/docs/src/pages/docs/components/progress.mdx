@@ -1,0 +1,34 @@
+import { ProgressDemo } from "../../../components/demos";
+
+# Progress
+
+```ts
+import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
+```
+
+## Why use it
+
+**CircularProgress** and **LinearProgress** indicate busy or determinate completion. Use indeterminate while waiting; determinate when you know percent complete.
+
+## Demo
+
+<ProgressDemo />
+
+## Example
+
+```tsx
+import { CircularProgress, LinearProgress } from "@shpaw415/mui-lite/Progress";
+
+<CircularProgress />
+<CircularProgress variant="determinate" value={75} />
+<LinearProgress variant="determinate" value={40} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | indeterminate \| determinate | indeterminate |
+| value | 0–100 | — |
+| color | palette | — |
+| size (circular) | number \| string | — |

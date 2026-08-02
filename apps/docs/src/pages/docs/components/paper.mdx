@@ -1,0 +1,37 @@
+import { PaperDemo } from "../../../components/demos";
+
+# Paper
+
+```ts
+import Paper from "@shpaw415/mui-lite/Paper";
+```
+
+## Why use it
+
+**Paper** is the elevated surface primitive (cards, menus, dialogs sit on it). Use elevation for depth hierarchy or \`variant="outlined"\` for flat bordered panels.
+
+## Demo
+
+<PaperDemo />
+
+## Example
+
+```tsx
+import Paper from "@shpaw415/mui-lite/Paper";
+
+export function Panel({ children }) {
+  return (
+    <Paper elevation={3} style={{ padding: 16 }}>
+      {children}
+    </Paper>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| elevation | 0–24 | 1 |
+| variant | elevation \| outlined | elevation |
+| square | boolean | false |

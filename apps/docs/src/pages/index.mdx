@@ -1,0 +1,50 @@
+import { HomeButtonsDemo } from "../components/demos";
+
+# mui-lite
+
+Lightweight **Material Design** components for **React 19**.  
+MUI-like APIs without Emotion — plain CSS classes, CSS variables, and an `sx` prop.
+
+## Install
+
+```bash
+bun add @shpaw415/mui-lite
+# or
+npm i @shpaw415/mui-lite
+```
+
+## Quick start
+
+```tsx
+import "@shpaw415/mui-lite/style.css";
+import { ThemeProvider, DefaultTheme } from "@shpaw415/mui-lite/theme";
+import Button from "@shpaw415/mui-lite/Button";
+
+export default function App() {
+  return (
+    <ThemeProvider theme={DefaultTheme}>
+      <Button variant="contained" color="primary">
+        Hello mui-lite
+      </Button>
+    </ThemeProvider>
+  );
+}
+```
+
+## Live demo
+
+<HomeButtonsDemo />
+
+## Why mui-lite?
+
+- **Deep imports** — only pull the components you use
+- **CSS variables** — theme tokens as `--bg-primary`, `--text-main`, …
+- **`sx` prop** — inline styles + breakpoints + theme color shortcuts
+- **SSR-friendly** — works with Bun / Frame Master / Bunext
+- **Familiar API** — variants, colors, sizes close to `@mui/material`
+
+## Next
+
+- [Getting Started](/docs/getting-started)
+- [Theming](/docs/theming)
+- [Components](/docs/components)

@@ -1,0 +1,57 @@
+.MUI_Link {
+	margin: 0;
+	font: inherit;
+	color: rgb(var(--text-primary));
+	text-decoration: underline;
+	text-decoration-color: rgba(var(--text-primary), 0.4);
+	cursor: pointer;
+}
+
+.MUI_Link:hover {
+	text-decoration-color: inherit;
+}
+
+.MUI_Link:is(._underline-none) {
+	text-decoration: none;
+}
+
+.MUI_Link:is(._underline-hover) {
+	text-decoration: none;
+}
+.MUI_Link:is(._underline-hover):hover {
+	text-decoration: underline;
+}
+
+.MUI_Link:is(._underline-always) {
+	text-decoration: underline;
+}
+
+.MUI_Link:is(._color-primary) {
+	color: rgb(var(--text-primary));
+}
+.MUI_Link:is(._color-secondary) {
+	color: rgb(var(--text-secondary));
+}
+.MUI_Link:is(._color-error) {
+	color: rgb(var(--text-error));
+}
+.MUI_Link:is(._color-success) {
+	color: rgb(var(--text-success));
+}
+.MUI_Link:is(._color-warning) {
+	color: rgb(var(--text-warning));
+}
+.MUI_Link:is(._color-inherit) {
+	color: inherit;
+}
+.MUI_Link:is(._color-textPrimary),
+.MUI_Link:is(._color-textSecondary) {
+	color: rgb(var(--text-main));
+}
+
+.MUI_Link:is(._button) {
+	background: none;
+	border: 0;
+	padding: 0;
+	font: inherit;
+}

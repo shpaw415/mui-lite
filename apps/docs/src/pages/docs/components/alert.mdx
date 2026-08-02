@@ -1,0 +1,38 @@
+import { AlertDemo } from "../../../components/demos";
+
+# Alert
+
+```ts
+import Alert from "@shpaw415/mui-lite/Alert";
+```
+
+## Why use it
+
+**Alert** surfaces feedback after an action: success, info, warning, or error. Prefer it over toast for persistent page-level messages; use Snackbar for transient notices.
+
+## Demo
+
+<AlertDemo />
+
+## Example
+
+```tsx
+import Alert from "@shpaw415/mui-lite/Alert";
+
+<Alert severity="success" onClose={() => {}}>
+  Changes saved.
+</Alert>
+<Alert severity="error" variant="filled" title="Failed">
+  Could not save.
+</Alert>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| severity | error \| info \| warning \| success | required |
+| variant | default \| filled \| outlined | default |
+| title | string | — |
+| onClose | function | — |
+| icon | ReactNode \| false | auto |

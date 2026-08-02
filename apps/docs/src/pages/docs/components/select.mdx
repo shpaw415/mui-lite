@@ -1,0 +1,35 @@
+import { SelectDemo } from "../../../components/demos";
+
+# Select
+
+```ts
+import Select from "@shpaw415/mui-lite/Select";
+```
+
+## Why use it
+
+**Select** is a styled dropdown built on TextField + Menu. Use for finite option lists; prefer AutoComplete when users need type-to-filter.
+
+## Demo
+
+<SelectDemo />
+
+## Example
+
+```tsx
+import Select from "@shpaw415/mui-lite/Select";
+
+<Select name="color" label="Color" defaultValue="red">
+  <option value="red">Red</option>
+  <option value="blue">Blue</option>
+</Select>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| name | string | required |
+| value / defaultValue | string | — |
+| onSelect | (value, option) => void | — |
+| children | option elements | required |

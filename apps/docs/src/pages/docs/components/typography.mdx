@@ -1,0 +1,38 @@
+import { TypographyDemo } from "../../../components/demos";
+
+# Typography
+
+```ts
+import Typography from "@shpaw415/mui-lite/Typography";
+```
+
+## Why use it
+
+Use **Typography** for all readable text so font family, weight, and theme colors stay consistent. Prefer it over raw headings and paragraphs when you need \`sx\`, color tokens, or a polymorphic \`Element\` tag.
+
+## Demo
+
+<TypographyDemo />
+
+## Example
+
+```tsx
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function Title() {
+  return (
+    <>
+      <Typography Element="h1">Page title</Typography>
+      <Typography color="primary">Highlighted body</Typography>
+    </>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| Element | HTML tag name | p |
+| color | primary \| secondary \| error \| … | — |
+| sx | SxProps | — |

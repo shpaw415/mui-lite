@@ -1,0 +1,32 @@
+import { SwitchDemo } from "../../../components/demos";
+
+# Switch
+
+```ts
+import Switch from "@shpaw415/mui-lite/Switch";
+```
+
+## Why use it
+
+**Switch** toggles a boolean setting immediately (notifications on/off). Prefer Checkbox for multi-select lists; Switch for binary preferences.
+
+## Demo
+
+<SwitchDemo />
+
+## Example
+
+```tsx
+import Switch from "@shpaw415/mui-lite/Switch";
+
+<Switch defaultChecked label="Dark mode" onChange={onToggle} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| label | string | — |
+| color | palette | — |
+| size | small | — |
+| checked / defaultChecked | boolean | — |

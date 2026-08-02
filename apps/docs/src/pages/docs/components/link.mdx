@@ -1,0 +1,44 @@
+import { LinkDemo } from "../../../components/demos";
+
+# Link
+
+```ts
+import Link from "@shpaw415/mui-lite/Link";
+```
+
+## Why use it
+
+**Link** styles navigation and inline references with theme colors and underline control. Use it for in-app routes, external docs, and breadcrumb segments instead of unstyled `<a>` tags so focus, color, and hover match the rest of the UI.
+
+Choose `underline="hover"` for dense UI; `always` for body copy; `none` when the whole control is already a button-like surface.
+
+## Demo
+
+<LinkDemo />
+
+## Example
+
+```tsx
+import Link from "@shpaw415/mui-lite/Link";
+
+export function DocsLink() {
+  return (
+    <p>
+      Read the{" "}
+      <Link href="/docs/getting-started" underline="hover">
+        getting started
+      </Link>{" "}
+      guide.
+    </p>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| href | string | — |
+| underline | none \| hover \| always | always |
+| color | palette key | primary |
+| component | element type | a |

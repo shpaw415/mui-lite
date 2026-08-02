@@ -1,0 +1,65 @@
+# Theming
+
+mui-lite themes are plain objects. Colors become **CSS variables** on the `ThemeProvider` wrapper.
+
+## Default theme
+
+```tsx
+import { DefaultTheme, type MuiTheme } from "@shpaw415/mui-lite/theme";
+
+const theme: MuiTheme = {
+  ...DefaultTheme,
+  theme: "dark", // "light" | "dark"
+  locale: "enUS",
+};
+```
+
+## Color tokens
+
+Each token has `light`, `dark`, and `main` shades:
+
+**Background:** `bg-primary`, `bg-secondary`, `bg-error`, `bg-success`, `bg-warning`, `bg-main`, `bg-surface`  
+**Text:** `text-primary`, `text-secondary`, `text-error`, `text-success`, `text-warning`, `text-info`, `text-main`
+
+In CSS:
+
+```css
+.my-box {
+  background: rgb(var(--bg-surface));
+  color: rgb(var(--text-main));
+}
+```
+
+## Hooks
+
+```tsx
+import { useTheme, useSystemTheme, SystemTheme } from "@shpaw415/mui-lite/theme";
+
+const theme = useTheme();
+const [system, setSystem] = useSystemTheme();
+const once = SystemTheme(); // "light" | "dark"
+```
+
+## Breakpoints
+
+| Key | Min width |
+| --- | --- |
+| xs | 0 |
+| sm | 600 |
+| md | 900 |
+| lg | 1200 |
+| xl | 1536 |
+
+Used by the `sx` prop and `useMediaQuery` from utils/theme.
+
+## z-index
+
+| Layer | Value |
+| --- | --- |
+| mobileStepper | 1000 |
+| fab / speedDial | 1050 |
+| appBar | 1100 |
+| drawer | 1200 |
+| modal | 1300 |
+| snackbar | 1400 |
+| tooltip | 1500 |

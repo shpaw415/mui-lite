@@ -57,6 +57,11 @@ build/Release
 # Dependency directories
 
 node_modules/
+
+# Frame Master
+.frame-master/build
+apps/docs/.frame-master/build
+
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)

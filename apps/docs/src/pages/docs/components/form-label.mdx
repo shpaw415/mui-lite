@@ -1,0 +1,41 @@
+import { FormLabelDemo } from "../../../components/demos";
+
+# FormLabel
+
+```ts
+import FormLabel from "@shpaw415/mui-lite/FormLabel";
+```
+
+## Why use it
+
+**FormLabel** labels a group of controls (radio sets, checkbox groups) or a generic form section. Unlike InputLabel it does not float over an input — use it above FormGroup or as a fieldset legend-style caption.
+
+## Demo
+
+<FormLabelDemo />
+
+## Example
+
+```tsx
+import FormLabel from "@shpaw415/mui-lite/FormLabel";
+import FormGroup from "@shpaw415/mui-lite/FormGroup";
+import FormControlLabel from "@shpaw415/mui-lite/FormControlLabel";
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+
+<>
+  <FormLabel component="legend">Notifications</FormLabel>
+  <FormGroup>
+    <FormControlLabel control={<CheckBox />} label="Email" />
+    <FormControlLabel control={<CheckBox />} label="SMS" />
+  </FormGroup>
+</>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| required | boolean | — |
+| error / disabled / focused | boolean | from FormControl |
+| component | element type | label |
+| htmlFor | string | from FormControl |

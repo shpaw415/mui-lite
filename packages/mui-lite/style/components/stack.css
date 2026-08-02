@@ -1,0 +1,30 @@
+.MUI_Stack {
+	display: flex;
+	flex-direction: column;
+}
+
+.MUI_Stack:is(._row) {
+	flex-direction: row;
+}
+.MUI_Stack:is(._row-reverse) {
+	flex-direction: row-reverse;
+}
+.MUI_Stack:is(._column) {
+	flex-direction: column;
+}
+.MUI_Stack:is(._column-reverse) {
+	flex-direction: column-reverse;
+}
+
+.MUI_Stack:not(._gap):is(._row) > :not(style) + :not(style) {
+	margin-left: var(--stack-spacing, 0);
+}
+.MUI_Stack:not(._gap):is(._row-reverse) > :not(style) + :not(style) {
+	margin-right: var(--stack-spacing, 0);
+}
+.MUI_Stack:not(._gap):is(._column) > :not(style) + :not(style) {
+	margin-top: var(--stack-spacing, 0);
+}
+.MUI_Stack:not(._gap):is(._column-reverse) > :not(style) + :not(style) {
+	margin-bottom: var(--stack-spacing, 0);
+}

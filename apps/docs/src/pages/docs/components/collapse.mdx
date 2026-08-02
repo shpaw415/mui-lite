@@ -1,0 +1,52 @@
+import { CollapseDemo } from "../../../components/demos";
+
+# Collapse
+
+```ts
+import Collapse from "@shpaw415/mui-lite/Collapse";
+```
+
+## Why use it
+
+**Collapse** shows and hides content with a height (or width) animation. Use it for FAQs, nested list sections, filters, and any panel that should expand in place without unmounting abruptly.
+
+Supports MUI-style `in` as well as `open`. Set `unmountOnExit` when closed content should leave the DOM.
+
+## Demo
+
+<CollapseDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import Collapse from "@shpaw415/mui-lite/Collapse";
+import Button from "@shpaw415/mui-lite/Button";
+import Paper from "@shpaw415/mui-lite/Paper";
+
+export function FaqItem() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen((o) => !o)} variant="outlined">
+        Toggle answer
+      </Button>
+      <Collapse in={open}>
+        <Paper elevation={1} style={{ padding: 16, marginTop: 8 }}>
+          Detailed answer goes here.
+        </Paper>
+      </Collapse>
+    </>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| in / open | boolean | — |
+| orientation | vertical \| horizontal | vertical |
+| timeout | number \| auto | 300 |
+| collapsedSize | number \| string | 0px |
+| unmountOnExit | boolean | false |

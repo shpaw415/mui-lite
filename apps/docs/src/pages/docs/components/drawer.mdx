@@ -1,0 +1,132 @@
+import { DrawerDemo } from "../../../components/demos";
+
+# Drawer
+
+```ts
+import Drawer from "@shpaw415/mui-lite/Drawer";
+```
+
+## Why use it
+
+**Drawer** slides a panel from a screen edge for navigation, filters, or sheets.
+
+| Variant | Behavior |
+| --- | --- |
+| `temporary` | Modal overlay + backdrop; **portaled** above the page (default) |
+| `persistent` | In-flow panel that can open/close; no backdrop |
+| `permanent` | Always visible navigation rail |
+
+## Demos
+
+<DrawerDemo />
+
+## Temporary (modal)
+
+```tsx
+import { useState } from "react";
+import Drawer from "@shpaw415/mui-lite/Drawer";
+import Button from "@shpaw415/mui-lite/Button";
+import List, { ListItem, ListItemButton, ListItemText } from "@shpaw415/mui-lite/List";
+
+export function AppDrawer() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button variant="outlined" onClick={() => setOpen(true)}>
+        Menu
+      </Button>
+
+      <Drawer
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor="left"
+        width={280}
+      >
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setOpen(false)}>
+              <ListItemText primary="Home" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => setOpen(false)}>
+              <ListItemText primary="Settings" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Drawer>
+    </>
+  );
+}
+```
+
+### Anchors
+
+```tsx
+<Drawer open={open} onClose={close} anchor="left" width={280}>…</Drawer>
+<Drawer open={open} onClose={close} anchor="right" width={320}>…</Drawer>
+<Drawer open={open} onClose={close} anchor="top">…</Drawer>
+<Drawer open={open} onClose={close} anchor="bottom">…</Drawer>
+```
+
+Temporary drawers render in a portal (theme wrapper / `document.body`) so they are not clipped by `overflow: hidden` parents.
+
+## Persistent layout
+
+```tsx
+const [open, setOpen] = useState(true);
+
+<div style={{ display: "flex", minHeight: 400 }}>
+  <Drawer variant="persistent" open={open} width={240} anchor="left">
+    <nav>Side nav</nav>
+  </Drawer>
+  <main style={{ flex: 1, padding: 16 }}>
+    <button type="button" onClick={() => setOpen((v) => !v)}>
+      Toggle nav
+    </button>
+    {children}
+  </main>
+</div>
+```
+
+## Permanent rail
+
+```tsx
+<div style={{ display: "flex" }}>
+  <Drawer variant="permanent" open width={200}>
+    <nav>Always visible</nav>
+  </Drawer>
+  <main style={{ flex: 1 }}>{children}</main>
+</div>
+```
+
+## Hide backdrop / disable portal
+
+```tsx
+// no dimmed overlay
+<Drawer open={open} hideBackdrop onClose={close} width={260}>
+  …
+</Drawer>
+
+// keep in React tree (e.g. custom stacking context)
+<Drawer open={open} disablePortal onClose={close} width={260}>
+  …
+</Drawer>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | false |
+| anchor | left \| right \| top \| bottom | left |
+| variant | temporary \| persistent \| permanent | temporary |
+| width | number \| string | 240 |
+| minifiedWidth | number \| string | — (persistent mini variant) |
+| hideBackdrop | boolean | false |
+| disablePortal | boolean | false |
+| onClose | () => void | — |
+| onOpen | () => void | — (swipe) |
+| SlotProps.backdrop | BackdropProps | — |
+| sx | SxProps | — |

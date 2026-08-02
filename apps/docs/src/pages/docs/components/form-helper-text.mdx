@@ -1,0 +1,38 @@
+import { FormHelperTextDemo } from "../../../components/demos";
+
+# FormHelperText
+
+```ts
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+```
+
+## Why use it
+
+**FormHelperText** shows supporting or error copy under a field. It inherits `error` / `disabled` from FormControl so validation messages stay in sync with the input border color.
+
+## Demo
+
+<FormHelperTextDemo />
+
+## Example
+
+```tsx
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+
+<FormControl error={Boolean(err)} variant="outlined">
+  <InputLabel>Username</InputLabel>
+  <OutlinedInput value={value} onChange={onChange} />
+  <FormHelperText>{err || "Visible on your profile"}</FormHelperText>
+</FormControl>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| error / disabled / focused | boolean | from FormControl |
+| component | element type | p |
+| id | string | from FormControl helper id |

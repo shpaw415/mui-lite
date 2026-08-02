@@ -1,0 +1,42 @@
+import { ContainerDemo } from "../../../components/demos";
+
+# Container
+
+```ts
+import Container from "@shpaw415/mui-lite/Container";
+```
+
+## Why use it
+
+**Container** centers page content with a responsive max-width and horizontal gutters. Use it as the outer wrapper for marketing pages, docs layouts, and dashboards so content does not stretch edge-to-edge on large screens.
+
+Set `maxWidth` to match the density of the page (`sm` for forms, `lg`/`xl` for wide dashboards). Use `disableGutters` when nested padding is handled elsewhere.
+
+## Demo
+
+<ContainerDemo />
+
+## Example
+
+```tsx
+import Container from "@shpaw415/mui-lite/Container";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function Page() {
+  return (
+    <Container maxWidth="md">
+      <Typography Element="h1">Page title</Typography>
+      {/* page body */}
+    </Container>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| maxWidth | xs \| sm \| md \| lg \| xl \| false | lg |
+| disableGutters | boolean | false |
+| fixed | boolean | false |
+| component | element type | div |

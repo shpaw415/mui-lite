@@ -1,0 +1,33 @@
+import { IconButtonDemo } from "../../../components/demos";
+
+# IconButton
+
+```ts
+import IconButton from "@shpaw415/mui-lite/IconButton";
+```
+
+## Why use it
+
+**IconButton** is an icon-only press target with ripple and color. Use for toolbar actions, list trailing actions, and close controls where a full Button would be too heavy.
+
+## Demo
+
+<IconButtonDemo />
+
+## Example
+
+```tsx
+import IconButton from "@shpaw415/mui-lite/IconButton";
+
+<IconButton color="primary" aria-label="favorite" onClick={toggle}>
+  ♥
+</IconButton>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| color | palette | primary |
+| size | small \| medium \| large | medium |
+| colorOverRide | CSS color | — |

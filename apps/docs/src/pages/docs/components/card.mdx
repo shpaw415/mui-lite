@@ -1,0 +1,62 @@
+import { CardDemo } from "../../../components/demos";
+
+# Card
+
+```ts
+import Card, {
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  CardActionArea,
+} from "@shpaw415/mui-lite/Card";
+```
+
+## Why use it
+
+**Card** groups related content into a raised surface — product tiles, user profiles, feed items, settings summaries. Compose with:
+
+- **CardHeader** — title, subtitle, avatar, action
+- **CardMedia** — image / video banner
+- **CardContent** — body copy
+- **CardActions** — buttons row
+- **CardActionArea** — whole-card click target with ripple
+
+Prefer Card over ad-hoc Paper+div stacks when the content is a discrete, scannable unit in a list or grid.
+
+## Demo
+
+<CardDemo />
+
+## Example
+
+```tsx
+import Card, {
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+} from "@shpaw415/mui-lite/Card";
+import Button from "@shpaw415/mui-lite/Button";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function RecipeCard() {
+  return (
+    <Card style={{ maxWidth: 345 }}>
+      <CardHeader title="Paella" subheader="September 14, 2016" />
+      <CardMedia
+        image="https://mui.com/static/images/cards/paella.jpg"
+        style={{ height: 140 }}
+        title="Paella"
+      />
+      <CardContent>
+        <Typography>A perfect party dish.</Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">Share</Button>
+        <Button size="small">Learn More</Button>
+      </CardActions>
+    </Card>
+  );
+}
+```

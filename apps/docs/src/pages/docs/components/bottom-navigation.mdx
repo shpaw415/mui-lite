@@ -1,0 +1,39 @@
+import { BottomNavigationDemo } from "../../../components/demos";
+
+# BottomNavigation
+
+```ts
+import BottomNavigation, {
+  BottomNavigationAction,
+} from "@shpaw415/mui-lite/BottomNavigation";
+```
+
+## Why use it
+
+**BottomNavigation** is mobile primary nav fixed to the bottom of the screen (home, search, profile). Use it when you have 3–5 peer destinations and thumb reach matters.
+
+`showLabels` keeps every label visible; without it, only the selected action shows its label.
+
+## Demo
+
+<BottomNavigationDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import BottomNavigation, {
+  BottomNavigationAction,
+} from "@shpaw415/mui-lite/BottomNavigation";
+
+export function MobileNav() {
+  const [value, setValue] = useState(0);
+  return (
+    <BottomNavigation showLabels value={value} onChange={(_e, v) => setValue(v)}>
+      <BottomNavigationAction label="Recents" icon={<span>R</span>} />
+      <BottomNavigationAction label="Favorites" icon={<span>F</span>} />
+      <BottomNavigationAction label="Nearby" icon={<span>N</span>} />
+    </BottomNavigation>
+  );
+}
+```

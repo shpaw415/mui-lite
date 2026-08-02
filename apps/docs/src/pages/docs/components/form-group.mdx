@@ -1,0 +1,40 @@
+import { FormGroupDemo } from "../../../components/demos";
+
+# FormGroup
+
+```ts
+import FormGroup from "@shpaw415/mui-lite/FormGroup";
+```
+
+## Why use it
+
+**FormGroup** stacks FormControlLabel rows (checkboxes/switches) or lays them out in a horizontal `row`. Use it to keep spacing consistent for multi-option boolean groups.
+
+## Demo
+
+<FormGroupDemo />
+
+## Example
+
+```tsx
+import FormGroup from "@shpaw415/mui-lite/FormGroup";
+import FormControlLabel from "@shpaw415/mui-lite/FormControlLabel";
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+
+<FormGroup>
+  <FormControlLabel control={<CheckBox defaultChecked />} label="Gilad" />
+  <FormControlLabel control={<CheckBox />} label="Jason" />
+</FormGroup>
+
+<FormGroup row>
+  <FormControlLabel control={<CheckBox />} label="A" />
+  <FormControlLabel control={<CheckBox />} label="B" />
+</FormGroup>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| row | boolean | false |
+| component | element type | div |

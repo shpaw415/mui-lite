@@ -1,0 +1,49 @@
+import { ButtonBaseDemo } from "../../../components/demos";
+
+# ButtonBase
+
+```ts
+import ButtonBase from "@shpaw415/mui-lite/ButtonBase";
+```
+
+## Why use it
+
+**ButtonBase** is the low-level pressable primitive. Use it when you need a clickable surface that is not a standard Button — custom cards, tiles, icon-only hits, or list rows — but still want ripple, keyboard focus, `disabled`, and optional `href` → anchor.
+
+Prefer **Button** for typical actions; use **ButtonBase** when you own the visual design.
+
+## Demo
+
+<ButtonBaseDemo />
+
+## Example
+
+```tsx
+import ButtonBase from "@shpaw415/mui-lite/ButtonBase";
+
+export function Tile({ onSelect }: { onSelect: () => void }) {
+  return (
+    <ButtonBase
+      onClick={onSelect}
+      style={{
+        padding: "16px 24px",
+        border: "1px solid currentColor",
+        borderRadius: 8,
+      }}
+    >
+      Custom tile
+    </ButtonBase>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| disabled | boolean | false |
+| disableRipple | boolean | false |
+| href | string | — |
+| component | element type | button |
+| centerRipple | boolean | false |
+| sx | SxProps | — |

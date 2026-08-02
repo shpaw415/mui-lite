@@ -1,0 +1,142 @@
+.MUI_AppBar {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	box-sizing: border-box;
+	flex-shrink: 0;
+	/* default = primary.main + contrast text (not theme light/dark tint) */
+	color: #fff;
+	background-color: rgb(var(--bg-primary-main, var(--bg-primary, 25, 118, 210)));
+	border-radius: 0;
+}
+
+/* Paper base color must not win over AppBar chrome */
+.MUI_Paper_Root.MUI_AppBar {
+	color: #fff;
+	background-color: rgb(var(--bg-primary-main, var(--bg-primary, 25, 118, 210)));
+	background-image: none;
+}
+
+.MUI_AppBar:is(._position-fixed) {
+	position: fixed;
+	top: 0;
+	left: auto;
+	right: 0;
+	z-index: 1100;
+}
+
+.MUI_AppBar:is(._position-absolute) {
+	position: absolute;
+	top: 0;
+	left: auto;
+	right: 0;
+	z-index: 1100;
+}
+
+.MUI_AppBar:is(._position-sticky) {
+	position: sticky;
+	top: 0;
+	left: auto;
+	right: 0;
+	z-index: 1100;
+}
+
+.MUI_AppBar:is(._position-static) {
+	position: static;
+}
+
+.MUI_AppBar:is(._position-relative) {
+	position: relative;
+}
+
+/* Surface chrome — theme text on surface */
+.MUI_AppBar:is(._color-default),
+.MUI_Paper_Root.MUI_AppBar:is(._color-default) {
+	background-color: rgb(var(--bg-surface, 255, 255, 255));
+	color: rgba(var(--text-main, 0, 0, 0), 0.87);
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-inherit),
+.MUI_Paper_Root.MUI_AppBar:is(._color-inherit) {
+	background-color: inherit;
+	color: inherit;
+	background-image: none;
+}
+
+/* Brand colors always use main (stable contrast with white) */
+.MUI_AppBar:is(._color-primary),
+.MUI_Paper_Root.MUI_AppBar:is(._color-primary) {
+	background-color: rgb(var(--bg-primary-main, 25, 118, 210));
+	color: #fff;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-secondary),
+.MUI_Paper_Root.MUI_AppBar:is(._color-secondary) {
+	background-color: rgb(var(--bg-secondary-main, 156, 39, 176));
+	color: #fff;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-transparent),
+.MUI_Paper_Root.MUI_AppBar:is(._color-transparent) {
+	background-color: transparent;
+	color: inherit;
+	box-shadow: none;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-error),
+.MUI_Paper_Root.MUI_AppBar:is(._color-error) {
+	background-color: rgb(var(--bg-error-main, 211, 47, 47));
+	color: #fff;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-warning),
+.MUI_Paper_Root.MUI_AppBar:is(._color-warning) {
+	background-color: rgb(var(--bg-warning-main, 219, 104, 9));
+	color: #fff;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-success),
+.MUI_Paper_Root.MUI_AppBar:is(._color-success) {
+	background-color: rgb(var(--bg-success-main, 46, 125, 50));
+	color: #fff;
+	background-image: none;
+}
+
+.MUI_AppBar:is(._color-info),
+.MUI_Paper_Root.MUI_AppBar:is(._color-info) {
+	background-color: rgb(var(--text-info-main, var(--text-info, 2, 136, 209)));
+	color: #fff;
+	background-image: none;
+}
+
+/* Children inherit AppBar contrast color (Typography, IconButton, etc.) */
+.MUI_AppBar .MUI_Typography_Root,
+.MUI_AppBar .MUI_IconButton_Root,
+.MUI_AppBar .MUI_Button {
+	color: inherit;
+}
+
+/* Text buttons on colored AppBars stay legible */
+.MUI_AppBar:is(._color-primary) .MUI_Button:is(._text),
+.MUI_AppBar:is(._color-secondary) .MUI_Button:is(._text),
+.MUI_AppBar:is(._color-error) .MUI_Button:is(._text),
+.MUI_AppBar:is(._color-warning) .MUI_Button:is(._text),
+.MUI_AppBar:is(._color-success) .MUI_Button:is(._text),
+.MUI_AppBar:is(._color-info) .MUI_Button:is(._text) {
+	color: #fff;
+}
+
+.MUI_AppBar:is(._color-primary) .MUI_Button:is(._text):hover,
+.MUI_AppBar:is(._color-secondary) .MUI_Button:is(._text):hover,
+.MUI_AppBar:is(._color-error) .MUI_Button:is(._text):hover,
+.MUI_AppBar:is(._color-warning) .MUI_Button:is(._text):hover,
+.MUI_AppBar:is(._color-success) .MUI_Button:is(._text):hover,
+.MUI_AppBar:is(._color-info) .MUI_Button:is(._text):hover {
+	background-color: rgba(255, 255, 255, 0.12);
+}

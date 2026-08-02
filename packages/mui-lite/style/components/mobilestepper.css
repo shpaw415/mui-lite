@@ -1,0 +1,60 @@
+.MUI_MobileStepper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	background: rgb(var(--bg-surface));
+	padding: 4px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.MUI_MobileStepper:is(._position-bottom) {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+}
+
+.MUI_MobileStepper:is(._position-top) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+}
+
+.MUI_MobileStepper:is(._position-static) {
+	position: relative;
+}
+
+.MUI_MobileStepper_dots {
+	display: flex;
+	flex-direction: row;
+	gap: 0;
+}
+
+.MUI_MobileStepper_dot {
+	background-color: rgba(var(--text-main), 0.26);
+	border-radius: 50%;
+	width: 8px;
+	height: 8px;
+	margin: 0 4px;
+}
+
+.MUI_MobileStepper_dot_active {
+	background-color: rgb(var(--bg-primary));
+}
+
+.MUI_MobileStepper_text {
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	color: rgba(var(--text-main), 0.6);
+}
+
+.MUI_MobileStepper_progress {
+	width: 100%;
+	margin: 0 8px;
+	flex: 1 1 auto;
+}

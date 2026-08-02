@@ -1,0 +1,33 @@
+import { BackdropDemo } from "../../../components/demos";
+
+# Backdrop
+
+```ts
+import Backdrop from "@shpaw415/mui-lite/Backdrop";
+```
+
+## Why use it
+
+**Backdrop** dims the page and blocks interaction — loading overlays, focus on a single action. Often composed inside Modal/Dialog; use alone for full-screen busy states.
+
+## Demo
+
+<BackdropDemo />
+
+## Example
+
+```tsx
+import Backdrop from "@shpaw415/mui-lite/Backdrop";
+import { CircularProgress } from "@shpaw415/mui-lite/Progress";
+
+<Backdrop open={loading} onClick={cancel}>
+  <CircularProgress />
+</Backdrop>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | — |
+| invisible | boolean | false |

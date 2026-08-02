@@ -1,0 +1,36 @@
+{
+	"name": "docs",
+	"version": "0.1.1",
+	"devDependencies": {
+		"@types/bun": "latest",
+		"@types/react": "^19.2.8",
+		"@types/react-dom": "^19.2.3",
+		"wrangler": "^4.59.2"
+	},
+	"dependencies": {
+		"@shpaw415/mui-lite": "workspace:*",
+		"@tailwindcss/cli": "^4.1.18",
+		"@tailwindcss/typography": "^0.5.19",
+		"frame-master": "^3.1.1",
+		"frame-master-plugin-apply-react": "~0.2.6",
+		"frame-master-plugin-markdown-to-jsx": "^0.1.0",
+		"frame-master-plugin-mdx-to-js-loader": "~1.0.0",
+		"frame-master-plugin-react-to-html": "~0.2.0",
+		"frame-master-plugin-tailwind": "~1.1.2",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3",
+		"rehype-pretty-code": "^0.14.1",
+		"remark-gfm": "^4.0.1",
+		"shiki": "^3.21.0",
+		"tailwindcss": "^4.1.18"
+	},
+	"peerDependencies": {
+		"typescript": "^5.9.3"
+	},
+	"scripts": {
+		"dev": "NODE_ENV=development bun frame-master start",
+		"start": "NODE_ENV=production bun frame-master start",
+		"build": "NODE_ENV=production bun frame-master build",
+		"build:dev": "NODE_ENV=development bun frame-master build"
+	}
+}

@@ -1,0 +1,35 @@
+import { TextFieldDemo } from "../../../components/demos";
+
+# TextField
+
+```ts
+import TextField from "@shpaw415/mui-lite/TextField";
+```
+
+## Why use it
+
+**TextField** is the all-in-one text input with label, helper text, and variants. Use for forms; drop to FormControl + Input when you need finer composition.
+
+## Demo
+
+<TextFieldDemo />
+
+## Example
+
+```tsx
+import TextField from "@shpaw415/mui-lite/TextField";
+
+<TextField label="Email" variant="outlined" helpText="Required" />
+<TextField label="Notes" multiline variant="filled" />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | standard \| outlined \| filled | standard |
+| label | string | — |
+| helpText | string | — |
+| color | error \| success \| secondary | — |
+| multiline | boolean \| rows config | — |
+| startIcon / endIcon | ReactNode | — |

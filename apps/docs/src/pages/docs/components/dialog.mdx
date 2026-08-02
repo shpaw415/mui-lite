@@ -1,0 +1,41 @@
+import { DialogDemo } from "../../../components/demos";
+
+# Dialog
+
+```ts
+import Dialog, { DialogTitle, DialogContent, DialogActions } from "@shpaw415/mui-lite/Dialog";
+```
+
+## Why use it
+
+**Dialog** is a ready-made modal with title, content, and actions. Use for confirms, forms, and short workflows. Prefer Modal when you need a fully custom surface.
+
+## Demo
+
+<DialogDemo />
+
+## Example
+
+```tsx
+import Dialog, { DialogTitle, DialogContent, DialogActions } from "@shpaw415/mui-lite/Dialog";
+import Button from "@shpaw415/mui-lite/Button";
+
+<Dialog open={open} onClose={close}>
+  <DialogTitle>Delete item?</DialogTitle>
+  <DialogContent>This cannot be undone.</DialogContent>
+  <DialogActions>
+    <Button onClick={close} variant="text">Cancel</Button>
+    <Button onClick={confirm} color="error">Delete</Button>
+  </DialogActions>
+</Dialog>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | — |
+| onClose | function | — |
+| fullScreen / fullWidth | boolean | false |
+| transition | slide \| fade \| none | fade |
+| draggable | boolean | false |

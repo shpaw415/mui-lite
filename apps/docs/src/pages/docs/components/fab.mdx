@@ -1,0 +1,36 @@
+import { FabDemo } from "../../../components/demos";
+
+# FloatingActionButton
+
+```ts
+import FAB from "@shpaw415/mui-lite/FloatingActionButton";
+```
+
+## Why use it
+
+**FAB** is the primary floating action on a screen (create, compose). Use one per view; \`variant="extended"\` for labeled FABs. Prefer regular Buttons in dense toolbars.
+
+## Demo
+
+<FabDemo />
+
+## Example
+
+```tsx
+import FAB from "@shpaw415/mui-lite/FloatingActionButton";
+
+<FAB color="primary" aria-label="add" onClick={create}>
+  +
+</FAB>
+<FAB variant="extended" color="primary">
+  Create
+</FAB>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| color | palette | — |
+| size | small \| medium \| large | — |
+| variant | extended | circular |

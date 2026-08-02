@@ -1,0 +1,46 @@
+import { ClickAwayListenerDemo } from "../../../components/demos";
+
+# ClickAwayListener
+
+```ts
+import ClickAwayListener from "@shpaw415/mui-lite/ClickAwayListener";
+```
+
+## Why use it
+
+**ClickAwayListener** calls `onClickAway` when the user presses outside its child. Use it to close menus, popovers, and custom dropdowns without wiring document listeners yourself.
+
+Wrap a single element that can take a ref (Paper, div, etc.).
+
+## Demo
+
+<ClickAwayListenerDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import ClickAwayListener from "@shpaw415/mui-lite/ClickAwayListener";
+import Paper from "@shpaw415/mui-lite/Paper";
+
+export function Panel() {
+  const [open, setOpen] = useState(true);
+  if (!open) return null;
+  return (
+    <ClickAwayListener onClickAway={() => setOpen(false)}>
+      <Paper elevation={4} style={{ padding: 16 }}>
+        Click outside to dismiss
+      </Paper>
+    </ClickAwayListener>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| onClickAway | (event) => void | required |
+| children | single ReactElement | required |
+| mouseEvent | onClick \| onMouseDown \| onMouseUp \| false | onClick |
+| touchEvent | onTouchStart \| onTouchEnd \| false | onTouchEnd |

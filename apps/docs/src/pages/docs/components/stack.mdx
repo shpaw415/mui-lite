@@ -1,0 +1,55 @@
+import { StackDemo } from "../../../components/demos";
+
+# Stack
+
+```ts
+import Stack from "@shpaw415/mui-lite/Stack";
+```
+
+## Why use it
+
+**Stack** lays out children in a row or column with consistent spacing. Use it whenever you would otherwise repeat margin utilities between siblings — toolbars, form field groups, button rows, vertical page sections.
+
+`divider` inserts a separator between items; `spacing` uses an 8px scale when given a number.
+
+## Demo
+
+<StackDemo />
+
+## Example
+
+```tsx
+import Stack from "@shpaw415/mui-lite/Stack";
+import Button from "@shpaw415/mui-lite/Button";
+import Divider from "@shpaw415/mui-lite/Divider";
+
+export function Toolbar() {
+  return (
+    <Stack direction="row" spacing={2} alignItems="center">
+      <Button variant="contained">Save</Button>
+      <Button variant="outlined">Cancel</Button>
+    </Stack>
+  );
+}
+
+export function MenuList() {
+  return (
+    <Stack spacing={1} divider={<Divider />}>
+      <div>Profile</div>
+      <div>Settings</div>
+      <div>Logout</div>
+    </Stack>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| direction | row \| column \| row-reverse \| column-reverse | column |
+| spacing | number \| string | 0 (number × 8px) |
+| divider | ReactNode | — |
+| useFlexGap | boolean | true |
+| component | element type | div |
+| sx | SxProps | — |

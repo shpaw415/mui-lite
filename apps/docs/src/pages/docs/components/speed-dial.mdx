@@ -1,0 +1,35 @@
+import { SpeedDialDemo } from "../../../components/demos";
+
+# SpeedDial
+
+```ts
+import SpeedDial, { SpeedDialAction } from "@shpaw415/mui-lite/SpeedDial";
+```
+
+## Why use it
+
+**SpeedDial** fans out secondary FABs from a primary action (share, create variants). Use sparingly on mobile-first screens with 3–5 related actions.
+
+## Demo
+
+<SpeedDialDemo />
+
+## Example
+
+```tsx
+import SpeedDial, { SpeedDialAction } from "@shpaw415/mui-lite/SpeedDial";
+
+<SpeedDial aria-label="actions" icon={<span>+</span>} open={open} onOpen={openIt} onClose={closeIt}>
+  <SpeedDialAction icon="✉" tooltipTitle="Mail" />
+  <SpeedDialAction icon="★" tooltipTitle="Star" />
+</SpeedDial>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | — |
+| direction | up \| down \| left \| right | — |
+| icon / openIcon / closeIcon | ReactNode | — |
+| trigger | click \| hover[] | — |

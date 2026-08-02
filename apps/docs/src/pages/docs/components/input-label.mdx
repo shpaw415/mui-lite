@@ -1,0 +1,38 @@
+import { InputLabelDemo } from "../../../components/demos";
+
+# InputLabel
+
+```ts
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+```
+
+## Why use it
+
+**InputLabel** is the floating/shrinking label for FormControl fields. It reads focus/filled/error from context so you do not wire those states manually. Use with Input / OutlinedInput / FilledInput / NativeSelect.
+
+## Demo
+
+<InputLabelDemo />
+
+## Example
+
+```tsx
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+
+<FormControl variant="outlined">
+  <InputLabel>Email</InputLabel>
+  <OutlinedInput type="email" />
+</FormControl>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| shrink | boolean | auto from context |
+| disableAnimation | boolean | false |
+| variant | standard \| outlined \| filled | from FormControl |
+| size | small \| medium | medium |
+| error / disabled / required | boolean | from FormControl |

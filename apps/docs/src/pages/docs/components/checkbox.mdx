@@ -1,0 +1,34 @@
+import { CheckBoxDemo } from "../../../components/demos";
+
+# CheckBox
+
+```ts
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+```
+
+## Why use it
+
+**CheckBox** selects zero or more options in a set. Pair with FormControlLabel for rich labels, or use the built-in \`label\` prop for simple rows.
+
+## Demo
+
+<CheckBoxDemo />
+
+## Example
+
+```tsx
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+
+<CheckBox defaultChecked label="Accept terms" />
+<CheckBox label="Subscribe" color="secondary" />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| label | string | — |
+| labelSide | top \| bottom \| left \| right | right |
+| color | palette | — |
+| size | small \| medium \| large | — |
+| icon / checkedIcon | ReactNode | default |

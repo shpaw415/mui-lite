@@ -1,0 +1,48 @@
+.MUI_Breadcrumbs {
+	color: rgba(var(--text-main), 0.6);
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.5;
+	letter-spacing: 0.00938em;
+}
+
+.MUI_Breadcrumbs_ol {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.MUI_Breadcrumbs_li {
+	display: flex;
+	align-items: center;
+}
+
+.MUI_Breadcrumbs_separator {
+	display: flex;
+	user-select: none;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.MUI_Breadcrumbs_expand {
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 0 4px;
+	font: inherit;
+	color: inherit;
+	line-height: 1;
+}
+
+.MUI_Breadcrumbs_expand:hover {
+	background-color: rgba(var(--text-main), 0.08);
+	border-radius: 2px;
+}
+
+.MUI_Breadcrumbs .MUI_Link {
+	font-size: inherit;
+}

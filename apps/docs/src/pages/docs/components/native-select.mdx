@@ -1,0 +1,42 @@
+import { NativeSelectDemo } from "../../../components/demos";
+
+# NativeSelect
+
+```ts
+import NativeSelect from "@shpaw415/mui-lite/NativeSelect";
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+```
+
+## Why use it
+
+**NativeSelect** wraps the browser `<select>` with Material field styling and FormControl context. Use it for simple option lists (country, page size, status) when you do not need Autocomplete search or multi-select chips.
+
+Native selects are accessible by default and work well on mobile. Prefer **Select** / **AutoComplete** when you need custom option rendering or async options.
+
+## Demo
+
+<NativeSelectDemo />
+
+## Example
+
+```tsx
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import NativeSelect from "@shpaw415/mui-lite/NativeSelect";
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+
+export function AgeField() {
+  return (
+    <FormControl variant="outlined">
+      <InputLabel>Age</InputLabel>
+      <NativeSelect defaultValue="10">
+        <option value="10">Ten</option>
+        <option value="20">Twenty</option>
+        <option value="30">Thirty</option>
+      </NativeSelect>
+      <FormHelperText>Required</FormHelperText>
+    </FormControl>
+  );
+}
+```

@@ -1,0 +1,50 @@
+import { BreadcrumbsDemo } from "../../../components/demos";
+
+# Breadcrumbs
+
+```ts
+import Breadcrumbs from "@shpaw415/mui-lite/Breadcrumbs";
+import Link from "@shpaw415/mui-lite/Link";
+```
+
+## Why use it
+
+**Breadcrumbs** show hierarchical location (Home → Section → Page). Use them on deep docs, settings, and multi-level catalogs so users can jump up the tree without the browser back button.
+
+When the path is long, `maxItems` collapses the middle with an expand control.
+
+## Demo
+
+<BreadcrumbsDemo />
+
+## Example
+
+```tsx
+import Breadcrumbs from "@shpaw415/mui-lite/Breadcrumbs";
+import Link from "@shpaw415/mui-lite/Link";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function Path() {
+  return (
+    <Breadcrumbs>
+      <Link underline="hover" href="/">
+        Home
+      </Link>
+      <Link underline="hover" href="/docs">
+        Docs
+      </Link>
+      <Typography>Breadcrumbs</Typography>
+    </Breadcrumbs>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| separator | ReactNode | / |
+| maxItems | number | 8 |
+| itemsBeforeCollapse | number | 1 |
+| itemsAfterCollapse | number | 1 |
+| expandText | string | Show path |

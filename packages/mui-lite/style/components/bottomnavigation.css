@@ -1,0 +1,64 @@
+.MUI_BottomNavigation {
+	display: flex;
+	justify-content: center;
+	height: 56px;
+	background-color: rgb(var(--bg-surface));
+	width: 100%;
+	box-shadow:
+		0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+		0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.MUI_BottomNavigationAction {
+	flex: 1;
+	color: rgba(var(--text-main), 0.6);
+	padding: 0 12px;
+	min-width: 80px;
+	max-width: 168px;
+	transition:
+		color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+		padding-top 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	flex-direction: column;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-size: 0.75rem;
+	border-radius: 0;
+}
+
+.MUI_BottomNavigationAction:is(._selected) {
+	color: rgb(var(--text-primary));
+	padding-top: 6px;
+}
+
+.MUI_BottomNavigationAction_icon {
+	display: inline-flex;
+	font-size: 1.5rem;
+}
+
+.MUI_BottomNavigationAction_label {
+	font-family: inherit;
+	font-size: inherit;
+	opacity: 0;
+	transition:
+		font-size 0.2s,
+		opacity 0.2s;
+	transition-delay: 0.1s;
+	max-height: 0;
+	overflow: hidden;
+}
+
+.MUI_BottomNavigationAction_label_show,
+.MUI_BottomNavigationAction:is(._selected) .MUI_BottomNavigationAction_label {
+	opacity: 1;
+	max-height: 2em;
+	font-size: 0.75rem;
+}
+
+.MUI_BottomNavigationAction:is(._iconOnly) {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.MUI_BottomNavigationAction:is(._selected):not(._iconOnly) {
+	padding-top: 6px;
+}

@@ -1,0 +1,37 @@
+import { TooltipDemo } from "../../../components/demos";
+
+# ToolTip
+
+```ts
+import ToolTip from "@shpaw415/mui-lite/ToolTip";
+// or: import ToolTip from "@shpaw415/mui-lite/Tooltip";
+```
+
+## Why use it
+
+**ToolTip** shows a short hint on hover/focus/click. Use for icon-only controls and truncated labels. Keep copy brief; do not put critical info only in a tooltip.
+
+## Demo
+
+<TooltipDemo />
+
+## Example
+
+```tsx
+import ToolTip from "@shpaw415/mui-lite/ToolTip";
+import IconButton from "@shpaw415/mui-lite/IconButton";
+
+<ToolTip title="Delete" placement="top" arrow>
+  <IconButton aria-label="delete">🗑</IconButton>
+</ToolTip>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| title | ReactNode | required |
+| placement | top \| bottom \| left \| right | bottom |
+| arrow | boolean | false |
+| triggers | hover \| focus \| click[] | hover |
+| enterDelay / leaveDelay | number | — |

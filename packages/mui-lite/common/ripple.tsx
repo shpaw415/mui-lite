@@ -1,0 +1,193 @@
+import clsx from "clsx";
+import React, {
+	createContext,
+	type RefObject,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import { type SxProps, useClassNames, useStyle } from "./theme";
+import { type MuiElementColors, useColorOverRide } from "./utils";
+
+interface RippleEffectProps {
+	children: React.ReactNode;
+	className?: string;
+	onClick?: (event: React.MouseEvent) => void;
+	offset?: {
+		top: number;
+		left: number;
+	};
+	disabled?: boolean;
+	elRef?: RefObject<any>;
+	sx?: SxProps;
+}
+
+const RippleContext = createContext<RefObject<HTMLDivElement | null>>(
+	{} as any,
+);
+
+const RippleEffect: React.FC<RippleEffectProps> = ({
+	children,
+	className = "",
+	onClick,
+	offset,
+	disabled,
+	elRef,
+	sx,
+}) => {
+	const [ripples, setRipples] = useState<{ x: number; y: number }[]>([]);
+	const containerRef = useRef<HTMLDivElement>(null);
+	const style = useStyle(sx);
+
+	const handleClick = useCallback((e: React.MouseEvent) => {
+		if (disabled) return;
+		if (onClick) onClick(e);
+
+		const container = containerRef.current;
+		if (!container) return;
+
+		const { left, top, width, height } = container.getBoundingClientRect();
+		const size = Math.max(width, height);
+		const x = e.clientX - left - width + (offset?.left || 0);
+		const y = e.clientY - top - height + (offset?.top || 0);
+
+		setRipples((prevRipples) => [...prevRipples, { x, y }]);
+	}, []);
+
+	useEffect(() => {
+		if (ripples.length > 0) {
+			const timeout = setTimeout(() => {
+				setRipples([]);
+			}, 600);
+			return () => clearTimeout(timeout);
+		}
+	}, [ripples]);
+
+	return (
+		<div
+			ref={containerRef}
+			className={clsx("MUI_RippleEffect", className, style.classNameFromSx)}
+			style={style.styleFromSx}
+			onClick={handleClick}
+		>
+			<RippleContext value={containerRef}>{children}</RippleContext>
+			{ripples.map((ripple, index) => (
+				<span
+					key={index}
+					onClick={() => elRef?.current.click()}
+					className="MUI_Ripple_span"
+					style={{
+						left: `${ripple.x}px`,
+						top: `${ripple.y}px`,
+						animationDuration: "600ms",
+					}}
+				/>
+			))}
+		</div>
+	);
+};
+
+function RippleBase({
+	disabled,
+	offset,
+	ref,
+	clickRef,
+	sx,
+	className,
+	color,
+	colorOverRide,
+	preventClickElement,
+	onRippleClick,
+}: {
+	disabled?: boolean;
+	offset?: {
+		top: number;
+		left: number;
+	};
+	ref: RefObject<HTMLElement | null>;
+	clickRef?: RefObject<HTMLElement | null>;
+	sx?: SxProps;
+	className?: string;
+	color?: MuiElementColors;
+	colorOverRide?: React.CSSProperties["color"];
+	preventClickElement?: boolean;
+	onRippleClick?: () => void;
+}) {
+	const [ripples, setRipples] = useState<{ x: number; y: number }[]>([]);
+	const handleClick = useCallback((e: React.MouseEvent) => {
+		if (disabled) return;
+		clickRef?.current?.click();
+		const container = ref.current;
+		if (!container) return;
+		!preventClickElement && container.click();
+
+		const { left, top } = container.getBoundingClientRect();
+
+		const x = e.clientX - left + (offset?.left || 0);
+		const y = e.clientY - top + (offset?.top || 0);
+
+		setRipples((prevRipples) => [...prevRipples, { x, y }]);
+	}, []);
+
+	useEffect(() => {
+		if (ripples.length > 0) {
+			const timeout = setTimeout(() => {
+				setRipples([]);
+			}, 300);
+			return () => clearTimeout(timeout);
+		}
+	}, [ripples]);
+
+	useEffect(() => {
+		const ev: any = (e: React.MouseEvent) => {
+			handleClick(e);
+		};
+		ref.current?.addEventListener("click", ev);
+
+		return () => {
+			ref.current?.removeEventListener("click", ev);
+		};
+	}, []);
+
+	const style = useStyle(sx);
+
+	const rippleClass = useClassNames({
+		component_name: "Ripple",
+		state: [color],
+		className,
+	});
+
+	const overRide = useColorOverRide({ colorOverRide });
+
+	const onRippleClickHandler = useCallback<
+		React.MouseEventHandler<HTMLSpanElement>
+	>((e) => {
+		handleClick(e);
+		onRippleClick?.();
+	}, []);
+
+	return ripples.map((ripple, index) => (
+		<span
+			key={index}
+			className={clsx(`MUI_Ripple_span ${rippleClass.combined}`, style.classNameFromSx)}
+			style={{
+				left: ripple.x,
+				top: ripple.y,
+				...overRide,
+				...style.styleFromSx,
+			}}
+			onClick={onRippleClickHandler}
+		/>
+	));
+}
+
+function useRipple() {
+	const context = useContext(RippleContext);
+	return () => context.current?.click();
+}
+
+export default RippleEffect;
+export { RippleBase, useRipple };

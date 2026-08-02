@@ -1,0 +1,33 @@
+import { SliderDemo } from "../../../components/demos";
+
+# Slider
+
+```ts
+import Slider from "@shpaw415/mui-lite/Slider";
+```
+
+## Why use it
+
+**Slider** selects a numeric value or range by dragging. Use for volume, price filters, and continuous settings where typing a number is clumsy.
+
+## Demo
+
+<SliderDemo />
+
+## Example
+
+```tsx
+import Slider from "@shpaw415/mui-lite/Slider";
+
+<Slider min={0} max={100} defaultValue={30} onChange={console.log} />
+<Slider defaultValue={[20, 80]} />
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| min / max / step | number | 0 / 100 / 1 |
+| value / defaultValue | number \| number[] | — |
+| onChange | (values: number[]) => void | — |
+| valueLabelDisplay | on \| auto | — |

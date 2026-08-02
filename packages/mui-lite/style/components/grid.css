@@ -1,0 +1,56 @@
+.MUI_Grid {
+	box-sizing: border-box;
+}
+
+.MUI_Grid:is(._container) {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.MUI_Grid:is(._item) {
+	margin: 0;
+}
+
+@media (min-width: 600px) {
+	.MUI_Grid:is(._item) {
+		width: var(--Grid-size-sm, unset);
+		max-width: var(--Grid-size-sm, unset);
+	}
+	.MUI_Grid:is(._item)[style*="--Grid-size-sm: grow"] {
+		flex-grow: 1;
+		flex-basis: 0;
+		width: auto;
+		max-width: 100%;
+	}
+}
+
+@media (min-width: 900px) {
+	.MUI_Grid:is(._item) {
+		width: var(--Grid-size-md, var(--Grid-size-sm, unset));
+		max-width: var(--Grid-size-md, var(--Grid-size-sm, unset));
+	}
+}
+
+@media (min-width: 1200px) {
+	.MUI_Grid:is(._item) {
+		width: var(--Grid-size-lg, var(--Grid-size-md, var(--Grid-size-sm, unset)));
+		max-width: var(
+			--Grid-size-lg,
+			var(--Grid-size-md, var(--Grid-size-sm, unset))
+		);
+	}
+}
+
+@media (min-width: 1536px) {
+	.MUI_Grid:is(._item) {
+		width: var(
+			--Grid-size-xl,
+			var(--Grid-size-lg, var(--Grid-size-md, var(--Grid-size-sm, unset)))
+		);
+		max-width: var(
+			--Grid-size-xl,
+			var(--Grid-size-lg, var(--Grid-size-md, var(--Grid-size-sm, unset)))
+		);
+	}
+}

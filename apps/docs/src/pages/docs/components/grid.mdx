@@ -1,0 +1,51 @@
+import { GridDemo } from "../../../components/demos";
+
+# Grid
+
+```ts
+import Grid from "@shpaw415/mui-lite/Grid";
+```
+
+## Why use it
+
+**Grid** builds responsive multi-column layouts on a 12-column system (MUI Grid v2–style `size` / `container`). Use it for dashboards, card galleries, and form columns that reflow at breakpoints.
+
+Prefer **Stack** for simple one-axis lists; use **Grid** when items must span columns or share a gap on two axes.
+
+## Demo
+
+<GridDemo />
+
+## Example
+
+```tsx
+import Grid from "@shpaw415/mui-lite/Grid";
+import Paper from "@shpaw415/mui-lite/Paper";
+
+export function Dashboard() {
+  return (
+    <Grid container spacing={2}>
+      <Grid size={8}>
+        <Paper style={{ padding: 16 }}>Main</Paper>
+      </Grid>
+      <Grid size={4}>
+        <Paper style={{ padding: 16 }}>Sidebar</Paper>
+      </Grid>
+      <Grid size={{ xs: 12, md: 6 }}>
+        <Paper style={{ padding: 16 }}>Half on md+</Paper>
+      </Grid>
+    </Grid>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| container | boolean | false |
+| size | number \| grow \| auto \| boolean \| responsive | — |
+| offset | number \| auto \| responsive | — |
+| columns | number | 12 |
+| spacing / rowSpacing / columnSpacing | number \| string | 0 |
+| direction | flex-direction | row |

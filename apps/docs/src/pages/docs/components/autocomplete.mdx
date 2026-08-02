@@ -1,0 +1,36 @@
+import { AutoCompleteDemo } from "../../../components/demos";
+
+# AutoComplete
+
+```ts
+import AutoComplete from "@shpaw415/mui-lite/AutoComplete";
+```
+
+## Why use it
+
+**AutoComplete** filters a list of options as the user types. Use for searchable selects (countries, users, tags) with optional custom rendering and filter logic.
+
+## Demo
+
+<AutoCompleteDemo />
+
+## Example
+
+```tsx
+import AutoComplete from "@shpaw415/mui-lite/AutoComplete";
+
+<AutoComplete
+  options={["Apple", "Banana", "Cherry"]}
+  onSelect={(v) => console.log(v)}
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| options | string array or objects with label | required |
+| onSelect | callback with selected value | — |
+| onFilter | custom filter | — |
+| listItemRender | custom row | — |
+| value | string | — |

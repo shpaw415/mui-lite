@@ -1,0 +1,33 @@
+.MUI_Toolbar {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 56px;
+}
+
+@media (min-width: 600px) {
+	.MUI_Toolbar:is(._regular) {
+		min-height: 64px;
+	}
+}
+
+.MUI_Toolbar:is(._dense) {
+	min-height: 48px;
+}
+
+.MUI_Toolbar:is(._gutters) {
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+@media (min-width: 600px) {
+	.MUI_Toolbar:is(._gutters) {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+}
+
+.MUI_Toolbar:is(._disableGutters) {
+	padding-left: 0;
+	padding-right: 0;
+}

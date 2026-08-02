@@ -1,0 +1,37 @@
+import { ToggleDemo } from "../../../components/demos";
+
+# Toggle
+
+```ts
+import ToggleButton, { ToggleButtonGroup } from "@shpaw415/mui-lite/Toggle";
+```
+
+## Why use it
+
+**ToggleButton** / **ToggleButtonGroup** select among mutually exclusive views or formats (align left/center/right). Prefer Tabs for full page sections.
+
+## Demo
+
+<ToggleDemo />
+
+## Example
+
+```tsx
+import ToggleButton, { ToggleButtonGroup } from "@shpaw415/mui-lite/Toggle";
+
+<ToggleButtonGroup>
+  <ToggleButton selected={align === "left"} onClick={() => setAlign("left")}>
+    Left
+  </ToggleButton>
+  <ToggleButton selected={align === "right"} onClick={() => setAlign("right")}>
+    Right
+  </ToggleButton>
+</ToggleButtonGroup>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| selected | boolean | — |
+| size | small \| medium \| large | medium |

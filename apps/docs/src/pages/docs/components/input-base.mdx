@@ -1,0 +1,29 @@
+import { InputBaseDemo } from "../../../components/demos";
+
+# InputBase
+
+```ts
+import InputBase from "@shpaw415/mui-lite/InputBase";
+```
+
+## Why use it
+
+**InputBase** is the unstyled bare input used inside TextField and custom fields. Use it when you need a native input/textarea with mui-lite class hooks but full control over chrome (no label/helper layout).
+
+Prefer **TextField** or **FormControl + Input** for complete form fields.
+
+## Demo
+
+<InputBaseDemo />
+
+## Example
+
+```tsx
+import InputBase from "@shpaw415/mui-lite/InputBase";
+
+<InputBase placeholder="Search…" onChange={onChange} />
+```
+
+## Props
+
+Native input attributes plus `variant`, `multiline`, `sx`, and optional start/end icons when composed by higher-level fields.

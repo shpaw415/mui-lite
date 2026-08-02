@@ -1,0 +1,55 @@
+import { ImageListDemo } from "../../../components/demos";
+
+# ImageList
+
+```ts
+import ImageList, {
+  ImageListItem,
+  ImageListItemBar,
+} from "@shpaw415/mui-lite/ImageList";
+```
+
+## Why use it
+
+**ImageList** lays out media in a CSS grid or masonry gallery. Use it for photo albums, product catalogs, and media pickers. **ImageListItemBar** overlays title/subtitle/actions on each tile.
+
+Choose `variant="masonry"` for uneven heights; standard grid when tiles share a `rowHeight`.
+
+## Demo
+
+<ImageListDemo />
+
+## Example
+
+```tsx
+import ImageList, {
+  ImageListItem,
+  ImageListItemBar,
+} from "@shpaw415/mui-lite/ImageList";
+
+const items = [
+  { img: "/a.jpg", title: "Breakfast" },
+  { img: "/b.jpg", title: "Burger" },
+];
+
+export function Gallery() {
+  return (
+    <ImageList cols={2} rowHeight={140} gap={8}>
+      {items.map((item) => (
+        <ImageListItem key={item.img}>
+          <img src={item.img} alt={item.title} loading="lazy" />
+          <ImageListItemBar title={item.title} />
+        </ImageListItem>
+      ))}
+    </ImageList>
+  );
+}
+```
+
+## Props
+
+**ImageList:** cols, gap, rowHeight, variant (standard \| masonry \| quilted \| woven)
+
+**ImageListItem:** cols, rows
+
+**ImageListItemBar:** title, subtitle, actionIcon, position (bottom \| top \| below)

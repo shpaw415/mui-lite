@@ -1,0 +1,46 @@
+import { BoxDemo } from "../../../components/demos";
+
+# Box
+
+```ts
+import Box from "@shpaw415/mui-lite/Box";
+```
+
+## Why use it
+
+**Box** is a polymorphic layout primitive. Use it instead of a bare `<div>` when you need the `sx` prop (theme colors, breakpoints) or a different HTML tag via `Element` without creating a new styled component.
+
+Ideal for spacing wrappers, conditional layout shells, and one-off theme-aware surfaces.
+
+## Demo
+
+<BoxDemo />
+
+## Example
+
+```tsx
+import Box from "@shpaw415/mui-lite/Box";
+
+export function Panel({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      Element="section"
+      sx={{
+        padding: 16,
+        borderRadius: 8,
+        backgroundColor: { "bg-surface": "theme" },
+        md: { padding: 24 },
+      }}
+    >
+      {children}
+    </Box>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| Element | HTML element name | div |
+| sx | SxProps | — |

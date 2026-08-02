@@ -1,0 +1,36 @@
+import { ChipDemo } from "../../../components/demos";
+
+# Chip
+
+```ts
+import Chip from "@shpaw415/mui-lite/Chip";
+```
+
+## Why use it
+
+**Chip** is a compact tag for filters, selections, and metadata. Use deletable chips for removable filters; clickable chips for toggle filters.
+
+## Demo
+
+<ChipDemo />
+
+## Example
+
+```tsx
+import Chip from "@shpaw415/mui-lite/Chip";
+
+<Chip color="primary">React</Chip>
+<Chip variant="outlined" onDelete={() => {}}>
+  Removable
+</Chip>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | filled \| outlined | filled |
+| color | palette | — |
+| size | small | — |
+| onDelete | function | — |
+| avatar / icon | ReactNode | — |

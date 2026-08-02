@@ -1,0 +1,35 @@
+import { SkeletonDemo } from "../../../components/demos";
+
+# Skeleton
+
+```ts
+import Skeleton from "@shpaw415/mui-lite/Skeleton";
+```
+
+## Why use it
+
+**Skeleton** placeholders reduce layout shift while data loads. Match shape to the content (text, circular avatar, rectangular media).
+
+## Demo
+
+<SkeletonDemo />
+
+## Example
+
+```tsx
+import Skeleton from "@shpaw415/mui-lite/Skeleton";
+
+<>
+  <Skeleton variant="text" width="60%" />
+  <Skeleton variant="circular" width={40} height={40} />
+  <Skeleton variant="rectangular" height={120} />
+</>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | text \| circular \| rectangular \| rounded | text |
+| animation | pulse \| wave \| false | pulse |
+| width / height | CSS size | — |

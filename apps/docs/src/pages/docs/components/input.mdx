@@ -1,0 +1,55 @@
+import { InputVariantsDemo } from "../../../components/demos";
+
+# Input / OutlinedInput / FilledInput
+
+```ts
+import Input, { OutlinedInput, FilledInput } from "@shpaw415/mui-lite/Input";
+// or deep imports:
+import OutlinedInput from "@shpaw415/mui-lite/OutlinedInput";
+import FilledInput from "@shpaw415/mui-lite/FilledInput";
+```
+
+## Why use it
+
+These are the three Material text input surfaces. Use them **inside FormControl** with **InputLabel** and **FormHelperText** when you need composition (adornments, custom layout) beyond TextField.
+
+- **Input** — standard underline
+- **OutlinedInput** — bordered field (most common)
+- **FilledInput** — filled background
+
+## Demo
+
+<InputVariantsDemo />
+
+## Example
+
+```tsx
+import FormControl from "@shpaw415/mui-lite/FormControl";
+import InputLabel from "@shpaw415/mui-lite/InputLabel";
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+import InputAdornment from "@shpaw415/mui-lite/InputAdornment";
+import FormHelperText from "@shpaw415/mui-lite/FormHelperText";
+
+export function AmountField() {
+  return (
+    <FormControl variant="outlined" fullWidth>
+      <InputLabel>Amount</InputLabel>
+      <OutlinedInput
+        startAdornment={<InputAdornment position="start">$</InputAdornment>}
+      />
+      <FormHelperText>Including tax</FormHelperText>
+    </FormControl>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| startAdornment / endAdornment | ReactNode | — |
+| fullWidth | boolean | false |
+| error / disabled / required | boolean | from FormControl |
+| multiline | boolean \| rows config | — |
+| value / defaultValue | string | — |
+| onChange / onFocus / onBlur | handlers | — |

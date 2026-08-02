@@ -1,0 +1,49 @@
+import { TabsDemo } from "../../../components/demos";
+
+# Tabs
+
+```ts
+import Tabs, { Tab } from "@shpaw415/mui-lite/Tabs";
+```
+
+## Why use it
+
+**Tabs** switch between peer views in the same context (settings sections, product details, admin panels) without changing the route. Use them when content is mutually exclusive but related; use a stepper for ordered multi-step flows, or links for separate pages.
+
+The indicator tracks the active tab; keyboard focus and `aria-selected` are wired for accessibility.
+
+## Demo
+
+<TabsDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import Tabs, { Tab } from "@shpaw415/mui-lite/Tabs";
+import Box from "@shpaw415/mui-lite/Box";
+
+export function SettingsTabs() {
+  const [value, setValue] = useState(0);
+  return (
+    <>
+      <Tabs value={value} onChange={(_e, v) => setValue(v)}>
+        <Tab label="Profile" />
+        <Tab label="Billing" />
+        <Tab label="Team" />
+      </Tabs>
+      <Box sx={{ padding: 16 }}>
+        {value === 0 && <div>Profile panel</div>}
+        {value === 1 && <div>Billing panel</div>}
+        {value === 2 && <div>Team panel</div>}
+      </Box>
+    </>
+  );
+}
+```
+
+## Props
+
+**Tabs:** value, onChange, orientation, variant (standard \| scrollable \| fullWidth), centered, indicatorColor, textColor
+
+**Tab:** label, icon, iconPosition, value, disabled, wrapped

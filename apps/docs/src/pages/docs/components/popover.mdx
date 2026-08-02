@@ -1,0 +1,52 @@
+import { PopoverDemo } from "../../../components/demos";
+
+# Popover
+
+```ts
+import Popover from "@shpaw415/mui-lite/Popover";
+```
+
+## Why use it
+
+**Popover** anchors a Paper surface to an element (menus, filters, date pickers, “more info” bubbles). It combines Modal (escape, backdrop, focus) with positioning via `anchorOrigin` / `transformOrigin`.
+
+Use **Menu** for simple action lists; **Popover** when the content is custom or multi-control.
+
+## Demo
+
+<PopoverDemo />
+
+## Example
+
+```tsx
+import { useRef, useState } from "react";
+import Popover from "@shpaw415/mui-lite/Popover";
+import Button from "@shpaw415/mui-lite/Button";
+import Typography from "@shpaw415/mui-lite/Typography";
+
+export function Info() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLButtonElement | null>(null);
+  return (
+    <>
+      <Button ref={ref as any} onClick={() => setOpen(true)}>
+        Open
+      </Button>
+      <Popover
+        open={open}
+        anchorEl={() => ref.current}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <div style={{ padding: 16 }}>
+          <Typography>Popover content</Typography>
+        </div>
+      </Popover>
+    </>
+  );
+}
+```
+
+## Props
+
+open, anchorEl, anchorOrigin, transformOrigin, anchorPosition, onClose, elevation, marginThreshold

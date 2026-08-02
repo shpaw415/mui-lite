@@ -1,0 +1,134 @@
+.MUI_IconButton_Root {
+	display: inline-flex;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	background-color: transparent;
+	outline: 0;
+	border: 0;
+	cursor: pointer;
+	margin: 0;
+	user-select: none;
+	vertical-align: middle;
+	appearance: none;
+	text-decoration: none;
+	text-align: center;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	color: rgba(var(--color-override, var(--text-main)), 0.6);
+	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	overflow: hidden;
+	/* medium default (MUI) */
+	font-size: 1.5rem;
+	padding: 8px;
+}
+
+/* sizes — padding + icon font-size (not transform scale) */
+.MUI_IconButton_Root._small,
+.MUI_IconButton_Root:is(._small) {
+	font-size: 1.125rem;
+	padding: 5px;
+}
+
+.MUI_IconButton_Root._medium,
+.MUI_IconButton_Root:is(._medium) {
+	font-size: 1.5rem;
+	padding: 8px;
+}
+
+.MUI_IconButton_Root._large,
+.MUI_IconButton_Root:is(._large) {
+	font-size: 1.75rem;
+	padding: 12px;
+}
+
+.MUI_IconButton_Root:hover,
+.MUI_IconButton_Root:focus {
+	background-color: rgba(var(--color-override, var(--bg-primary)), 0.08);
+}
+
+.MUI_IconButton_Root:is(._primary),
+.MUI_IconButton_Root._primary {
+	color: rgb(var(--color-override, var(--text-primary)));
+}
+.MUI_IconButton_Root:is(._primary):hover,
+.MUI_IconButton_Root._primary:hover {
+	background-color: rgba(var(--bg-primary), 0.1);
+}
+
+.MUI_IconButton_Root:is(._secondary),
+.MUI_IconButton_Root._secondary {
+	color: rgb(var(--color-override, var(--text-secondary)));
+}
+.MUI_IconButton_Root:is(._secondary):hover,
+.MUI_IconButton_Root._secondary:hover {
+	background-color: rgba(var(--bg-secondary), 0.1);
+}
+
+.MUI_IconButton_Root:is(._error),
+.MUI_IconButton_Root._error {
+	color: rgb(var(--text-error));
+}
+.MUI_IconButton_Root:is(._error):hover,
+.MUI_IconButton_Root._error:hover {
+	background-color: rgba(var(--bg-error), 0.1);
+}
+
+.MUI_IconButton_Root:is(._warning),
+.MUI_IconButton_Root._warning {
+	color: rgb(var(--text-warning));
+}
+.MUI_IconButton_Root:is(._warning):hover,
+.MUI_IconButton_Root._warning:hover {
+	background-color: rgba(var(--bg-warning), 0.1);
+}
+
+.MUI_IconButton_Root:is(._success),
+.MUI_IconButton_Root._success {
+	color: rgb(var(--text-success));
+}
+.MUI_IconButton_Root:is(._success):hover,
+.MUI_IconButton_Root._success:hover {
+	background-color: rgba(var(--bg-success), 0.1);
+}
+
+.MUI_IconButton_Root:is(._info),
+.MUI_IconButton_Root._info {
+	color: rgb(var(--text-info));
+}
+.MUI_IconButton_Root:is(._info):hover,
+.MUI_IconButton_Root._info:hover {
+	background-color: rgba(var(--text-info), 0.1);
+}
+
+.MUI_IconButton_Root:disabled {
+	pointer-events: none;
+	cursor: default;
+	color: rgba(var(--text-main), 0.3);
+}
+.MUI_IconButton_Root:disabled:hover {
+	background-color: inherit;
+}
+
+.MUI_IconButton_Root svg {
+	fill: currentColor;
+	cursor: inherit;
+	user-select: none;
+	width: 1em;
+	height: 1em;
+	display: inline-block;
+	flex-shrink: 0;
+	transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	font-size: inherit;
+}
+
+/* emoji / text icons inherit font-size from button */
+.MUI_IconButton_Root > :not(span.MUI_Ripple_span):not(.MUI_RippleEffect) {
+	font-size: 1em;
+	line-height: 1;
+}
+
+.MUI_IconButton_Root input {
+	cursor: inherit;
+}

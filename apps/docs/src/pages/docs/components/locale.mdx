@@ -1,0 +1,37 @@
+import { LocaleDemo } from "../../../components/demos";
+
+# Locale
+
+```ts
+import { DefaultTheme } from "@shpaw415/mui-lite/theme";
+// strings: import { frFR, deDE, … } from "@shpaw415/mui-lite/locale";
+```
+
+## Why use it
+
+**locale** provides translated default strings for Pagination, Alert, Autocomplete labels, and related a11y text (59 locales). Set `theme.locale` to a `SupportedLocalesType` key so components pick the right copy without per-component i18n wiring.
+
+## Demo
+
+<LocaleDemo />
+
+## Example
+
+```tsx
+import { ThemeProvider, DefaultTheme } from "@shpaw415/mui-lite/theme";
+
+const theme = {
+  ...DefaultTheme,
+  locale: "frFR" as const,
+};
+
+export function App({ children }: { children: React.ReactNode }) {
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+}
+```
+
+## Common locale keys
+
+enUS, frFR, deDE, esES, itIT, ptBR, ptPT, jaJP, zhCN, zhTW, zhHK, koKR, ruRU, arSA, hiIN, nlNL, plPL, trTR, viVN, thTH, …
+
+Full list: `SupportedLocalesType` in `@shpaw415/mui-lite/locale`.

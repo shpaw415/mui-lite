@@ -1,0 +1,109 @@
+.MUI_TextField_Input {
+	font: inherit;
+	letter-spacing: inherit;
+	color: rgba(var(--text-main, 0, 0, 0), 0.87);
+	border: 0;
+	box-sizing: content-box;
+	background: none;
+	height: 1.4375em;
+	margin: 0;
+	display: block;
+	min-width: 0;
+	width: 100%;
+	animation-name: mui-auto-fill-cancel;
+	animation-duration: 10ms;
+	cursor: inherit;
+	outline: 0;
+	-webkit-tap-highlight-color: transparent;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+.MUI_TextField_Input::placeholder {
+	opacity: 0;
+	color: transparent;
+}
+
+.MUI_TextField_Input_outlined {
+	padding: 16.5px 14px;
+}
+
+.MUI_TextField_Input_outlined:focus {
+	outline: 0;
+}
+
+.MUI_TextField_Input_filled {
+	padding: 25px 12px 8px;
+}
+
+.MUI_TextField_Input_standard {
+	padding: 4px 0 5px;
+}
+
+.MUI_TextField_Input:disabled {
+	opacity: 1;
+	-webkit-text-fill-color: rgba(var(--text-main, 0, 0, 0), 0.38);
+	color: rgba(var(--text-main, 0, 0, 0), 0.38);
+}
+
+.MUI_TextField_TextArea {
+	font: inherit;
+	letter-spacing: inherit;
+	line-height: 1.4375em;
+	color: rgba(var(--text-main, 0, 0, 0), 0.87);
+	outline: none;
+	border: none;
+	box-sizing: border-box;
+	background: none;
+	height: auto;
+	margin: 0;
+	-webkit-tap-highlight-color: transparent;
+	display: block;
+	min-width: 0;
+	min-height: 1.4375em;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	appearance: none;
+	resize: none;
+	/* height driven by JS auto-grow (minRows → maxRows) */
+	field-sizing: fixed;
+}
+
+/* while growing, hide scrollbar until maxRows */
+.MUI_TextField_TextArea._autogrow {
+	overflow-y: hidden;
+}
+
+.MUI_TextField_TextArea_outlined {
+	padding: 16.5px 14px;
+}
+
+.MUI_TextField_TextArea_filled {
+	padding: 25px 12px 8px;
+}
+
+.MUI_TextField_TextArea_standard {
+	padding: 4px 0 5px;
+}
+
+.MUI_TextField_TextArea:focus {
+	outline: none;
+}
+
+.MUI_TextField_TextArea::placeholder {
+	opacity: 0;
+	color: transparent;
+}
+
+.MUI_TextField_TextArea:disabled {
+	opacity: 1;
+	-webkit-text-fill-color: rgba(var(--text-main, 0, 0, 0), 0.38);
+	color: rgba(var(--text-main, 0, 0, 0), 0.38);
+}
+
+/* parent box already pads outlined fields via input padding — avoid double pad */
+div:has(> .MUI_TextField_TextArea_outlined) {
+	padding-top: 0;
+	padding-bottom: 0;
+}

@@ -1,29 +1,41 @@
-# mui-lite
+# mui-lite monorepo
 
-compatible @bunpmjs/bunext
+Lightweight Material Design components for React 19.
 
-To install:
+## Packages
+
+| Path | Description |
+| --- | --- |
+| [`packages/mui-lite`](./packages/mui-lite) | `@shpaw415/mui-lite` component library |
+| [`apps/docs`](./apps/docs) | Documentation site (Frame Master + MDX) |
+
+## Scripts
 
 ```bash
-bun i mui-lite
-or
-npm i mui-lite
+bun install
+bun test                 # unit tests
+bun run docs:dev         # docs site
+bun run typecheck
 ```
 
+## Library quick start
 
-```javascript XML
-import "@bunpmjs/mui-lite/style.css";
-import { ThemeProvider, DefaultTheme } from "@bunpmjs/mui-lite/theme";
-import Button from "@bunpmjs/mui-lite/Button";
+```bash
+bun add @shpaw415/mui-lite
+```
+
+```tsx
+import "@shpaw415/mui-lite/style.css";
+import { ThemeProvider, DefaultTheme } from "@shpaw415/mui-lite/theme";
+import Button from "@shpaw415/mui-lite/Button";
 
 export default function App() {
-    return (
-        <ThemeProvider theme={DefaultTheme}>
-            <Button>Material UI Button</Button>
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={DefaultTheme}>
+      <Button variant="contained">Hello</Button>
+    </ThemeProvider>
+  );
 }
 ```
 
-Documentation will follow. 
-In general almost all component follow the same props and behaviors of mui/material components but some have different props for some purpose 
+See [packages/mui-lite/README.md](./packages/mui-lite/README.md) for the full API overview.

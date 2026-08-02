@@ -1,0 +1,41 @@
+import { InputAdornmentDemo } from "../../../components/demos";
+
+# InputAdornment
+
+```ts
+import InputAdornment from "@shpaw415/mui-lite/InputAdornment";
+```
+
+## Why use it
+
+**InputAdornment** places icons, units, or short text at the start or end of an input (currency symbol, password toggle, clear button). Pass as `startAdornment` / `endAdornment` on Input variants.
+
+## Demo
+
+<InputAdornmentDemo />
+
+## Example
+
+```tsx
+import { OutlinedInput } from "@shpaw415/mui-lite/Input";
+import InputAdornment from "@shpaw415/mui-lite/InputAdornment";
+import IconButton from "@shpaw415/mui-lite/IconButton";
+
+<OutlinedInput
+  type={show ? "text" : "password"}
+  endAdornment={
+    <InputAdornment position="end">
+      <IconButton onClick={toggle} edge="end">👁</IconButton>
+    </InputAdornment>
+  }
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| position | start \| end | required |
+| disablePointerEvents | boolean | false |
+| disableTypography | boolean | false |
+| variant | standard \| outlined \| filled | from FormControl |

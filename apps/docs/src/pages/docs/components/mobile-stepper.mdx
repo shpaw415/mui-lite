@@ -1,0 +1,57 @@
+import { MobileStepperDemo } from "../../../components/demos";
+
+# MobileStepper
+
+```ts
+import MobileStepper from "@shpaw415/mui-lite/MobileStepper";
+```
+
+## Why use it
+
+**MobileStepper** is a compact progress control for carousels and short mobile wizards. Use **dots** for few slides, **text** for “2 / 5”, and **progress** for continuous fill.
+
+Unlike Stepper, it does not render step labels — only position and back/next slots.
+
+## Demo
+
+<MobileStepperDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import MobileStepper from "@shpaw415/mui-lite/MobileStepper";
+import Button from "@shpaw415/mui-lite/Button";
+
+export function Gallery({ total }: { total: number }) {
+  const [active, setActive] = useState(0);
+  return (
+    <MobileStepper
+      variant="dots"
+      steps={total}
+      position="static"
+      activeStep={active}
+      nextButton={
+        <Button size="small" onClick={() => setActive((s) => s + 1)}>
+          Next
+        </Button>
+      }
+      backButton={
+        <Button size="small" onClick={() => setActive((s) => s - 1)}>
+          Back
+        </Button>
+      }
+    />
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| steps | number | required |
+| activeStep | number | 0 |
+| variant | dots \| text \| progress | dots |
+| position | bottom \| top \| static | bottom |
+| backButton / nextButton | ReactNode | — |

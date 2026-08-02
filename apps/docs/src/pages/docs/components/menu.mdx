@@ -1,0 +1,44 @@
+import { MenuDemo } from "../../../components/demos";
+
+# Menu
+
+```ts
+import Menu from "@shpaw415/mui-lite/Menu";
+```
+
+## Why use it
+
+**Menu** is an anchored Paper list for contextual actions (overflow menus, row actions). Anchor with a button ref; close on select or outside click.
+
+## Demo
+
+<MenuDemo />
+
+## Example
+
+```tsx
+import Menu from "@shpaw415/mui-lite/Menu";
+import { List, ListItem, ListItemButton, ListItemText } from "@shpaw415/mui-lite/List";
+
+<Button ref={anchor} onClick={() => setOpen(true)}>More</Button>
+<Menu open={open} onClose={() => setOpen(false)} anchorEl={anchor}>
+  <List dense>
+    <ListItem disablePadding>
+      <ListItemButton onClick={edit}><ListItemText primary="Edit" /></ListItemButton>
+    </ListItem>
+  </List>
+</Menu>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | false |
+| anchorEl | RefObject | — |
+| onClose | function | — |
+| placement | top \| bottom \| left \| right | bottom |
+| closeOnScroll | boolean | true |
+| disableScrollLock | boolean | true (page scroll stays enabled) |
+
+Scroll is **not** locked by default. Set `disableScrollLock={false}` only if you need modal-like behavior.

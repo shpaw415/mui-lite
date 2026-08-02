@@ -1,0 +1,203 @@
+.MUI_Stepper {
+	display: flex;
+}
+
+.MUI_Stepper:is(._horizontal) {
+	flex-direction: row;
+	align-items: center;
+}
+
+.MUI_Stepper:is(._vertical) {
+	flex-direction: column;
+}
+
+.MUI_Stepper:is(._alternativeLabel) {
+	align-items: flex-start;
+}
+
+/* Step */
+.MUI_Step {
+	flex: 1;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.MUI_Step:is(._vertical) {
+	flex: none;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.MUI_Step:is(._alternativeLabel) {
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+}
+
+/* Connector */
+.MUI_StepConnector {
+	flex: 1 1 auto;
+}
+
+.MUI_StepConnector:is(._horizontal) {
+	display: block;
+}
+
+.MUI_StepConnector:is(._vertical) {
+	margin-left: 12px;
+	padding: 0 0 8px;
+}
+
+.MUI_StepConnector:is(._alternativeLabel) {
+	position: absolute;
+	top: 12px;
+	left: calc(-50% + 20px);
+	right: calc(50% + 20px);
+}
+
+.MUI_StepConnector_line {
+	display: block;
+	border-color: rgba(var(--text-main), 0.25);
+}
+
+.MUI_StepConnector:is(._horizontal) .MUI_StepConnector_line {
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.MUI_StepConnector:is(._vertical) .MUI_StepConnector_line {
+	border-left-style: solid;
+	border-left-width: 1px;
+	min-height: 24px;
+}
+
+.MUI_StepConnector:is(._active) .MUI_StepConnector_line,
+.MUI_StepConnector:is(._completed) .MUI_StepConnector_line {
+	border-color: rgb(var(--bg-primary));
+}
+
+/* StepIcon */
+.MUI_StepIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background-color: rgba(var(--text-main), 0.38);
+	color: #fff;
+	font-size: 0.75rem;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-weight: 500;
+}
+
+.MUI_StepIcon:is(._active),
+.MUI_StepIcon:is(._completed) {
+	background-color: rgb(var(--bg-primary));
+}
+
+.MUI_StepIcon:is(._error) {
+	background-color: transparent;
+	color: rgb(var(--bg-error));
+}
+
+.MUI_StepIcon_svg {
+	width: 24px;
+	height: 24px;
+	display: block;
+}
+
+.MUI_StepIcon_text {
+	fill: currentColor;
+	font-size: 0.75rem;
+}
+
+/* StepLabel */
+.MUI_StepLabel {
+	display: flex;
+	align-items: center;
+}
+
+.MUI_StepLabel:is(._alternativeLabel) {
+	flex-direction: column;
+}
+
+.MUI_StepLabel_iconContainer {
+	display: flex;
+	flex-shrink: 0;
+	padding-right: 8px;
+}
+
+.MUI_StepLabel:is(._alternativeLabel) .MUI_StepLabel_iconContainer {
+	padding-right: 0;
+	padding-bottom: 8px;
+}
+
+.MUI_StepLabel_labelContainer {
+	width: 100%;
+	color: rgba(var(--text-main), 0.6);
+}
+
+.MUI_StepLabel_label {
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-size: 0.875rem;
+	line-height: 1.43;
+	letter-spacing: 0.01071em;
+	display: block;
+	transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.MUI_StepLabel:is(._active) .MUI_StepLabel_label,
+.MUI_StepLabel:is(._completed) .MUI_StepLabel_label {
+	color: rgb(var(--text-main));
+	font-weight: 500;
+}
+
+.MUI_StepLabel:is(._error) .MUI_StepLabel_label {
+	color: rgb(var(--text-error));
+}
+
+.MUI_StepLabel:is(._disabled) {
+	cursor: default;
+}
+
+.MUI_StepLabel_optional {
+	font-size: 0.75rem;
+	display: block;
+	color: rgba(var(--text-main), 0.6);
+}
+
+/* StepContent */
+.MUI_StepContent {
+	margin-top: 0;
+	margin-left: 12px;
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left: 1px solid rgba(var(--text-main), 0.25);
+}
+
+.MUI_StepContent:is(._last) {
+	border-left: none;
+}
+
+/* StepButton */
+.MUI_StepButton {
+	background: none;
+	border: 0;
+	padding: 24px 16px;
+	margin: -24px -16px;
+	box-sizing: content-box;
+	display: inline-flex;
+	cursor: pointer;
+	color: inherit;
+	font: inherit;
+	text-align: left;
+	border-radius: 0;
+}
+
+.MUI_StepButton:hover {
+	background-color: rgba(var(--text-main), 0.04);
+}

@@ -1,0 +1,38 @@
+{
+	"name": "@shpaw415/mui-lite",
+	"type": "module",
+	"version": "0.0.1",
+	"devDependencies": {
+		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.2.0",
+		"@testing-library/user-event": "^14.6.1",
+		"@types/bun": "latest",
+		"@types/react": "19.0.10",
+		"@types/react-dom": "19.0.4",
+		"happy-dom": "^17.1.1",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5.7.3",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0"
+	},
+	"dependencies": {
+		"@material-design-icons/svg": "0.14.13",
+		"clsx": "2.1.1",
+		"css-color-converter": "2.0.0"
+	},
+	"keywords": ["mui", "ui", "style", "ssr", "framework"],
+	"exports": {
+		"./*": "./mui/*/index.tsx",
+		"./style.css": "./style/mui-style.css",
+		"./theme": "./common/theme/index.tsx",
+		"./utils": "./common/utils.tsx",
+		"./locale": "./mui/locale/index.ts"
+	},
+	"scripts": {
+		"test": "bun test tests"
+	},
+	"private": false
+}

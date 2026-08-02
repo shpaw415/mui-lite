@@ -1,0 +1,156 @@
+.MUI_TableContainer {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.MUI_Table {
+	display: table;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	min-width: 100%;
+}
+
+.MUI_TableHead {
+	display: table-header-group;
+}
+
+.MUI_TableBody {
+	display: table-row-group;
+}
+
+.MUI_TableFooter {
+	display: table-footer-group;
+}
+
+.MUI_TableRow {
+	color: inherit;
+	display: table-row;
+	vertical-align: middle;
+	outline: 0;
+}
+
+.MUI_TableRow:is(._hover):hover {
+	background-color: rgba(var(--text-main), 0.04);
+}
+
+.MUI_TableRow:is(._selected) {
+	background-color: rgba(var(--bg-primary), 0.08);
+}
+
+.MUI_TableRow:is(._selected):hover {
+	background-color: rgba(var(--bg-primary), 0.12);
+}
+
+.MUI_TableCell {
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-size: 0.875rem;
+	line-height: 1.43;
+	letter-spacing: 0.01071em;
+	display: table-cell;
+	vertical-align: inherit;
+	border-bottom: 1px solid rgba(var(--text-main), 0.12);
+	text-align: left;
+	padding: 16px;
+	color: rgb(var(--text-main));
+}
+
+.MUI_TableCell:is(._variant-head) {
+	font-weight: 500;
+	line-height: 1.5rem;
+	color: rgba(var(--text-main), 0.87);
+}
+
+.MUI_TableCell:is(._variant-footer) {
+	font-size: 0.75rem;
+	line-height: 1.3125rem;
+	color: rgba(var(--text-main), 0.6);
+}
+
+.MUI_TableCell:is(._size-small) {
+	padding: 6px 16px;
+}
+
+.MUI_TableCell:is(._padding-checkbox) {
+	width: 48px;
+	padding: 0 0 0 4px;
+}
+
+.MUI_TableCell:is(._padding-none) {
+	padding: 0;
+}
+
+.MUI_TableCell:is(._align-left) {
+	text-align: left;
+}
+.MUI_TableCell:is(._align-center) {
+	text-align: center;
+}
+.MUI_TableCell:is(._align-right) {
+	text-align: right;
+	flex-direction: row-reverse;
+}
+.MUI_TableCell:is(._align-justify) {
+	text-align: justify;
+}
+
+.MUI_TableCell:is(._stickyHeader) {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background-color: rgb(var(--bg-surface));
+}
+
+.MUI_TableSortLabel {
+	cursor: pointer;
+	display: inline-flex;
+	justify-content: flex-start;
+	flex-direction: inherit;
+	align-items: center;
+	user-select: none;
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+}
+
+.MUI_TableSortLabel:focus-visible {
+	color: rgb(var(--text-main));
+	outline: none;
+}
+
+.MUI_TableSortLabel:hover {
+	color: rgb(var(--text-main));
+}
+
+.MUI_TableSortLabel:hover .MUI_TableSortLabel_icon {
+	opacity: 0.5;
+}
+
+.MUI_TableSortLabel_icon {
+	font-size: 18px;
+	margin-right: 4px;
+	margin-left: 4px;
+	opacity: 0;
+	transition:
+		opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+		transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	user-select: none;
+	width: 1em;
+	height: 1em;
+}
+
+.MUI_TableSortLabel:is(._active) .MUI_TableSortLabel_icon {
+	opacity: 1;
+	color: rgb(var(--text-main));
+}
+
+.MUI_TableSortLabel:is(._direction-desc) .MUI_TableSortLabel_icon {
+	transform: rotate(0deg);
+}
+
+.MUI_TableSortLabel:is(._direction-asc) .MUI_TableSortLabel_icon {
+	transform: rotate(180deg);
+}

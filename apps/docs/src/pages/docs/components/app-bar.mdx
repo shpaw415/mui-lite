@@ -1,0 +1,57 @@
+import { AppBarDemo } from "../../../components/demos";
+
+# AppBar
+
+```ts
+import AppBar from "@shpaw415/mui-lite/AppBar";
+import Toolbar from "@shpaw415/mui-lite/Toolbar";
+```
+
+## Why use it
+
+**AppBar** is the top (or sticky) application chrome: brand, navigation, and global actions. Pair it with **Toolbar** for correct height, gutters, and flex alignment of children (title, icons, buttons).
+
+Use `position="static"` inside demos or nested layouts; `fixed` / `sticky` for real app shells (remember to offset page content under a fixed bar).
+
+## Demo
+
+<AppBarDemo />
+
+## Example
+
+```tsx
+import AppBar from "@shpaw415/mui-lite/AppBar";
+import Toolbar from "@shpaw415/mui-lite/Toolbar";
+import Typography from "@shpaw415/mui-lite/Typography";
+import Button from "@shpaw415/mui-lite/Button";
+
+export function TopBar() {
+  return (
+    <AppBar position="static" color="primary">
+      <Toolbar>
+        <Typography Element="h1" style={{ flexGrow: 1, margin: 0, color: "inherit" }}>
+          My App
+        </Typography>
+        <Button variant="text" style={{ color: "#fff" }}>
+          Login
+        </Button>
+      </Toolbar>
+    </AppBar>
+  );
+}
+```
+
+## AppBar props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| position | fixed \| absolute \| sticky \| static \| relative | fixed |
+| color | primary \| secondary \| default \| transparent \| … | primary |
+| elevation | 0–24 | 4 |
+
+## Toolbar props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| variant | regular \| dense | regular |
+| disableGutters | boolean | false |

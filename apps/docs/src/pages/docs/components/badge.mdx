@@ -1,0 +1,37 @@
+import { BadgeDemo } from "../../../components/demos";
+
+# Badge
+
+```ts
+import Badge from "@shpaw415/mui-lite/Badge";
+```
+
+## Why use it
+
+**Badge** overlays a count or status dot on an icon or avatar — notifications, cart quantity, online status. Use \`variant="dot"\` when the number is unnecessary.
+
+## Demo
+
+<BadgeDemo />
+
+## Example
+
+```tsx
+import Badge from "@shpaw415/mui-lite/Badge";
+import IconButton from "@shpaw415/mui-lite/IconButton";
+
+<Badge badgeContent={4} color="error">
+  <IconButton>✉</IconButton>
+</Badge>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| badgeContent | number \| node | — |
+| max | number | 99 |
+| color | palette | — |
+| variant | dot | — |
+| position | top-right \| … | top-right |
+| invisible | boolean | false |

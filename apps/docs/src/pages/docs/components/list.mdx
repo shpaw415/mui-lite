@@ -1,0 +1,39 @@
+import { ListDemo } from "../../../components/demos";
+
+# List
+
+```ts
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@shpaw415/mui-lite/List";
+```
+
+## Why use it
+
+**List** and item helpers build navigation menus, settings rows, and selectable collections. Use ListItemButton for interactive rows with ripple.
+
+## Demo
+
+<ListDemo />
+
+## Example
+
+```tsx
+import { List, ListItem, ListItemButton, ListItemText } from "@shpaw415/mui-lite/List";
+
+<List>
+  <ListItem disablePadding>
+    <ListItemButton onClick={goInbox}>
+      <ListItemText primary="Inbox" secondary="3 new" />
+    </ListItemButton>
+  </ListItem>
+</List>
+```
+
+## Exports
+
+List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListItemAvatar, ListSubheader, Collapse

@@ -1,0 +1,51 @@
+import { FormControlLabelDemo } from "../../../components/demos";
+
+# FormControlLabel and FormGroup
+
+```ts
+import FormControlLabel from "@shpaw415/mui-lite/FormControlLabel";
+import FormGroup from "@shpaw415/mui-lite/FormGroup";
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+```
+
+## Why use it
+
+**FormControlLabel** pairs a control (checkbox, radio, switch) with a clickable label and correct layout (`labelPlacement`). **FormGroup** stacks those rows (or lays them out in a `row`).
+
+Use this instead of hand-wiring `<label htmlFor>` whenever you need Material spacing, disabled/error inheritance, and consistent hit targets for boolean settings.
+
+## Demo
+
+<FormControlLabelDemo />
+
+## Example
+
+```tsx
+import FormGroup from "@shpaw415/mui-lite/FormGroup";
+import FormControlLabel from "@shpaw415/mui-lite/FormControlLabel";
+import CheckBox from "@shpaw415/mui-lite/CheckBox";
+import Switch from "@shpaw415/mui-lite/Switch";
+
+export function Preferences() {
+  return (
+    <>
+      <FormGroup>
+        <FormControlLabel control={<CheckBox defaultChecked />} label="Email me" />
+        <FormControlLabel control={<CheckBox />} label="SMS me" />
+      </FormGroup>
+      <FormGroup row>
+        <FormControlLabel control={<Switch defaultChecked />} label="Dark mode" />
+      </FormGroup>
+    </>
+  );
+}
+```
+
+## Props (FormControlLabel)
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| control | ReactElement | required |
+| label | ReactNode | — |
+| labelPlacement | end \| start \| top \| bottom | end |
+| disabled | boolean | — |

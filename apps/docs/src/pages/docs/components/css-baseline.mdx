@@ -1,0 +1,38 @@
+import { CssBaselineDemo } from "../../../components/demos";
+
+# CssBaseline
+
+```ts
+import CssBaseline from "@shpaw415/mui-lite/CssBaseline";
+```
+
+## Why use it
+
+**CssBaseline** injects a minimal global reset (box-sizing, font smoothing, body margin/font). Most apps should import `@shpaw415/mui-lite/style.css` once; add CssBaseline when you want the reset next to ThemeProvider without pulling the full component stylesheet again.
+
+## Demo
+
+<CssBaselineDemo />
+
+## Example
+
+```tsx
+import CssBaseline from "@shpaw415/mui-lite/CssBaseline";
+import { ThemeProvider, DefaultTheme } from "@shpaw415/mui-lite/theme";
+
+export function Root({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider theme={DefaultTheme}>
+      <CssBaseline enableColorScheme />
+      {children}
+    </ThemeProvider>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| enableColorScheme | boolean | false |
+| children | ReactNode | — |

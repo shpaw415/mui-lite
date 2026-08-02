@@ -1,0 +1,40 @@
+import { SnackbarDemo } from "../../../components/demos";
+
+# Snackbar
+
+```ts
+import Snackbar from "@shpaw415/mui-lite/Snackbar";
+```
+
+## Why use it
+
+**Snackbar** shows a short transient message at a screen edge. Use for undoable actions and non-blocking feedback; use Alert for persistent page messages.
+
+## Demo
+
+<SnackbarDemo />
+
+## Example
+
+```tsx
+import Snackbar from "@shpaw415/mui-lite/Snackbar";
+
+<Snackbar
+  open={open}
+  onClose={() => setOpen(false)}
+  autoHideDuration={4000}
+  position="bottom-center"
+  message="Draft saved"
+/>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | — |
+| message | ReactNode | — |
+| action | ReactNode | — |
+| position | top-left \| … \| bottom-right | top-left |
+| autoHideDuration | number | — |
+| onClose | function | — |

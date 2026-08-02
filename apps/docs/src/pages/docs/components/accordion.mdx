@@ -1,0 +1,35 @@
+import { AccordionDemo } from "../../../components/demos";
+
+# Accordion
+
+```ts
+import Accordion, { AccordionSummary, AccordionDetails } from "@shpaw415/mui-lite/Accordion";
+```
+
+## Why use it
+
+**Accordion** expands one section at a time for FAQs, filters, and dense settings. Prefer Tabs when sections are peer views always available.
+
+## Demo
+
+<AccordionDemo />
+
+## Example
+
+```tsx
+import Accordion, { AccordionSummary, AccordionDetails } from "@shpaw415/mui-lite/Accordion";
+
+<Accordion
+  defaultExpended
+  Summary={<AccordionSummary>Shipping</AccordionSummary>}
+>
+  <AccordionDetails>Shipping options…</AccordionDetails>
+</Accordion>
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| expended / defaultExpended | boolean | — |
+| disabled | boolean | false |

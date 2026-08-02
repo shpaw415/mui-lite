@@ -1,0 +1,51 @@
+import { TablePaginationDemo } from "../../../components/demos";
+
+# TablePagination
+
+```ts
+import { TablePagination } from "@shpaw415/mui-lite/Pagination";
+```
+
+## Why use it
+
+**TablePagination** is the footer control for data tables: rows-per-page selector and page navigation. Use under a Table when data is paged on the server or client. Labels are localized via `theme.locale`.
+
+## Demo
+
+<TablePaginationDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import { TablePagination } from "@shpaw415/mui-lite/Pagination";
+
+export function Footer({ count }: { count: number }) {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState<10 | 25 | 50 | 100>(10);
+  return (
+    <TablePagination
+      count={count}
+      page={page}
+      rowsPerPage={rowsPerPage}
+      onPageChange={(_e, p) => setPage(p)}
+      onRowsPerPageChange={(r) => {
+        setRowsPerPage(r);
+        setPage(0);
+      }}
+    />
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| count | number | required |
+| page | number | 0 |
+| rowsPerPage | 10 \| 25 \| 50 \| 100 | 10 |
+| onPageChange | (e, page) => void | — |
+| onRowsPerPageChange | (rows) => void | — |
+| labelRowsPerPage | string | localized |
+| labelDisplayedRows | function | localized |

@@ -1,0 +1,55 @@
+import { ModalDemo } from "../../../components/demos";
+
+# Modal
+
+```ts
+import Modal from "@shpaw415/mui-lite/Modal";
+import Paper from "@shpaw415/mui-lite/Paper";
+```
+
+## Why use it
+
+**Modal** is the low-level blocking overlay: focus trap basics, escape/backdrop dismiss, scroll lock, and portal. Use it when you need a custom dialog shell, or build higher-level UI (confirm sheets, wizards) that Dialog does not cover.
+
+For standard title/content/actions dialogs, prefer **Dialog**. Use **Modal** + **Paper** when you control the entire surface.
+
+## Demo
+
+<ModalDemo />
+
+## Example
+
+```tsx
+import { useState } from "react";
+import Modal from "@shpaw415/mui-lite/Modal";
+import Paper from "@shpaw415/mui-lite/Paper";
+import Button from "@shpaw415/mui-lite/Button";
+
+export function Confirm() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open</Button>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Paper elevation={24} style={{ padding: 24, minWidth: 280 }}>
+          <h3>Confirm</h3>
+          <p>Are you sure?</p>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+        </Paper>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| open | boolean | required |
+| onClose | function | — |
+| hideBackdrop | boolean | false |
+| keepMounted | boolean | false |
+| disableEscapeKeyDown | boolean | false |
+| disableScrollLock | boolean | false |
+| disablePortal | boolean | false |

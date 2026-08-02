@@ -1,0 +1,53 @@
+.MUI_Container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+	display: block;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+@media (min-width: 600px) {
+	.MUI_Container {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+}
+
+.MUI_Container:is(._disableGutters) {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.MUI_Container:is(._maxWidth-xs) {
+	max-width: 444px;
+}
+.MUI_Container:is(._maxWidth-sm) {
+	max-width: 600px;
+}
+.MUI_Container:is(._maxWidth-md) {
+	max-width: 900px;
+}
+.MUI_Container:is(._maxWidth-lg) {
+	max-width: 1200px;
+}
+.MUI_Container:is(._maxWidth-xl) {
+	max-width: 1536px;
+}
+
+.MUI_Container:is(._fixed):is(._maxWidth-xs) {
+	max-width: 444px;
+}
+.MUI_Container:is(._fixed):is(._maxWidth-sm) {
+	max-width: 600px;
+}
+.MUI_Container:is(._fixed):is(._maxWidth-md) {
+	max-width: 900px;
+}
+.MUI_Container:is(._fixed):is(._maxWidth-lg) {
+	max-width: 1200px;
+}
+.MUI_Container:is(._fixed):is(._maxWidth-xl) {
+	max-width: 1536px;
+}
