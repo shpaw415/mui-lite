@@ -1,8 +1,11 @@
 name: Publish to npm
 
 # Manual publish only — run from Actions when you are ready to release.
-# Requires repository secret: NPM_TOKEN (npm automation or granular access token
-# with permission to publish @shpaw415/mui-lite).
+#
+# Auth (pick one):
+# 1. Repository secret NPM_TOKEN — npm automation/granular token with publish access
+# 2. npm Trusted Publishing (OIDC) — configure on npmjs.com for this package:
+#    GitHub repo shpaw415/mui-lite, workflow publish.yml (no token required)
 on:
   workflow_dispatch:
     inputs:
@@ -45,7 +48,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Need full history for tags / version commits
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -107,8 +109,6 @@ jobs:
       - name: Publish to npm
         working-directory: packages/mui-lite
         env:
-          # Optional classic/granular token. Prefer npm Trusted Publishing (OIDC)
-          # configured on npmjs.com for this repo + publish.yml — then no token needed.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
@@ -119,11 +119,23 @@ jobs:
             npm pack
             exit 0
           fi
-          if [ -n "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "Publishing with NPM_TOKEN"
+
+          # setup-node writes //registry...:_authToken=${NODE_AUTH_TOKEN}.
+          # An empty token blocks OIDC trusted publishing — strip it when unset.
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "No NPM_TOKEN — using npm Trusted Publishing (OIDC)"
+            unset NODE_AUTH_TOKEN
+            if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "${NPM_CONFIG_USERCONFIG}" ]; then
+              sed -i '/_authToken/d' "${NPM_CONFIG_USERCONFIG}"
+              echo "registry=https://registry.npmjs.org/" >> "${NPM_CONFIG_USERCONFIG}"
+              echo "----- npmrc (redacted) -----"
+              cat "${NPM_CONFIG_USERCONFIG}"
+            fi
           else
-            echo "No NPM_TOKEN — attempting npm Trusted Publishing (OIDC provenance)"
+            echo "Publishing with NPM_TOKEN"
           fi
+
+          echo "npm $(npm -v) / node $(node -v)"
           npm publish "${ARGS[@]}"
 
       - name: Commit version bump and tag
@@ -134,7 +146,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add packages/mui-lite/package.json
-          # bun.lock may change if workspaces rewrite versions
           git add bun.lock 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No version file changes to commit"
@@ -149,7 +160,22 @@ jobs:
             git push origin "v${VERSION}"
           fi
 
+      - name: Create git tag for current version
+        if: ${{ inputs.dry_run != true && steps.version.outputs.version == steps.version.outputs.previous }}
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists"
+          else
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+          fi
+
       - name: Summary
+        if: always()
         run: |
           {
             echo "## Publish result"
