@@ -107,6 +107,8 @@ jobs:
       - name: Publish to npm
         working-directory: packages/mui-lite
         env:
+          # Optional classic/granular token. Prefer npm Trusted Publishing (OIDC)
+          # configured on npmjs.com for this repo + publish.yml — then no token needed.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
@@ -117,9 +119,10 @@ jobs:
             npm pack
             exit 0
           fi
-          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
-            echo "::error::NPM_TOKEN secret is not set. Add an npm automation token at Settings → Secrets → Actions."
-            exit 1
+          if [ -n "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "Publishing with NPM_TOKEN"
+          else
+            echo "No NPM_TOKEN — attempting npm Trusted Publishing (OIDC provenance)"
           fi
           npm publish "${ARGS[@]}"
 
