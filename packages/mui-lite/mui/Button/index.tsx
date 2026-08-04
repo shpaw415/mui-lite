@@ -68,13 +68,23 @@ function Button({
 	});
 	const ref = useMuiRef<HTMLButtonElement>(props.ref);
 	const isDisabled = Boolean(props.disabled);
+	const resolvedColor = color || override.color;
+	// Contained uses light/white label color — inherit host `color` for contrast.
+	// Text/outlined ink should match the component palette color.
+	const rippleColor =
+		resolvedVariant === "contained" ? undefined : resolvedColor;
 	const content = (
 		<>
 			{startIcon && <span className="MUI_Button_startIcon">{startIcon}</span>}
 			{children}
 			{endIcon && <span className="MUI_Button_endIcon">{endIcon}</span>}
 			{!disableRipple && !isDisabled && (
-				<RippleBase ref={ref} preventClickElement disabled={isDisabled} />
+				<RippleBase
+					ref={ref}
+					color={rippleColor}
+					preventClickElement
+					disabled={isDisabled}
+				/>
 			)}
 		</>
 	);

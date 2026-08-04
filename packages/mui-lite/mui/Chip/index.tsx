@@ -98,7 +98,9 @@ export default function Chip({
 						preventClickElement
 						disabled={Boolean(props.disabled) || !props.onClick}
 						ref={ref}
-						colorOverRide={theme["text-main"][theme.theme]}
+						// Filled chips often keep text-main; pass palette so ink matches chip color.
+						// Outlined chips already set host color — explicit color still keeps ink aligned.
+						color={color}
 					/>
 				)}
 			</span>

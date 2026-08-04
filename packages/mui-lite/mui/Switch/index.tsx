@@ -72,8 +72,7 @@ function Switch({
 					{!props.disabled && (
 						<RippleBase
 							ref={_ref}
-							offset={{ left: -25, top: -25 }}
-							color="primary"
+							color={color ?? "primary"}
 							disabled={Boolean(props.disabled)}
 						/>
 					)}

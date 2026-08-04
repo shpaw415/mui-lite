@@ -102,12 +102,16 @@
 	background-color: rgba(var(--text-info), 0.1);
 }
 
-.MUI_IconButton_Root:disabled {
+.MUI_IconButton_Root:disabled,
+.MUI_IconButton_Root._disabled,
+.MUI_IconButton_Root:is(._disabled) {
 	pointer-events: none;
 	cursor: default;
 	color: rgba(var(--text-main), 0.3);
 }
-.MUI_IconButton_Root:disabled:hover {
+.MUI_IconButton_Root:disabled:hover,
+.MUI_IconButton_Root._disabled:hover,
+.MUI_IconButton_Root:is(._disabled):hover {
 	background-color: inherit;
 }
 
@@ -124,7 +128,8 @@
 }
 
 /* emoji / text icons inherit font-size from button */
-.MUI_IconButton_Root > :not(span.MUI_Ripple_span):not(.MUI_RippleEffect) {
+.MUI_IconButton_Root
+	> :not(span.MUI_Ripple_span):not(.MUI_Ripple_root):not(.MUI_RippleEffect) {
 	font-size: 1em;
 	line-height: 1;
 }

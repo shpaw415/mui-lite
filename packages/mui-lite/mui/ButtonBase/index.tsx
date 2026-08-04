@@ -152,7 +152,7 @@ export default function ButtonBase({
 				ref={ref as React.RefObject<HTMLElement | null>}
 				preventClickElement
 				disabled={disabled}
-				offset={centerRipple ? { top: 0, left: 0 } : undefined}
+				center={centerRipple}
 			/>
 		),
 	);

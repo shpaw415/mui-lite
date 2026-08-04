@@ -73,7 +73,7 @@ body {
 	background-color: rgb(var(--bg-main));
 }
 
-/* Material-style ink: grow from click and fade out */
+/* Material-style ink: grow from press point and fade out */
 @keyframes mui-ripple-enter {
 	0% {
 		transform: scale(0);
@@ -93,45 +93,74 @@ body {
 	justify-content: center;
 }
 
+/*
+ * Absolute-fill measurement + paint surface for ink.
+ * Lives inside the host (position: relative) so press coords map 1:1.
+ *
+ * Color model:
+ * - Default: `color: inherit` so ink follows the host component's CSS color
+ *   (white on contained buttons, palette color on text/icon controls).
+ * - Explicit `color` prop on RippleBase sets palette tokens below.
+ * - `colorOverRide` sets --color-override and forces that ink color.
+ */
+.MUI_Ripple_root {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	border-radius: inherit;
+	z-index: 0;
+	color: inherit;
+}
+
+.MUI_Ripple_root:is(._primary),
+.MUI_Ripple_root.MUI_Ripple_primary {
+	color: rgb(var(--text-primary));
+}
+.MUI_Ripple_root:is(._secondary),
+.MUI_Ripple_root.MUI_Ripple_secondary {
+	color: rgb(var(--text-secondary));
+}
+.MUI_Ripple_root:is(._error),
+.MUI_Ripple_root.MUI_Ripple_error {
+	color: rgb(var(--text-error));
+}
+.MUI_Ripple_root:is(._warning),
+.MUI_Ripple_root.MUI_Ripple_warning {
+	color: rgb(var(--text-warning));
+}
+.MUI_Ripple_root:is(._success),
+.MUI_Ripple_root.MUI_Ripple_success {
+	color: rgb(var(--text-success));
+}
+.MUI_Ripple_root:is(._info),
+.MUI_Ripple_root.MUI_Ripple_info {
+	color: rgb(var(--text-info));
+}
+
+/* Explicit CSS-variable override from colorOverRide */
+.MUI_Ripple_root[style*="--color-override"] {
+	color: rgb(var(--color-override));
+}
+
 .MUI_Ripple_span {
 	position: absolute;
 	border-radius: 50%;
-	/* size set inline from host dimensions; start scaled to 0 */
+	/* size/left/top set inline from computeRippleGeometry */
 	transform: scale(0);
+	transform-origin: center;
 	opacity: 0.3;
-	/* inherit host text color (white on contained, primary on text/outlined) */
+	/* Always follow the root's resolved color (inherit or palette) */
 	background-color: currentColor;
 	pointer-events: none;
 	animation: mui-ripple-enter 550ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-	z-index: 0;
+	will-change: transform, opacity;
 }
 
-/* Optional RGB override set as --color-override: "r, g, b" on the span */
-.MUI_Ripple_span[style*="--color-override"] {
-	background-color: rgb(var(--color-override));
-}
-
-.MUI_Ripple:is(._primary),
-.MUI_Ripple_span:is(._primary) {
-	background-color: rgb(var(--bg-primary));
-}
-.MUI_Ripple:is(._secondary),
-.MUI_Ripple_span:is(._secondary) {
-	background-color: rgb(var(--bg-secondary));
-}
-.MUI_Ripple:is(._error),
-.MUI_Ripple_span:is(._error) {
-	background-color: rgb(var(--bg-error));
-}
-.MUI_Ripple:is(._warning),
-.MUI_Ripple_span:is(._warning) {
-	background-color: rgb(var(--bg-warning));
-}
-
-/* Keep label/icon above the ink */
-.MUI_Button > :not(.MUI_Ripple_span),
-.MUI_IconButton_Root > :not(.MUI_Ripple_span),
-.MUI_ButtonBase > :not(.MUI_Ripple_span) {
+/* Keep label/icon above the ink surface */
+.MUI_Button > :not(.MUI_Ripple_root):not(.MUI_Ripple_span),
+.MUI_IconButton_Root > :not(.MUI_Ripple_root):not(.MUI_Ripple_span):not(.MUI_Checkbox_input),
+.MUI_ButtonBase > :not(.MUI_Ripple_root):not(.MUI_Ripple_span) {
 	position: relative;
 	z-index: 1;
 }

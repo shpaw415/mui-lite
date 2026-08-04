@@ -38,6 +38,22 @@
 .MUI_RadioButton_frame:hover {
 	background-color: rgba(var(--bg-primary), 0.08);
 }
+.MUI_RadioButton_frame:is(._error),
+.MUI_RadioButton_frame.MUI_RadioButton_frame_error {
+	color: rgb(var(--text-error));
+}
+.MUI_RadioButton_frame:is(._error):hover,
+.MUI_RadioButton_frame.MUI_RadioButton_frame_error:hover {
+	background-color: rgba(var(--bg-error), 0.08);
+}
+.MUI_RadioButton_frame:is(._success),
+.MUI_RadioButton_frame.MUI_RadioButton_frame_success {
+	color: rgb(var(--text-success));
+}
+.MUI_RadioButton_frame:is(._success):hover,
+.MUI_RadioButton_frame.MUI_RadioButton_frame_success:hover {
+	background-color: rgba(var(--bg-success), 0.08);
+}
 .MUI_radio_input {
 	cursor: inherit;
 	position: absolute;

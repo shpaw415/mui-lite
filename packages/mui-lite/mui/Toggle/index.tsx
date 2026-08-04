@@ -11,6 +11,7 @@ export type ToggleButtonProps = {
 	children: any;
 	selected?: boolean;
 	size?: "small" | "medium" | "large";
+	color?: MuiElementColors;
 	type?: "button" | "reset" | "submit";
 } & Omit<MuiElementType<HTMLButtonElement>, "size">;
 
@@ -30,12 +31,13 @@ export default function ToggleButton({
 	className,
 	selected,
 	size = "medium",
+	color,
 	...props
 }: ToggleButtonProps) {
 	const button = useClassNames({
 		component_name: "Toggle_Root",
 		className,
-		state: [selected && "selected", size],
+		state: [selected && "selected", size, color],
 	});
 	const ref = useMuiRef(props.ref);
 
@@ -44,11 +46,7 @@ export default function ToggleButton({
 		<button className={button.combined} {...props} ref={ref}>
 			{children}
 			{!isDisabled && (
-				<RippleBase
-					ref={ref}
-					offset={{ top: -25, left: -25 }}
-					disabled={isDisabled}
-				/>
+				<RippleBase ref={ref} color={color} disabled={isDisabled} />
 			)}
 		</button>
 	);

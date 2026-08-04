@@ -516,31 +516,129 @@ export function AutoCompleteDemo() {
 	);
 }
 
-export function ToggleDemo() {
+function AlignToggleGroup({
+	color,
+	size,
+	direction,
+}: {
+	color?: "primary" | "secondary" | "error" | "warning" | "success";
+	size?: "small" | "medium" | "large";
+	direction?: "row" | "column";
+}) {
 	const [selected, setSelected] = useState("left");
+	const options = ["left", "center", "right"] as const;
 	return (
-		<Demo>
-			<ToggleButtonGroup>
+		<ToggleButtonGroup color={color} size={size} direction={direction}>
+			{options.map((opt) => (
 				<ToggleButton
-					selected={selected === "left"}
-					onClick={() => setSelected("left")}
+					key={opt}
+					selected={selected === opt}
+					onClick={() => setSelected(opt)}
 				>
-					Left
+					{opt[0].toUpperCase() + opt.slice(1)}
 				</ToggleButton>
-				<ToggleButton
-					selected={selected === "center"}
-					onClick={() => setSelected("center")}
-				>
-					Center
-				</ToggleButton>
-				<ToggleButton
-					selected={selected === "right"}
-					onClick={() => setSelected("right")}
-				>
-					Right
-				</ToggleButton>
-			</ToggleButtonGroup>
-		</Demo>
+			))}
+		</ToggleButtonGroup>
+	);
+}
+
+export function ToggleDemo() {
+	return (
+		<>
+			<Demo title="Exclusive selection">
+				<AlignToggleGroup />
+			</Demo>
+
+			<Demo title="Colors">
+				<Stack spacing={2}>
+					{(
+						[
+							"primary",
+							"secondary",
+							"error",
+							"warning",
+							"success",
+						] as const
+					).map((color) => (
+						<Stack
+							key={color}
+							direction="row"
+							spacing={2}
+							alignItems="center"
+						>
+							<span
+								style={{
+									width: 88,
+									fontSize: 13,
+									opacity: 0.7,
+									textTransform: "capitalize",
+								}}
+							>
+								{color}
+							</span>
+							<AlignToggleGroup color={color} />
+						</Stack>
+					))}
+				</Stack>
+			</Demo>
+
+			<Demo title="Sizes">
+				<Stack spacing={2}>
+					{(["small", "medium", "large"] as const).map((size) => (
+						<Stack
+							key={size}
+							direction="row"
+							spacing={2}
+							alignItems="center"
+						>
+							<span
+								style={{
+									width: 72,
+									fontSize: 13,
+									opacity: 0.7,
+								}}
+							>
+								{size}
+							</span>
+							<AlignToggleGroup size={size} color="primary" />
+						</Stack>
+					))}
+				</Stack>
+			</Demo>
+
+			<Demo title="Vertical">
+				<Stack direction="row" spacing={4} alignItems="flex-start">
+					<Stack spacing={1} alignItems="center">
+						<span style={{ fontSize: 13, opacity: 0.7 }}>Default</span>
+						<AlignToggleGroup direction="column" color="primary" />
+					</Stack>
+					<Stack spacing={1} alignItems="center">
+						<span style={{ fontSize: 13, opacity: 0.7 }}>Small</span>
+						<AlignToggleGroup
+							direction="column"
+							size="small"
+							color="secondary"
+						/>
+					</Stack>
+					<Stack spacing={1} alignItems="center">
+						<span style={{ fontSize: 13, opacity: 0.7 }}>Large</span>
+						<AlignToggleGroup
+							direction="column"
+							size="large"
+							color="success"
+						/>
+					</Stack>
+				</Stack>
+			</Demo>
+
+			<Demo title="Disabled">
+				<ToggleButtonGroup color="primary">
+					<ToggleButton selected>On</ToggleButton>
+					<ToggleButton disabled>Off</ToggleButton>
+					<ToggleButton>Maybe</ToggleButton>
+				</ToggleButtonGroup>
+			</Demo>
+		</>
 	);
 }
 

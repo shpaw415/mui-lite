@@ -304,7 +304,6 @@ function PaginationItem({
 					preventClickElement
 					ref={ref}
 					disabled={disabled}
-					offset={{ top: -35, left: -35 }}
 				/>
 			)}
 		</Box>

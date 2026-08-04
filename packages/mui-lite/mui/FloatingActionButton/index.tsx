@@ -4,7 +4,6 @@ import {
 	type SxProps,
 	useClassNames,
 	useStyle,
-	useTheme,
 } from "../../common/theme";
 import {
 	type MuiElementColors,
@@ -55,12 +54,6 @@ export default function FAB({
 		colorOverRide: bgColorOverRide,
 		variable: "--bg-color-override",
 	});
-	const rippleColorOverRide = useColorOverRide({
-		colorOverRide: bgColorOverRide,
-		offset(current, utils) {
-			return utils.ToGray(current, 40);
-		},
-	});
 	const colorOverride = useColorOverRide({
 		colorOverRide,
 		variable: "--color-override-fill",
@@ -71,7 +64,6 @@ export default function FAB({
 			style={{
 				...bgOverride,
 				...colorOverride,
-				...rippleColorOverRide,
 				...style.styleFromSx,
 			}}
 			{...props}
@@ -81,7 +73,10 @@ export default function FAB({
 			{!props.disabled && (
 				<RippleBase
 					ref={ref}
-					offset={{ top: -10, left: -10 }}
+					// FAB labels use contrast color on a filled surface — inherit host.
+					// When a palette color is set without a fill override, force palette ink.
+					color={bgColorOverRide ? undefined : color}
+					colorOverRide={colorOverRide}
 					preventClickElement
 					disabled={Boolean(props.disabled)}
 				/>
