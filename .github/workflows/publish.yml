@@ -84,18 +84,36 @@ jobs:
         working-directory: packages/mui-lite
         run: |
           set -euo pipefail
+          # Avoid `npm version` — it walks the monorepo lockfile and fails on
+          # workspace:* protocols. Write package.json with Node instead.
           CURRENT=$(node -p "require('./package.json').version")
           INPUT="${{ inputs.version }}"
           if [ -z "$INPUT" ]; then
             NEW="$CURRENT"
             echo "No version bump requested; publishing $NEW"
-          elif echo "$INPUT" | grep -Eq '^(patch|minor|major|prepatch|preminor|premajor|prerelease)$'; then
-            npm version "$INPUT" --no-git-tag-version
-            NEW=$(node -p "require('./package.json').version")
-            echo "Bumped $CURRENT → $NEW ($INPUT)"
           else
-            npm version "$INPUT" --no-git-tag-version
-            NEW=$(node -p "require('./package.json').version")
+            NEW=$(node -e '
+              const fs = require("fs");
+              const input = process.argv[1];
+              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+              const parts = pkg.version.split(".").map(Number);
+              const bumps = {
+                patch: () => { parts[2]++; },
+                minor: () => { parts[1]++; parts[2] = 0; },
+                major: () => { parts[0]++; parts[1] = 0; parts[2] = 0; },
+              };
+              let next = input;
+              if (bumps[input]) {
+                bumps[input]();
+                next = parts.join(".");
+              } else if (!/^\d+\.\d+\.\d+(-[\w.-]+)?$/.test(input)) {
+                console.error("Invalid version:", input);
+                process.exit(1);
+              }
+              pkg.version = next;
+              fs.writeFileSync("package.json", JSON.stringify(pkg, null, "\t") + "\n");
+              process.stdout.write(next);
+            ' "$INPUT")
             echo "Set version $CURRENT → $NEW"
           fi
           echo "version=$NEW" >> "$GITHUB_OUTPUT"
