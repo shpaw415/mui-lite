@@ -8,7 +8,11 @@ import ToggleButton, { ToggleButtonGroup } from "@shpaw415/mui-lite/Toggle";
 
 ## Why use it
 
-**ToggleButton** / **ToggleButtonGroup** select among mutually exclusive views or formats (align left/center/right). Prefer Tabs for full page sections.
+**ToggleButton** / **ToggleButtonGroup** select among mutually exclusive views or formats (text align, map type, density). Prefer **Tabs** for full page sections and **Checkbox** for multi-select lists.
+
+- **Group** — share `color`, `size`, and `direction` across buttons
+- **Exclusive selection** — track `selected` + `onClick` yourself (lightweight, no context required)
+- **Vertical** — set `direction="column"` for toolbars and side panels
 
 ## Demo
 
@@ -17,21 +21,99 @@ import ToggleButton, { ToggleButtonGroup } from "@shpaw415/mui-lite/Toggle";
 ## Example
 
 ```tsx
+import { useState } from "react";
 import ToggleButton, { ToggleButtonGroup } from "@shpaw415/mui-lite/Toggle";
 
-<ToggleButtonGroup>
-  <ToggleButton selected={align === "left"} onClick={() => setAlign("left")}>
-    Left
-  </ToggleButton>
-  <ToggleButton selected={align === "right"} onClick={() => setAlign("right")}>
-    Right
-  </ToggleButton>
+export function AlignControl() {
+  const [align, setAlign] = useState("left");
+
+  return (
+    <ToggleButtonGroup color="primary" size="medium">
+      <ToggleButton
+        selected={align === "left"}
+        onClick={() => setAlign("left")}
+      >
+        Left
+      </ToggleButton>
+      <ToggleButton
+        selected={align === "center"}
+        onClick={() => setAlign("center")}
+      >
+        Center
+      </ToggleButton>
+      <ToggleButton
+        selected={align === "right"}
+        onClick={() => setAlign("right")}
+      >
+        Right
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
+}
+```
+
+### Colors
+
+Pass `color` on **ToggleButtonGroup** so the selected button picks up the palette ink (primary, secondary, error, warning, success).
+
+```tsx
+<ToggleButtonGroup color="secondary">
+  <ToggleButton selected>Day</ToggleButton>
+  <ToggleButton>Week</ToggleButton>
+  <ToggleButton>Month</ToggleButton>
+</ToggleButtonGroup>
+```
+
+### Sizes
+
+`size` on the group controls padding for every button (`small` | `medium` | `large`).
+
+```tsx
+<ToggleButtonGroup size="small" color="primary">
+  <ToggleButton selected>S</ToggleButton>
+  <ToggleButton>M</ToggleButton>
+  <ToggleButton>L</ToggleButton>
+</ToggleButtonGroup>
+
+<ToggleButtonGroup size="large" color="primary">
+  <ToggleButton selected>S</ToggleButton>
+  <ToggleButton>M</ToggleButton>
+  <ToggleButton>L</ToggleButton>
+</ToggleButtonGroup>
+```
+
+### Vertical
+
+Use `direction="column"` for a stacked control (settings rails, icon toolbars).
+
+```tsx
+<ToggleButtonGroup direction="column" color="primary">
+  <ToggleButton selected>Top</ToggleButton>
+  <ToggleButton>Middle</ToggleButton>
+  <ToggleButton>Bottom</ToggleButton>
 </ToggleButtonGroup>
 ```
 
 ## Props
 
+### ToggleButton
+
 | Prop | Type | Default |
 | --- | --- | --- |
 | selected | boolean | — |
 | size | small \| medium \| large | medium |
+| color | primary \| secondary \| error \| warning \| success | — |
+| disabled | boolean | false |
+| type | button \| submit \| reset | button |
+| onClick | MouseEventHandler | — |
+| sx | SxProps | — |
+
+### ToggleButtonGroup
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| color | primary \| secondary \| error \| warning \| success | — |
+| size | small \| medium \| large | — |
+| direction | row \| column | row |
+| sx | SxProps | — |
+| className | string | — |

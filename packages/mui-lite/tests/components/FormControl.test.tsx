@@ -51,12 +51,9 @@ describe("FormControlLabel", () => {
 
 	test("fires onChange", () => {
 		const onChange = mock(() => {});
-		// Use a native checkbox as the control so the assertion targets
-		// FormControlLabel's cloneElement onChange wiring (CheckBox nests the
-		// input inside a button, which happy-dom does not event reliably).
 		renderWithTheme(
 			<FormControlLabel
-				control={<input type="checkbox" />}
+				control={<CheckBox />}
 				label="X"
 				onChange={onChange}
 			/>,

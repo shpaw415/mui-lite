@@ -10,7 +10,11 @@ import {
 	useState,
 } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
-import type { MuiElementType } from "../../common/utils";
+import {
+	type MuiElementColors,
+	type MuiElementType,
+	useColorOverRide,
+} from "../../common/utils";
 
 function StarIcon({ filled }: { filled?: boolean }) {
 	return (
@@ -54,15 +58,24 @@ export type RatingProps = {
 	precision?: number;
 	readOnly?: boolean;
 	disabled?: boolean;
+	/** Filled icon (uses `currentColor` — prefer SVG with `fill="currentColor"`). */
 	icon?: ReactNode;
+	/** Empty / outline icon. */
 	emptyIcon?: ReactNode;
+	/**
+	 * Palette color for filled icons and hover glow.
+	 * Defaults to the classic gold rating accent when omitted.
+	 */
+	color?: MuiElementColors;
+	/** Arbitrary CSS color for filled icons (wins over `color`). */
+	colorOverRide?: React.CSSProperties["color"];
 	size?: "small" | "medium" | "large";
 	highlightSelectedOnly?: boolean;
 	getLabelText?: (value: number) => string;
 	emptyLabelText?: string;
 	onChange?: (event: React.SyntheticEvent, value: number | null) => void;
 	onChangeActive?: (event: React.SyntheticEvent, value: number) => void;
-} & Omit<MuiElementType<HTMLSpanElement>, "onChange" | "defaultValue">;
+} & Omit<MuiElementType<HTMLSpanElement>, "onChange" | "defaultValue" | "color">;
 
 /**
  * Star score input and display for reviews.
@@ -72,9 +85,15 @@ export type RatingProps = {
  * <Rating name="quality" defaultValue={3.5} precision={0.5} onChange={setScore} />
  * ```
  *
- * @example Read-only average
+ * @example Custom icon + color
  * ```tsx
- * <Rating name="avg" value={4.5} precision={0.5} readOnly />
+ * <Rating
+ *   name="love"
+ *   defaultValue={4}
+ *   color="error"
+ *   icon={<HeartFilled />}
+ *   emptyIcon={<HeartOutline />}
+ * />
  * ```
  */
 export default function Rating({
@@ -87,6 +106,8 @@ export default function Rating({
 	disabled = false,
 	icon,
 	emptyIcon,
+	color,
+	colorOverRide,
 	size = "medium",
 	highlightSelectedOnly = false,
 	getLabelText = (v) => `${v} Star${v !== 1 ? "s" : ""}`,
@@ -130,6 +151,7 @@ export default function Rating({
 		className,
 		state: [
 			size,
+			color,
 			readOnly && "readOnly",
 			disabled && "disabled",
 			isPreviewing && "previewing",
@@ -137,6 +159,7 @@ export default function Rating({
 		],
 	});
 	const style = useStyle(sx);
+	const overRideColor = useColorOverRide({ colorOverRide });
 
 	const handleChange = useCallback(
 		(event: React.SyntheticEvent, newValue: number) => {
@@ -333,7 +356,10 @@ export default function Rating({
 					: props["aria-label"]
 			}
 			className={clsx(root.combined, style.classNameFromSx)}
-			style={style.styleFromSx}
+			style={{
+				...style.styleFromSx,
+				...overRideColor,
+			}}
 			onMouseMove={interactive ? handleMouseMove : undefined}
 			onMouseLeave={(e) => {
 				clearPreview(e);

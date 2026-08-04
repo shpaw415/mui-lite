@@ -73,8 +73,12 @@ export default function Radio({
 	return (
 		<div className={className}>
 			<RippleEffect
-				className="MUI_RadioButton_frame"
-				offset={{ left: -25, top: -25 }}
+				className={clsx(
+					"MUI_RadioButton_frame",
+					color && `MUI_RadioButton_frame_${color}`,
+					color && `_${color}`,
+				)}
+				color={color}
 			>
 				<input type="radio" className="MUI_radio_input" {...props} />
 				<div className={clsx("MUI_Radio_Inner", style.classNameFromSx)} style={style.styleFromSx}>

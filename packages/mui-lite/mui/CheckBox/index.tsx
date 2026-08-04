@@ -1,20 +1,25 @@
 "use client";
 import clsx from "clsx";
-import { type JSX, useCallback, useEffect, useId, useState } from "react";
-import { useClassNames } from "../../common/theme";
+import {
+	type JSX,
+	useCallback,
+	useEffect,
+	useId,
+	useRef,
+	useState,
+} from "react";
+import { RippleBase } from "../../common/ripple";
+import { useClassNames, useStyle } from "../../common/theme";
 import {
 	type MuiElementColors,
 	type MuiElementType,
 	type SlotProps,
+	useColorOverRide,
 	useMuiRef,
 } from "../../common/utils";
 import Box, { type BoxProps } from "../Box";
-import IconButton from "../IconButton";
 import Typography from "../Typography";
-import {
-	CheckboxBorderIcon,
-	CheckboxCheckedIcon,
-} from "./icons";
+import { CheckboxBorderIcon, CheckboxCheckedIcon } from "./icons";
 
 type _MuiCheckBox = {
 	label?: string;
@@ -47,8 +52,8 @@ export type MuiCheckBox =
  */
 export default function CheckBox({
 	label,
-	size,
-	color,
+	size = "medium",
+	color = "primary",
 	sx,
 	labelSide = "right",
 	icon,
@@ -59,12 +64,23 @@ export default function CheckBox({
 	...props
 }: MuiCheckBox) {
 	const _ref = useMuiRef<HTMLInputElement>(ref);
+	const hostRef = useRef<HTMLSpanElement>(null);
 
 	const wrapper = useClassNames({
 		component_name: "Checkbox",
 		state: [color, size],
 		className: SlotProps?.container?.className,
 	});
+
+	// Visual root reuses IconButton styles (circular hit target + hover) without a
+	// nested <button> — the input is the only interactive control.
+	const controlRoot = useClassNames({
+		component_name: "IconButton_Root",
+		state: [size, color, props.disabled && "disabled"],
+	});
+	const style = useStyle(sx);
+	const overRideColorHex = useColorOverRide({ colorOverRide });
+
 	const idFromUseId = useId();
 	const ID = props.id || "ID_" + idFromUseId;
 
@@ -79,6 +95,7 @@ export default function CheckBox({
 		},
 		[icon, checkedIcon],
 	);
+	// Force re-render when the native checked state changes so the icon updates.
 	const [, setState] = useState(Boolean(props.defaultChecked));
 
 	useEffect(() => {
@@ -93,10 +110,10 @@ export default function CheckBox({
 		return () => el.removeEventListener("change", onNativeChange);
 	}, [_ref]);
 
-	const clickOnRef = useCallback<() => void>(
-		() => _ref.current?.click(),
-		[_ref],
-	);
+	const checked =
+		props.checked == undefined
+			? (_ref.current?.checked ?? props.defaultChecked)
+			: props.checked;
 
 	return (
 		<Box
@@ -110,31 +127,40 @@ export default function CheckBox({
 				wrapper.combined,
 			)}
 		>
-			<IconButton
-				color={color}
-				colorOverRide={colorOverRide}
-				disabled={props.disabled}
-				onRippleClick={clickOnRef}
-				size={size}
-				sx={sx}
-				type="button"
+			<span
+				ref={hostRef}
+				className={clsx(
+					"MUI_Checkbox_root",
+					controlRoot.combined,
+					style.classNameFromSx,
+				)}
+				style={{
+					...style.styleFromSx,
+					...overRideColorHex,
+				}}
 			>
-				<div className="MUI_Checkbox_control">
-					{RenderCheck({
-						checked:
-							props.checked == undefined
-								? (_ref.current?.checked ?? props.defaultChecked)
-								: props.checked,
-					})}
-					<input
-						type="checkbox"
-						className="MUI_Checkbox_input"
-						id={ID}
-						{...props}
-						ref={_ref}
+				{/* Input covers the full circular host so padding and icon share one hit target.
+				    No programmatic re-click from ripple — that double-toggled on press+release. */}
+				<input
+					type="checkbox"
+					className="MUI_Checkbox_input"
+					id={ID}
+					{...props}
+					ref={_ref}
+				/>
+				<span className="MUI_Checkbox_control" aria-hidden>
+					{RenderCheck({ checked })}
+				</span>
+				{!props.disabled && (
+					<RippleBase
+						ref={hostRef}
+						color={color}
+						colorOverRide={colorOverRide}
+						preventClickElement
+						disabled={Boolean(props.disabled)}
 					/>
-				</div>
-			</IconButton>
+				)}
+			</span>
 
 			{label && (
 				<Typography<

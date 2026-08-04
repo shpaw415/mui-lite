@@ -63,4 +63,13 @@ describe("Slider", () => {
 		expect(thumb.getAttribute("aria-valuenow")).toBe("50");
 		expect(thumb.style.left).toBe("50%");
 	});
+
+	test("valueLabelDisplay=on mounts always-on value tooltips", () => {
+		renderWithTheme(
+			<Slider defaultValue={25} valueLabelDisplay="on" toolTip />,
+		);
+		const tips = document.querySelectorAll('[role="tooltip"]');
+		expect(tips.length).toBe(1);
+		expect(tips[0].textContent).toBe("25");
+	});
 });

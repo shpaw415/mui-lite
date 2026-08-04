@@ -2,6 +2,7 @@
 	display: inline-flex;
 	position: relative;
 	font-size: 1.5rem;
+	/* Classic gold accent; palette / colorOverRide override this */
 	color: #faaf00;
 	cursor: pointer;
 	text-align: left;
@@ -9,6 +10,28 @@
 	-webkit-tap-highlight-color: transparent;
 	/* Prevent layout shift when icons scale on preview */
 	line-height: 1;
+}
+
+/* Palette colors for filled icons + glow */
+.MUI_Rating:is(._primary) {
+	color: rgb(var(--text-primary));
+}
+.MUI_Rating:is(._secondary) {
+	color: rgb(var(--text-secondary));
+}
+.MUI_Rating:is(._error) {
+	color: rgb(var(--text-error));
+}
+.MUI_Rating:is(._warning) {
+	color: rgb(var(--text-warning));
+}
+.MUI_Rating:is(._success) {
+	color: rgb(var(--text-success));
+}
+
+/* colorOverRide → --color-override: "r, g, b" */
+.MUI_Rating[style*="--color-override"] {
+	color: rgb(var(--color-override));
 }
 
 .MUI_Rating:is(._small) {
@@ -99,12 +122,11 @@
 	display: block;
 	width: 1em;
 	height: 1em;
-	/* Drop-shadow tracks currentColor for a soft “selection” halo */
-	/* (filter on svg is cheaper than box-shadow on scaled parent) */
 }
 
+/* Filled icons inherit root color (gold / palette / override) */
 .MUI_Rating_icon_filled {
-	color: inherit; /* #faaf00 from root */
+	color: inherit;
 }
 
 .MUI_Rating_icon_empty {
@@ -113,13 +135,14 @@
 
 /*
  * Preview (hover/focus): soft glow / selection shadow so the user sees
- * “if I click here, this is the rating”.
+ * “if I click here, this is the rating”. Uses currentColor so custom
+ * palette and colorOverRide stay consistent.
  */
 .MUI_Rating_icon_preview {
-	color: #faaf00;
+	color: inherit;
 	transform: scale(1.15);
-	filter: drop-shadow(0 0 2px rgba(250, 175, 0, 0.95))
-		drop-shadow(0 0 6px rgba(250, 175, 0, 0.55));
+	filter: drop-shadow(0 0 2px currentColor)
+		drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent));
 	z-index: 1;
 }
 
@@ -136,8 +159,7 @@
 
 /* While previewing, committed-only stars (below cursor) still fill but softer than the tip */
 .MUI_Rating:is(._previewing) .MUI_Rating_icon_filled:not(.MUI_Rating_icon_preview) {
-	/* still gold fill without the strong glow of the active tip */
-	filter: drop-shadow(0 0 1px rgba(250, 175, 0, 0.35));
+	filter: drop-shadow(0 0 1px color-mix(in srgb, currentColor 35%, transparent));
 	transform: scale(1.05);
 }
 

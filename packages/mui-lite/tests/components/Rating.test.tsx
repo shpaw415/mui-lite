@@ -67,4 +67,47 @@ describe("Rating", () => {
 		);
 		expect(screen.getByRole("img")).toBeTruthy();
 	});
+
+	test("applies palette color class on the root", () => {
+		const { container } = renderWithTheme(
+			<Rating name="r-color" defaultValue={3} color="error" readOnly />,
+		);
+		const root = container.querySelector(".MUI_Rating") as HTMLElement;
+		expect(root.className).toMatch(/_error|error/);
+	});
+
+	test("renders custom icon and emptyIcon", () => {
+		const { container } = renderWithTheme(
+			<Rating
+				name="r-icons"
+				defaultValue={1}
+				max={2}
+				precision={1}
+				icon={<span data-testid="filled-icon">★</span>}
+				emptyIcon={<span data-testid="empty-icon">☆</span>}
+				readOnly
+			/>,
+		);
+		// One filled (value 1) and empty segments for remaining slots
+		expect(container.querySelectorAll('[data-testid="filled-icon"]').length).toBeGreaterThan(
+			0,
+		);
+		expect(container.querySelectorAll('[data-testid="empty-icon"]').length).toBeGreaterThan(
+			0,
+		);
+	});
+
+	test("sets colorOverRide CSS variable", () => {
+		const { container } = renderWithTheme(
+			<Rating
+				name="r-override"
+				defaultValue={2}
+				colorOverRide="#9c27b0"
+				readOnly
+			/>,
+		);
+		const root = container.querySelector(".MUI_Rating") as HTMLElement;
+		// useColorOverRide writes --color-override as "r, g, b"
+		expect(root.style.getPropertyValue("--color-override")).toBeTruthy();
+	});
 });

@@ -69,8 +69,8 @@ function IconButton({
 			{!props.disabled && (
 				<RippleBase
 					ref={ref}
-					color={color}
-					colorOverRide={colorOverRide}
+					color={propsOverRide.color ?? color}
+					colorOverRide={colorOverRide || propsOverRide.colorOverRide}
 					preventClickElement
 					disabled={Boolean(props.disabled)}
 					onRippleClick={onRippleClick}
