@@ -69,10 +69,6 @@ body {
 	}
 }
 
-.MUI_Theme_Wrapper {
-	background-color: rgb(var(--bg-main));
-}
-
 /* Material-style ink: grow from press point and fade out */
 @keyframes mui-ripple-enter {
 	0% {
@@ -159,7 +155,8 @@ body {
 
 /* Keep label/icon above the ink surface */
 .MUI_Button > :not(.MUI_Ripple_root):not(.MUI_Ripple_span),
-.MUI_IconButton_Root > :not(.MUI_Ripple_root):not(.MUI_Ripple_span):not(.MUI_Checkbox_input),
+.MUI_IconButton_Root
+	> :not(.MUI_Ripple_root):not(.MUI_Ripple_span):not(.MUI_Checkbox_input),
 .MUI_ButtonBase > :not(.MUI_Ripple_root):not(.MUI_Ripple_span) {
 	position: relative;
 	z-index: 1;

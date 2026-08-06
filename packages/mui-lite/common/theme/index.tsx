@@ -23,11 +23,7 @@ import {
 	RGBAArrayToRGB,
 	useRandomID,
 } from "../utils";
-import {
-	resolveSx,
-	type SxProps as SxPropsBase,
-	type ThemeLike,
-} from "./sx";
+import { resolveSx, type SxProps as SxPropsBase, type ThemeLike } from "./sx";
 
 export type {
 	Breakpoint,

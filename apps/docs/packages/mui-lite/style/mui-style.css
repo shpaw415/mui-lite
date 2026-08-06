@@ -69,10 +69,6 @@ body {
 	}
 }
 
-.MUI_Theme_Wrapper {
-	background-color: rgb(var(--bg-main));
-}
-
 @keyframes ripple {
 	0% {
 		transform: scale(0);
