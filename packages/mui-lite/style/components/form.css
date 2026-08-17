@@ -456,6 +456,12 @@ label + .MUI_NativeSelect:is(._variant-standard) {
 	appearance: none;
 	cursor: pointer;
 	outline: 0;
+	color-scheme: inherit;
+}
+.MUI_NativeSelect_select option,
+.MUI_NativeSelect_select optgroup {
+	color: rgb(var(--text-main));
+	background-color: rgb(var(--bg-surface));
 }
 .MUI_NativeSelect:is(._variant-outlined) {
 	padding: 0 14px;

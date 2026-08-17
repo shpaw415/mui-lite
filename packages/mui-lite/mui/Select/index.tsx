@@ -272,7 +272,6 @@ function Select({
 				open={open}
 				anchorEl={triggerRef}
 				placement="bottom"
-				closeOnScroll
 				className={dropDown.combined}
 				role="presentation"
 				onClose={() => {

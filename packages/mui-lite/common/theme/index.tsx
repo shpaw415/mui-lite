@@ -457,7 +457,10 @@ export function ThemeProvider({
 						style.classNameFromSx,
 						className,
 					)}
-					style={style.styleFromSx}
+					style={{
+						colorScheme: theme.theme === "dark" ? "dark" : "light",
+						...style.styleFromSx,
+					}}
 					ref={wrapperRef}
 				>
 					<ValueUpdateContext value={updateCallbacks}>

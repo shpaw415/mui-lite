@@ -52,6 +52,13 @@
 @import "./components/mobilestepper.css";
 @import "./components/checkbox.css";
 
+.MUI_Theme_Wrapper:is(.MUI_light) {
+	color-scheme: light;
+}
+.MUI_Theme_Wrapper:is(.MUI_dark) {
+	color-scheme: dark;
+}
+
 html,
 body {
 	padding: 0;
