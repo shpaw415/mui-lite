@@ -1,4 +1,5 @@
 import { describe, expect, test, mock } from "bun:test";
+import { DefaultTheme } from "../../common/theme";
 import { renderWithTheme, screen, fireEvent } from "../helpers/render";
 import FormControl from "../../mui/FormControl";
 import FormLabel from "../../mui/FormLabel";
@@ -127,6 +128,18 @@ describe("NativeSelect", () => {
 		const select = screen.getByTestId("ns").querySelector("select");
 		expect(select).toBeTruthy();
 		expect(select?.querySelectorAll("option").length).toBe(2);
+	});
+
+	test("theme wrapper exposes dark color-scheme for native option popups", () => {
+		const { container } = renderWithTheme(
+			<NativeSelect defaultValue="a">
+				<option value="a">A</option>
+			</NativeSelect>,
+			{ theme: { ...DefaultTheme, theme: "dark" } },
+		);
+		const wrapper = container.querySelector(".MUI_Theme_Wrapper") as HTMLElement;
+		expect(wrapper?.className.includes("MUI_dark")).toBe(true);
+		expect(wrapper?.style.colorScheme).toBe("dark");
 	});
 });
 
