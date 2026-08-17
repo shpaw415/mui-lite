@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import Select from "../../mui/Select";
-import { fireEvent, renderWithTheme, screen } from "../helpers/render";
+import { act, fireEvent, renderWithTheme, screen } from "../helpers/render";
 
 describe("Select", () => {
 	test("renders with default value label", () => {
@@ -58,5 +58,55 @@ describe("Select", () => {
 		expect(menu).toBeTruthy();
 		expect(menu?.className.includes("MUI_Menu_Root")).toBe(true);
 		expect(root?.contains(menu)).toBe(false);
+	});
+
+	test("does not close when scrolling the dropdown list", () => {
+		renderWithTheme(
+			<Select name="fruit" defaultValue="a">
+				<option value="a">A</option>
+				<option value="b">B</option>
+			</Select>,
+		);
+		fireEvent.click(screen.getByDisplayValue("A"));
+		const menu = document.querySelector(".MUI_Menu_Root") as HTMLElement;
+		expect(menu).toBeTruthy();
+		act(() => {
+			menu.dispatchEvent(new Event("scroll", { bubbles: true }));
+		});
+		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
+	});
+
+	test("closes on page scroll by default", () => {
+		renderWithTheme(
+			<Select name="fruit" defaultValue="a">
+				<option value="a">A</option>
+				<option value="b">B</option>
+			</Select>,
+		);
+		fireEvent.click(screen.getByDisplayValue("A"));
+		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
+		act(() => {
+			document.dispatchEvent(new Event("scroll", { bubbles: true }));
+		});
+		expect(document.querySelector(".MUI_Menu_Root")).toBeNull();
+	});
+
+	test("honors SlotProps dropdown-wrapper closeOnScroll", () => {
+		renderWithTheme(
+			<Select
+				name="fruit"
+				defaultValue="a"
+				SlotProps={{ "dropdown-wrapper": { closeOnScroll: false } }}
+			>
+				<option value="a">A</option>
+				<option value="b">B</option>
+			</Select>,
+		);
+		fireEvent.click(screen.getByDisplayValue("A"));
+		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
+		act(() => {
+			document.dispatchEvent(new Event("scroll", { bubbles: true }));
+		});
+		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
 	});
 });

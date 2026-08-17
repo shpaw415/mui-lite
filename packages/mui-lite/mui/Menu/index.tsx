@@ -30,7 +30,7 @@ export type MenuProps = {
 	/** @deprecated use disableScrollLock — default is unlocked */
 	disablePreventScroll?: boolean;
 	placement?: "top" | "left" | "right" | "bottom";
-	/** Close menu when the page scrolls (default true) */
+	/** Close menu when the page or an ancestor scrolls (default true). Scroll inside the menu is ignored. */
 	closeOnScroll?: boolean;
 	children?: ReactNode;
 } & Omit<PaperProps, "children">;
@@ -154,7 +154,10 @@ export default function Menu({
 			if (event.key === "Escape") onClose?.();
 		};
 
-		const onScroll = () => {
+		const onScroll = (event: Event) => {
+			const target = event.target;
+			const menu = menuRef.current;
+			if (target instanceof Node && menu?.contains(target)) return;
 			if (closeOnScroll) onClose?.();
 			else updatePosition();
 		};
