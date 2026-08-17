@@ -1,6 +1,6 @@
 {
 	"name": "@shpaw415/mui-lite",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Lightweight Material Design components for React 19 — MUI-like APIs without Emotion",
 	"type": "module",
 	"license": "MIT",
