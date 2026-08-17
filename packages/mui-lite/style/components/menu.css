@@ -5,6 +5,7 @@
 	max-width: calc(100vw - 16px);
 	max-height: calc(100vh - 16px);
 	overflow-y: auto;
+	overscroll-behavior: contain;
 	/* solid surface fallback */
 	background-color: rgb(var(--bg-surface, 255, 255, 255));
 	color: rgba(var(--text-main, 0, 0, 0), 0.87);

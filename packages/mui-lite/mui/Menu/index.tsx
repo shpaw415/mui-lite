@@ -154,12 +154,50 @@ export default function Menu({
 			if (event.key === "Escape") onClose?.();
 		};
 
-		const onScroll = (event: Event) => {
-			const target = event.target;
+		const eventInMenu = (event: Event) => {
 			const menu = menuRef.current;
-			if (target instanceof Node && menu?.contains(target)) return;
+			if (!menu) return false;
+			const path =
+				typeof event.composedPath === "function" ? event.composedPath() : [];
+			if (path.includes(menu)) return true;
+			const target = event.target;
+			return target instanceof Node && menu.contains(target);
+		};
+
+		let ignorePageScroll = false;
+		let ignoreTimer = 0;
+		const markMenuScrollIntent = () => {
+			ignorePageScroll = true;
+			window.clearTimeout(ignoreTimer);
+			ignoreTimer = window.setTimeout(() => {
+				ignorePageScroll = false;
+			}, 320);
+		};
+
+		const onScroll = (event: Event) => {
+			const menu = menuRef.current;
+			if (eventInMenu(event) || ignorePageScroll) return;
+			if (menu?.matches(":hover")) return;
 			if (closeOnScroll) onClose?.();
 			else updatePosition();
+		};
+
+		const onWheel = (event: WheelEvent) => {
+			if (!eventInMenu(event)) return;
+			markMenuScrollIntent();
+			const menu = menuRef.current;
+			if (!menu) return;
+			const canScroll = menu.scrollHeight > menu.clientHeight + 1;
+			if (!canScroll) {
+				event.preventDefault();
+				return;
+			}
+			const up = event.deltaY < 0;
+			const down = event.deltaY > 0;
+			const atTop = menu.scrollTop <= 0;
+			const atBottom =
+				menu.scrollTop + menu.clientHeight >= menu.scrollHeight - 1;
+			if ((up && atTop) || (down && atBottom)) event.preventDefault();
 		};
 
 		const t = window.setTimeout(() => {
@@ -170,14 +208,17 @@ export default function Menu({
 
 		window.addEventListener("resize", updatePosition);
 		window.addEventListener("scroll", onScroll, true);
+		window.addEventListener("wheel", onWheel, { capture: true, passive: false });
 
 		return () => {
 			clearTimeout(t);
+			window.clearTimeout(ignoreTimer);
 			document.removeEventListener("mousedown", onPointerDown);
 			document.removeEventListener("touchstart", onPointerDown);
 			document.removeEventListener("keydown", onKeyDown);
 			window.removeEventListener("resize", updatePosition);
 			window.removeEventListener("scroll", onScroll, true);
+			window.removeEventListener("wheel", onWheel, true);
 		};
 	}, [open, onClose, anchorEl, menuRef, updatePosition, closeOnScroll]);
 

@@ -76,6 +76,24 @@ describe("Select", () => {
 		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
 	});
 
+	test("keeps the list open when wheel on the dropdown chains a page scroll", () => {
+		renderWithTheme(
+			<Select name="fruit" defaultValue="a">
+				<option value="a">A</option>
+				<option value="b">B</option>
+			</Select>,
+		);
+		fireEvent.click(screen.getByDisplayValue("A"));
+		const menu = document.querySelector(".MUI_Menu_Root") as HTMLElement;
+		act(() => {
+			menu.dispatchEvent(
+				new WheelEvent("wheel", { bubbles: true, deltaY: 40 }),
+			);
+			document.dispatchEvent(new Event("scroll", { bubbles: true }));
+		});
+		expect(document.querySelector(".MUI_Menu_Root")).toBeTruthy();
+	});
+
 	test("closes on page scroll by default", () => {
 		renderWithTheme(
 			<Select name="fruit" defaultValue="a">

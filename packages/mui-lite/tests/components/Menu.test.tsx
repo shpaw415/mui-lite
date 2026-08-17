@@ -51,6 +51,19 @@ describe("Menu", () => {
 		expect(screen.getByTestId("menu-body")).toBeTruthy();
 	});
 
+	test("does not close when page scroll-chains from a menu wheel", () => {
+		const onClose = mock(() => {});
+		renderWithTheme(<OpenMenu onClose={onClose} />);
+		const menu = document.querySelector(".MUI_Menu_Root") as HTMLElement;
+		act(() => {
+			menu.dispatchEvent(
+				new WheelEvent("wheel", { bubbles: true, deltaY: 40 }),
+			);
+			document.dispatchEvent(new Event("scroll", { bubbles: true }));
+		});
+		expect(onClose).not.toHaveBeenCalled();
+	});
+
 	test("closes when the page scrolls", () => {
 		const onClose = mock(() => {});
 		renderWithTheme(<OpenMenu onClose={onClose} />);
