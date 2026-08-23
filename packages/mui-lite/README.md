@@ -287,7 +287,7 @@ Useful hooks and helpers:
 | `useColorOverRide` / `useValueOverRide` | CSS variable overrides |
 | `PropsOverRideProvider` | Cascade props (e.g. ButtonGroup → Button) |
 | `useDragElement` | Drag positioning (Dialog) |
-| `usePreventScroll` | Lock body scroll |
+	| `usePreventScroll` | Lock `html` overflow while active (ref-counted) |
 | `useIsOutOfViewport` | IntersectionObserver helper |
 | `MuiSSRPortal` | Portal into the theme wrapper (SSR-safe) |
 | `ColorToRGBArray`, `Darker`, `Lighter` | Color math |

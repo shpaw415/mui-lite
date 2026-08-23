@@ -4,9 +4,11 @@
 	inset: 0px;
 	visibility: hidden;
 	opacity: 0;
+	pointer-events: none;
 	&:is(._open) {
 		visibility: visible;
 		opacity: 1;
+		pointer-events: auto;
 	}
 	&:is(._backdrop-disabled) {
 		position: fixed;

@@ -124,8 +124,10 @@ const [open, setOpen] = useState(true);
 | variant | temporary \| persistent \| permanent | temporary |
 | width | number \| string | 240 |
 | minifiedWidth | number \| string | — (persistent mini variant) |
-| hideBackdrop | boolean | false |
-| disablePortal | boolean | false |
+	| hideBackdrop | boolean | false |
+	| keepMounted | boolean | false |
+	| disablePortal | boolean | false |
+	| disableScrollLock | boolean | false |
 | onClose | () => void | — |
 | onOpen | () => void | — (swipe) |
 | SlotProps.backdrop | BackdropProps | — |
