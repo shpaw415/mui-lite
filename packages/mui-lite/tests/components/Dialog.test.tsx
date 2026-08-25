@@ -29,24 +29,33 @@ describe("Dialog", () => {
 		expect(document.querySelector(".MUI_Dialog_Root._open")).toBeNull();
 	});
 
-	test("does not lock when open unless preventBodyScroll is set", () => {
-		renderWithTheme(
+	test("locks while open and restores on close", () => {
+		const { rerender } = renderWithTheme(
 			<Dialog open>
+				<div>body</div>
+			</Dialog>,
+		);
+		expect(overflowY()).toBe("hidden");
+		rerender(
+			<Dialog open={false}>
 				<div>body</div>
 			</Dialog>,
 		);
 		expect(overflowY()).not.toBe("hidden");
 	});
 
-	test("locks while open with preventBodyScroll and restores on close", () => {
-		const { rerender } = renderWithTheme(
-			<Dialog open preventBodyScroll>
+	test("disableScrollLock skips the page lock", () => {
+		renderWithTheme(
+			<Dialog open disableScrollLock>
 				<div>body</div>
 			</Dialog>,
 		);
-		expect(overflowY()).toBe("hidden");
-		rerender(
-			<Dialog open={false} preventBodyScroll>
+		expect(overflowY()).not.toBe("hidden");
+	});
+
+	test("preventBodyScroll false still unlocks", () => {
+		renderWithTheme(
+			<Dialog open preventBodyScroll={false}>
 				<div>body</div>
 			</Dialog>,
 		);
