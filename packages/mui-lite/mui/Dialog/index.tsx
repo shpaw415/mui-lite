@@ -28,6 +28,9 @@ export type DialogProps = {
 	draggable?: boolean;
 	onDrag?: (e: MouseEvent) => void;
 	scroll?: "paper" | "body";
+	/** Skip page scroll lock while open. Default false (MUI parity). */
+	disableScrollLock?: boolean;
+	/** @deprecated use disableScrollLock */
 	preventBodyScroll?: boolean;
 } & Omit<MuiElementType<HTMLDivElement>, "onDrag">;
 
@@ -62,10 +65,14 @@ export default function Dialog({
 	draggable,
 	onDrag,
 	scroll,
+	disableScrollLock,
 	preventBodyScroll,
 	...props
 }: DialogProps) {
-	usePreventScroll(!!open && !!preventBodyScroll);
+	const lockDisabled =
+		disableScrollLock ??
+		(preventBodyScroll !== undefined ? !preventBodyScroll : false);
+	usePreventScroll(!!open && !lockDisabled);
 
 	const root = useClassNames({
 		component_name: "Dialog_Root",
