@@ -64,7 +64,7 @@ export default function Menu({
 	// unlocked by default; only lock when explicitly requested
 	const scrollLocked =
 		disablePreventScroll === false || disableScrollLock === false;
-	const [prevent, restore] = usePreventScroll();
+	usePreventScroll(scrollLocked && !!open);
 	const menuRef = useMuiRef<HTMLDivElement>(props.ref as any);
 	const [pos, setPos] = useState<CSSProperties>({
 		top: 0,
@@ -127,14 +127,6 @@ export default function Menu({
 		const id = requestAnimationFrame(() => updatePosition());
 		return () => cancelAnimationFrame(id);
 	}, [open, updatePosition, children]);
-
-	// optional scroll lock (off by default)
-	useEffect(() => {
-		if (!scrollLocked) return;
-		if (open) prevent();
-		else restore();
-		return () => restore();
-	}, [open, scrollLocked, prevent, restore]);
 
 	// close on outside click / escape; reposition or close on scroll
 	useEffect(() => {

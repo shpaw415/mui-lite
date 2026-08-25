@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useClassNames, useStyle } from "../../common/theme";
 import {
 	type MuiElementType,
@@ -56,7 +56,7 @@ export default function Dialog({
 	sx,
 	children,
 	transition = "fade",
-	keepMounted,
+	keepMounted = false,
 	fullScreen,
 	fullWidth,
 	draggable,
@@ -65,12 +65,7 @@ export default function Dialog({
 	preventBodyScroll,
 	...props
 }: DialogProps) {
-	const [preventScroll, restoreScroll] = usePreventScroll();
-
-	useEffect(() => {
-		if (open && preventBodyScroll) preventScroll();
-		else if (!open) restoreScroll();
-	}, [open, preventBodyScroll]);
+	usePreventScroll(!!open && !!preventBodyScroll);
 
 	const root = useClassNames({
 		component_name: "Dialog_Root",
@@ -100,6 +95,8 @@ export default function Dialog({
 		disabled: !draggable,
 		onDrag,
 	});
+
+	if (!open && !keepMounted) return null;
 
 	return (
 		<div

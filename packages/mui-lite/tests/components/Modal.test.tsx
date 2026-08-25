@@ -40,4 +40,47 @@ describe("Modal", () => {
 		);
 		expect(screen.getByTestId("modal-keep")).toBeTruthy();
 	});
+
+	test("does not lock scroll when closed at mount", () => {
+		renderWithTheme(
+			<Modal open={false}>
+				<div>hi</div>
+			</Modal>,
+		);
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
+
+	test("keepMounted closed does not lock scroll", () => {
+		renderWithTheme(
+			<Modal open={false} keepMounted>
+				<div>hi</div>
+			</Modal>,
+		);
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
+
+	test("locks while open and restores on close", () => {
+		const { rerender } = renderWithTheme(
+			<Modal open>
+				<div>hi</div>
+			</Modal>,
+		);
+		expect(document.documentElement.style.overflowY).toBe("hidden");
+		rerender(
+			<Modal open={false}>
+				<div>hi</div>
+			</Modal>,
+		);
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
+
+	test("disableScrollLock skips the page lock", () => {
+		renderWithTheme(
+			<Modal open disableScrollLock>
+				<div>hi</div>
+			</Modal>,
+		);
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
 });
+

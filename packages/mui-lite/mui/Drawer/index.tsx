@@ -33,6 +33,8 @@ export type DrawerProps = {
 	keepMounted?: boolean;
 	/** Portal temporary drawer (default true). */
 	disablePortal?: boolean;
+	/** Skip page scroll lock while a temporary drawer is open. */
+	disableScrollLock?: boolean;
 	anchor?: "bottom" | "left" | "right" | "top";
 	onClose?: () => void;
 	onOpen?: () => void;
@@ -158,6 +160,7 @@ export default function Drawer({
 	hideBackdrop = false,
 	keepMounted = false,
 	disablePortal = false,
+	disableScrollLock = false,
 	swipeOptions,
 	onClose,
 	onOpen,
@@ -270,14 +273,7 @@ export default function Drawer({
 		!swipeOptions || anchor === "bottom" || anchor === "top",
 	);
 
-	const [prevent, restore] = usePreventScroll();
-
-	useEffect(() => {
-		if (!isTemporary) return;
-		if (open) prevent();
-		else restore();
-		return () => restore();
-	}, [open, isTemporary, prevent, restore]);
+	usePreventScroll(isTemporary && !!open && !disableScrollLock);
 
 	// permanent / persistent always render
 	if (isTemporary && !mounted && !keepMounted) {

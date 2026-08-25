@@ -83,7 +83,7 @@ export default function Modal({
 	slotProps,
 	...props
 }: ModalProps) {
-	const [preventScroll, restoreScroll] = usePreventScroll();
+	usePreventScroll(!!open && !disableScrollLock);
 	const rootRef = useMuiRef<HTMLDivElement>(props.ref);
 	const lastActive = useRef<Element | null>(null);
 	const themeWrapperRef = useContext(ThemeWrapperRefContext);
@@ -94,13 +94,6 @@ export default function Modal({
 		className: clsx(className, slotProps?.root?.className),
 		state: [open && "open", !open && "hidden"],
 	});
-
-	useEffect(() => {
-		if (disableScrollLock) return;
-		if (open) preventScroll();
-		else restoreScroll();
-		return () => restoreScroll();
-	}, [open, disableScrollLock, preventScroll, restoreScroll]);
 
 	useEffect(() => {
 		if (!open) return;

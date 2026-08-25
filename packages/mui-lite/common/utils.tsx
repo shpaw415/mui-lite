@@ -506,44 +506,66 @@ function getHTMLAndBody() {
 	};
 }
 
-/** @returns [prevent, restore] */
-export function usePreventScroll(): [() => void, () => void] {
-	const saved = useRef<{ overflowY: string; paddingRight: string } | null>(
-		null,
-	);
+type ScrollLockSnapshot = { overflowY: string; paddingRight: string };
+
+let scrollLockCount = 0;
+let scrollLockSaved: ScrollLockSnapshot | null = null;
+
+function applyScrollLock() {
+	const { html, body } = getHTMLAndBody();
+	if (!html || !body) return;
+	if (scrollLockCount === 0) {
+		scrollLockSaved = {
+			overflowY: html.style.overflowY,
+			paddingRight: body.style.paddingRight,
+		};
+		html.style.overflowY = "hidden";
+	}
+	scrollLockCount += 1;
+}
+
+function releaseScrollLock() {
+	const { html, body } = getHTMLAndBody();
+	if (!html || !body) return;
+	if (scrollLockCount === 0) return;
+	scrollLockCount -= 1;
+	if (scrollLockCount > 0) return;
+	html.style.overflowY = scrollLockSaved?.overflowY ?? "";
+	body.style.paddingRight = scrollLockSaved?.paddingRight ?? "";
+	scrollLockSaved = null;
+}
+
+/**
+ * Lock `html` overflow while this instance is active.
+ * Pass `active` to sync automatically. Manual `[prevent, restore]` stays
+ * available; neither writes styles unless this instance currently holds a lock.
+ * Stacked callers share a ref-count so the first close does not unlock others.
+ *
+ * @returns [prevent, restore]
+ */
+export function usePreventScroll(active?: boolean): [() => void, () => void] {
+	const held = useRef(false);
+	const managed = active !== undefined;
 
 	const preventScroll = useCallback(() => {
-		const { html, body } = getHTMLAndBody();
-		if (!html || !body) return;
-		if (!saved.current) {
-			saved.current = {
-				overflowY: html.style.overflowY,
-				paddingRight: body.style.paddingRight,
-			};
-		}
-		html.style.overflowY = "hidden";
+		if (held.current) return;
+		applyScrollLock();
+		held.current = true;
 	}, []);
 
 	const restoreScroll = useCallback(() => {
-		const { html, body } = getHTMLAndBody();
-		if (!html || !body) return;
-		const prev = saved.current;
-		html.style.overflowY = prev?.overflowY ?? "";
-		body.style.paddingRight = prev?.paddingRight ?? "";
-		saved.current = null;
+		if (!held.current) return;
+		releaseScrollLock();
+		held.current = false;
 	}, []);
 
 	useEffect(() => {
-		return () => {
-			// always unlock on unmount
-			const { html, body } = getHTMLAndBody();
-			if (!html || !body) return;
-			const prev = saved.current;
-			html.style.overflowY = prev?.overflowY ?? "";
-			body.style.paddingRight = prev?.paddingRight ?? "";
-			saved.current = null;
-		};
-	}, []);
+		if (managed) {
+			if (active) preventScroll();
+			else restoreScroll();
+		}
+		return () => restoreScroll();
+	}, [managed, active, preventScroll, restoreScroll]);
 
 	return [preventScroll, restoreScroll];
 }

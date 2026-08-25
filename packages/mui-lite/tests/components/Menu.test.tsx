@@ -37,6 +37,30 @@ describe("Menu", () => {
 			</Menu>,
 		);
 		expect(screen.queryByTestId("menu-closed")).toBeNull();
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
+
+	test("does not lock scroll by default when open", () => {
+		renderWithTheme(<OpenMenu onClose={() => {}} />);
+		expect(document.documentElement.style.overflowY).not.toBe("hidden");
+	});
+
+	test("locks scroll only when disableScrollLock is false", () => {
+		function LockedMenu() {
+			const anchorRef = useRef<HTMLButtonElement>(null);
+			return (
+				<>
+					<button type="button" ref={anchorRef}>
+						Open
+					</button>
+					<Menu open anchorEl={anchorRef} disableScrollLock={false}>
+						<div>item</div>
+					</Menu>
+				</>
+			);
+		}
+		renderWithTheme(<LockedMenu />);
+		expect(document.documentElement.style.overflowY).toBe("hidden");
 	});
 
 	test("does not close when scrolling inside the menu", () => {
