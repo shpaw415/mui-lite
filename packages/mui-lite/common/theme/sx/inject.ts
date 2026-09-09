@@ -24,20 +24,26 @@ function simpleHash(input: string): string {
  * Inject CSS once. `cssText` may use `&` as the class placeholder
  * (e.g. `&:hover{color:red}` or `@media (min-width:900px){&{padding:8px}}`).
  */
+function appendRule(name: string, cssText: string) {
+	const s = ensureSheet();
+	if (!s) return;
+	const marker = `.${name}`;
+	if (s.textContent?.includes(marker)) return;
+	const finalCss = cssText.replace(/&/g, marker);
+	s.textContent = `${s.textContent || ""}\n${finalCss}\n`;
+}
+
 export function injectCss(cssText: string): string {
 	if (!cssText.trim()) return "";
 	const existing = cache.get(cssText);
-	if (existing) return existing;
-
-	const name = `ml-sx-${simpleHash(cssText)}-${(counter++).toString(36)}`;
-	const finalCss = cssText.replace(/&/g, `.${name}`);
-	cache.set(cssText, name);
-
-	const s = ensureSheet();
-	if (s) {
-		s.textContent = `${s.textContent || ""}\n${finalCss}\n`;
+	if (existing) {
+		appendRule(existing, cssText);
+		return existing;
 	}
 
+	const name = `ml-sx-${simpleHash(cssText)}-${(counter++).toString(36)}`;
+	cache.set(cssText, name);
+	appendRule(name, cssText);
 	return name;
 }
 

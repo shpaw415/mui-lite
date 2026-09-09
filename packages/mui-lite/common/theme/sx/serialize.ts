@@ -184,14 +184,44 @@ function placeDecls(
 	}
 }
 
+function collectOverrideKeys(bucket: Bucket): Set<string> {
+	const keys = new Set<string>();
+	const add = (decls: Record<string, string | number>) => {
+		for (const k of Object.keys(decls)) keys.add(k);
+	};
+	for (const decls of bucket.media.values()) add(decls);
+	for (const [sel, decls] of bucket.nested) {
+		if (sel !== "&") add(decls);
+	}
+	for (const mediaMap of bucket.nestedMedia.values()) {
+		for (const decls of mediaMap.values()) add(decls);
+	}
+	return keys;
+}
+
+function hoistInlineConflicts(bucket: Bucket) {
+	const overrideKeys = collectOverrideKeys(bucket);
+	const hoist: Record<string, string | number> = {};
+	for (const k of overrideKeys) {
+		if (k in bucket.base) {
+			hoist[k] = bucket.base[k];
+			delete bucket.base[k];
+		}
+	}
+	if (Object.keys(hoist).length === 0) return;
+	const cur = bucket.nested.get("&") ?? {};
+	bucket.nested.set("&", { ...hoist, ...cur });
+}
+
 function buildCssText(bucket: Bucket): string {
 	const parts: string[] = [];
 
-	// nested base: & :hover { ... }
-	for (const [sel, decls] of bucket.nested) {
+	const nestedEntries = [...bucket.nested.entries()].sort(([a], [b]) =>
+		a === "&" ? -1 : b === "&" ? 1 : 0,
+	);
+	for (const [sel, decls] of nestedEntries) {
 		const body = declsToCss(decls);
 		if (!body) continue;
-		// sel is like "&:hover" or "& .child"
 		parts.push(`${sel}{${body}}`);
 	}
 
@@ -218,6 +248,7 @@ function buildCssText(bucket: Bucket): string {
 export function serializeSx(theme: ThemeLike, obj: SxObject): SxResolveResult {
 	const bucket = emptyBucket();
 	walk(theme, obj, bucket);
+	hoistInlineConflicts(bucket);
 
 	const style = { ...bucket.base } as SxResolveResult["style"];
 	const cssText = buildCssText(bucket);

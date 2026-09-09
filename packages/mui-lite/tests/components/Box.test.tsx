@@ -43,4 +43,26 @@ describe("Box", () => {
 		const el = screen.getByTestId("box") as HTMLElement;
 		expect(el.className).toMatch(/ml-sx-/);
 	});
+
+	test("responsive flexDirection stays off inline style", () => {
+		renderWithTheme(
+			<Box
+				data-testid="box"
+				sx={{
+					display: "flex",
+					flexDirection: { xs: "column", md: "row" },
+				}}
+			>
+				x
+			</Box>,
+		);
+		const el = screen.getByTestId("box") as HTMLElement;
+		expect(el.className).toMatch(/ml-sx-/);
+		expect(el.style.flexDirection).toBe("");
+		expect(el.style.display).toBe("flex");
+		const css = document.querySelector("style[data-mui-lite-sx]")?.textContent ?? "";
+		expect(css.indexOf("flex-direction:column")).toBeLessThan(
+			css.indexOf("flex-direction:row"),
+		);
+	});
 });

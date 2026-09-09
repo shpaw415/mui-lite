@@ -64,10 +64,14 @@ describe("resolveSx", () => {
 		const { style, className, cssText } = resolveSx(theme, {
 			width: { xs: 1, md: 0.5 },
 		});
-		expect(style.width).toBe("100%");
+		expect(style.width).toBeUndefined();
 		expect(className).toBeTruthy();
+		expect(cssText).toContain("width:100%");
 		expect(cssText).toContain("@media (min-width:900px)");
 		expect(cssText).toContain("width:50%");
+		expect(cssText!.indexOf("width:100%")).toBeLessThan(
+			cssText!.indexOf("width:50%"),
+		);
 	});
 
 	test("nested breakpoint bag", () => {
@@ -75,9 +79,31 @@ describe("resolveSx", () => {
 			p: 1,
 			md: { p: 3 },
 		});
-		expect(style.padding).toBe("8px");
+		expect(style.padding).toBeUndefined();
+		expect(cssText).toContain("padding:8px");
 		expect(cssText).toContain("@media (min-width:900px)");
 		expect(cssText).toContain("padding:24px");
+		expect(cssText!.indexOf("padding:8px")).toBeLessThan(
+			cssText!.indexOf("padding:24px"),
+		);
+	});
+
+	test("responsive flexDirection is not inlined so md can win", () => {
+		const { style, className, cssText } = resolveSx(theme, {
+			display: "flex",
+			flexDirection: { xs: "column", md: "row" },
+			gap: 2,
+		});
+		expect(style.display).toBe("flex");
+		expect(style.gap).toBe("16px");
+		expect(style.flexDirection).toBeUndefined();
+		expect(className).toBeTruthy();
+		expect(cssText).toContain("flex-direction:column");
+		expect(cssText).toContain("@media (min-width:900px)");
+		expect(cssText).toContain("flex-direction:row");
+		expect(cssText!.indexOf("flex-direction:column")).toBeLessThan(
+			cssText!.indexOf("flex-direction:row"),
+		);
 	});
 
 	test("nested sm/lg bags emit min-width CSS in ascending order", () => {
@@ -131,8 +157,9 @@ describe("resolveSx", () => {
 			color: "red",
 			"&:hover": { color: "blue" },
 		});
-		expect(style.color).toBe("red");
+		expect(style.color).toBeUndefined();
 		expect(className).toBeTruthy();
+		expect(cssText).toContain("&{color:red}");
 		expect(cssText).toContain("&:hover");
 		expect(cssText).toContain("color:blue");
 	});
