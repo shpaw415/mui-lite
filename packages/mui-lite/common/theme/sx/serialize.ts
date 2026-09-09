@@ -1,8 +1,12 @@
-import { isBreakpointKey, sortBreakpointEntries, up } from "./breakpoints";
+import {
+	isBreakpointKey,
+	isResponsiveObject,
+	sortBreakpointEntries,
+	up,
+} from "./breakpoints";
 import { injectCss } from "./inject";
 import { expandSystemProp } from "./systemProps";
-import type { SxObject, SxResolveResult, ThemeLike } from "./types";
-import { isResponsiveObject } from "./breakpoints";
+import type { Breakpoint, SxObject, SxResolveResult, ThemeLike } from "./types";
 
 function camelToKebab(key: string): string {
 	return key.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
@@ -41,9 +45,17 @@ function assignDecls(
 	Object.assign(target, decls);
 }
 
-/**
- * Walk a normalized SxObject and collect base / media / nested rules.
- */
+function mediaMinWidth(mq: string): number {
+	const m = /min-width:\s*(\d+)/.exec(mq);
+	return m ? Number(m[1]) : 0;
+}
+
+function sortedMediaEntries<T>(map: Map<string, T>): Array<[string, T]> {
+	return [...map.entries()].sort(
+		(a, b) => mediaMinWidth(a[0]) - mediaMinWidth(b[0]),
+	);
+}
+
 function walk(
 	theme: ThemeLike,
 	obj: SxObject,
@@ -51,13 +63,18 @@ function walk(
 	nestedSelector?: string,
 	mediaQuery?: string,
 ) {
+	const breakpointBags: Partial<Record<Breakpoint, SxObject>> = {};
+
 	for (const [key, raw] of Object.entries(obj)) {
 		if (raw == null || raw === false) continue;
 
-		// nested breakpoint bag: md: { color: 'red' }
-		if (isBreakpointKey(key) && raw && typeof raw === "object" && !Array.isArray(raw)) {
-			const mq = up(theme, key);
-			walk(theme, raw as SxObject, bucket, nestedSelector, mq || mediaQuery);
+		if (
+			isBreakpointKey(key) &&
+			raw &&
+			typeof raw === "object" &&
+			!Array.isArray(raw)
+		) {
+			breakpointBags[key] = raw as SxObject;
 			continue;
 		}
 
@@ -119,6 +136,21 @@ function walk(
 			walk(theme, raw as SxObject, bucket, key, mediaQuery);
 		}
 	}
+
+	for (const [key, raw] of sortBreakpointEntries(
+		theme,
+		breakpointBags as Record<string, unknown>,
+	)) {
+		if (!raw || typeof raw !== "object" || !isBreakpointKey(key)) continue;
+		const mq = up(theme, key);
+		walk(
+			theme,
+			raw as SxObject,
+			bucket,
+			nestedSelector,
+			mq || mediaQuery,
+		);
+	}
 }
 
 function placeDecls(
@@ -163,16 +195,14 @@ function buildCssText(bucket: Bucket): string {
 		parts.push(`${sel}{${body}}`);
 	}
 
-	// media for base props
-	for (const [mq, decls] of bucket.media) {
+	for (const [mq, decls] of sortedMediaEntries(bucket.media)) {
 		const body = declsToCss(decls);
 		if (!body) continue;
 		parts.push(`${mq}{&{${body}}}`);
 	}
 
-	// nested + media
 	for (const [sel, mediaMap] of bucket.nestedMedia) {
-		for (const [mq, decls] of mediaMap) {
+		for (const [mq, decls] of sortedMediaEntries(mediaMap)) {
 			const body = declsToCss(decls);
 			if (!body) continue;
 			parts.push(`${mq}{${sel}{${body}}}`);

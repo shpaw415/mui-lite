@@ -77,6 +77,7 @@ export default function Typography<T>({
 	gutterBottom,
 	noWrap,
 	paragraph,
+	style,
 	...props
 }: //@ts-ignore
 MuiTypographyProps<T>) {
@@ -113,9 +114,9 @@ MuiTypographyProps<T>) {
 
 	return (
 		<El
-			className={clsx(root.combined, _style.classNameFromSx)}
-			style={_style.styleFromSx}
 			{...(props as any)}
+			className={clsx(root.combined, _style.classNameFromSx)}
+			style={{ ..._style.styleFromSx, ...style }}
 		>
 			{children}
 		</El>

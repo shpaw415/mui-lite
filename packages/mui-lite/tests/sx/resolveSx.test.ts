@@ -80,6 +80,52 @@ describe("resolveSx", () => {
 		expect(cssText).toContain("padding:24px");
 	});
 
+	test("nested sm/lg bags emit min-width CSS in ascending order", () => {
+		const { style, className, cssText } = resolveSx(theme, {
+			sm: { display: "none" },
+			lg: { display: "flex" },
+		});
+		expect(style.display).toBeUndefined();
+		expect(className).toBeTruthy();
+		expect(cssText).toContain("@media (min-width:600px)");
+		expect(cssText).toContain("@media (min-width:1200px)");
+		expect(cssText).toContain("display:none");
+		expect(cssText).toContain("display:flex");
+		expect(cssText!.indexOf("min-width:600px")).toBeLessThan(
+			cssText!.indexOf("min-width:1200px"),
+		);
+		expect(cssText!.indexOf("display:none")).toBeLessThan(
+			cssText!.indexOf("display:flex"),
+		);
+	});
+
+	test("nested lg-before-sm bags still emit sm then lg", () => {
+		const { style, cssText } = resolveSx(theme, {
+			lg: { display: "flex" },
+			sm: { display: "none" },
+		});
+		expect(style.display).toBeUndefined();
+		expect(cssText!.indexOf("min-width:600px")).toBeLessThan(
+			cssText!.indexOf("min-width:1200px"),
+		);
+		expect(cssText!.indexOf("display:none")).toBeLessThan(
+			cssText!.indexOf("display:flex"),
+		);
+	});
+
+	test("responsive display values sort lg after sm", () => {
+		const { style, cssText } = resolveSx(theme, {
+			display: { lg: "flex", sm: "none" },
+		});
+		expect(style.display).toBeUndefined();
+		expect(cssText!.indexOf("min-width:600px")).toBeLessThan(
+			cssText!.indexOf("min-width:1200px"),
+		);
+		expect(cssText!.indexOf("display:none")).toBeLessThan(
+			cssText!.indexOf("display:flex"),
+		);
+	});
+
 	test("pseudo selectors inject class", () => {
 		const { style, className, cssText } = resolveSx(theme, {
 			color: "red",
