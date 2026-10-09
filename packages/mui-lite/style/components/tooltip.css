@@ -24,9 +24,11 @@
 	line-height: 1.4;
 	font-family: Roboto, Helvetica, Arial, sans-serif;
 	z-index: 1500;
-	white-space: nowrap;
 	width: max-content;
 	max-width: min(300px, calc(100vw - 16px));
+	/* Long titles (descriptions, paths) wrap at max-width instead of
+	   overflowing/clipping; unbroken tokens (URLs, log paths) still break. */
+	overflow-wrap: break-word;
 	box-sizing: border-box;
 	/* Hidden until open (keeps layout measure possible when portaled) */
 	visibility: hidden;
