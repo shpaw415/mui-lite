@@ -79,6 +79,7 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
 	});
 
 	const ButtonClassId = useRandomID();
+	const rowClass = SlotProps?.input?.id || ButtonClassId;
 
 	const changeHandler: React.FormEventHandler<HTMLInputElement> = (e) => {
 		SlotProps?.input?.onChange?.(e);
@@ -136,10 +137,9 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
 		(pseudo: number, opt?: ScrollIntoViewOptions) => number
 	>(
 		(pseudo, opt) => {
+			if (!rowClass) return pseudo;
 			const pseudoSelected = document.querySelector(
-				`button[index-data="${pseudo}"].${
-					SlotProps?.input?.id || ButtonClassId
-				}`,
+				`button[index-data="${pseudo}"].${rowClass}`,
 			);
 			pseudoSelected?.scrollIntoView({
 				inline: "center",
@@ -149,7 +149,7 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
 			});
 			return pseudo;
 		},
-		[SlotProps?.input?.id, ButtonClassId],
+		[rowClass],
 	);
 
 	useEffect(() => {
@@ -262,11 +262,11 @@ export default function AutoComplete<Values extends OptionsTypes<string>>({
 										: inputRef.current?.value ==
 											(typeof opt == "string" ? opt : opt?.label)
 								}
-								className={[
-									pseudo_selection == i ? "pseudo_selected" : undefined,
-									SlotProps?.listButton?.className,
-									ButtonClassId,
-								].join(" ")}
+							className={[
+								pseudo_selection == i ? "pseudo_selected" : undefined,
+								SlotProps?.listButton?.className,
+								rowClass,
+							].join(" ")}
 								index-data={i}
 								onClick={() => onSelectHandler(opt)}
 								onMouseEnter={
