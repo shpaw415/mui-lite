@@ -168,8 +168,36 @@ export default function Tabs({
 	...props
 }: TabsProps) {
 	const listRef = useRef<HTMLDivElement>(null);
+	const scrollerRef = useRef<HTMLDivElement>(null);
 	const [indicator, setIndicator] = useState({ left: 0, top: 0, width: 0, height: 0 });
 	const id = useId();
+	const scrollable = variant === "scrollable" && orientation === "horizontal";
+
+	// Scrollable strips hide their scrollbar on touch devices, so a desktop
+	// mouse wheel over the strip pans it horizontally; at either limit the
+	// event is left to bubble so the page keeps scrolling normally.
+	useEffect(() => {
+		if (!scrollable) return;
+		const scroller = scrollerRef.current;
+		if (!scroller) return;
+		const onWheel = (e: WheelEvent) => {
+			if (!e.deltaY) return;
+			const delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+			const max = scroller.scrollWidth - scroller.clientWidth;
+			if (max <= 0) return;
+			if (
+				(delta < 0 && scroller.scrollLeft <= 0) ||
+				(delta > 0 && scroller.scrollLeft >= max)
+			)
+				return;
+			e.preventDefault();
+			scroller.scrollLeft = Math.max(0, Math.min(max, scroller.scrollLeft + delta));
+		};
+		// React registers wheel listeners as passive — a native non-passive
+		// listener is required for preventDefault to work.
+		scroller.addEventListener("wheel", onWheel, { passive: false });
+		return () => scroller.removeEventListener("wheel", onWheel);
+	}, [scrollable]);
 
 	const updateIndicator = useCallback(() => {
 		const list = listRef.current;
@@ -254,6 +282,7 @@ export default function Tabs({
 				className={clsx(root.combined, style.classNameFromSx)} style={style.styleFromSx}
 			>
 				<div
+					ref={scrollerRef}
 					className={`MUI_Tabs_scroller MUI_Tabs_scroller_${variant === "scrollable" ? "scrollable" : "fixed"}`}
 				>
 					<div
