@@ -20,10 +20,17 @@
 
 .MUI_Tabs_scroller_scrollable {
 	overflow-x: auto;
-	scrollbar-width: none;
 }
-.MUI_Tabs_scroller_scrollable::-webkit-scrollbar {
-	display: none;
+/* Touch panning scrolls the strip natively; hover-capable pointers get a thin
+   scrollbar (hiding it entirely leaves a mouse nothing to grab). */
+@media (hover: hover) and (pointer: fine) {
+	.MUI_Tabs_scroller_scrollable {
+		scrollbar-width: thin;
+	}
+	.MUI_Tabs_scroller_scrollable::-webkit-scrollbar {
+		display: block;
+		height: 6px;
+	}
 }
 
 .MUI_Tabs_list {
